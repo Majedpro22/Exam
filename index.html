@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    
+    <!-- CodeMirror IDE Library & Java Mode -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/clike/clike.min.js"></script>
+
+    <style>
+        :root {
+            --moodle-bg: #f4f5f7;
+            --moodle-card-bg: #e8f4f8; /* Hellblauer Moodle-Fragen-Hintergrund */
+            --moodle-border: #bcd8e6;
+            --moodle-pink: #ca3161;
+            --moodle-pink-hover: #a8244e;
+            --moodle-blue: #0f6cbf;
+            --moodle-blue-hover: #0b5496;
+            --moodle-green-bg: #d4edda;
+            --moodle-green-text: #155724;
+            --moodle-green-border: #c3e6cb;
+            --moodle-red-bg: #f8d7da;
+            --moodle-red-text: #721c24;
+            --moodle-red-border: #f5c6cb;
+            --moodle-yellow-bg: #fdf6e2;
+            --moodle-yellow-border: #f8e5b9;
+            --moodle-code-pink: #d6006e; /* Magenta Schrift für Code im Text */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--moodle-bg);
+            color: #222;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #d0d0d0;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            color: #222;
+            font-size: 24px;
+        }
+
+        p.subtitle {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Floating Moodle Timer Box */
+        .moodle-timer-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            border: 2px solid var(--moodle-blue);
+            border-radius: 6px;
+            padding: 10px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .moodle-timer-box.warning {
+            border-color: var(--moodle-pink);
+            color: var(--moodle-pink);
+            background: #fff0f5;
+        }
+
+        .moodle-timer-time {
+            font-size: 20px;
+            font-family: "Consolas", monospace;
+            margin-top: 3px;
+            color: var(--moodle-blue);
+        }
+
+        .moodle-timer-box.warning .moodle-timer-time {
+            color: var(--moodle-pink);
+        }
+
+        /* Moodle Zusammenfassungs-Tabelle */
+        .moodle-summary-card {
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        .moodle-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .moodle-summary-table td {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .moodle-summary-table tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .moodle-summary-table td.label {
+            font-weight: bold;
+            text-align: right;
+            width: 30%;
+            color: #333;
+            background-color: #f2f2f2;
+        }
+
+        .status-pass {
+            background-color: var(--moodle-green-bg);
+            color: var(--moodle-green-text);
+            border: 1px solid var(--moodle-green-border);
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .status-fail {
+            background-color: var(--moodle-red-bg);
+            color: var(--moodle-red-text);
+            border: 1px solid var(--moodle-red-border);
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Moodle Card Style */
+        .question-card {
+            background: var(--moodle-card-bg);
+            border: 1px solid var(--moodle-border);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #cbe0ec;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--moodle-blue);
+        }
+
+        .question-points {
+            background: #d8e9f3;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .question-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        code, .code-hl {
+            color: var(--moodle-code-pink);
+            font-family: "Consolas", "Courier New", monospace;
+            font-weight: bold;
+            background: transparent;
+            padding: 0 2px;
+            font-size: 14px;
+        }
+
+        .question-text ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .question-text li {
+            margin-bottom: 6px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+        }
+
+        .options-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .options-list input {
+            margin-right: 10px;
+            margin-top: 3px;
+            transform: scale(1.1);
+        }
+
+        .code-block {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            white-space: pre;
+        }
+
+        /* IDE CodeRunner Simulator Design */
+        .CodeMirror {
+            border: 1px solid #b0c2ce;
+            border-radius: 4px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+            height: auto;
+            min-height: 180px;
+            background-color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .CodeMirror-gutters {
+            background-color: #f0f4f7;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        .CodeMirror-linenumber {
+            color: #777;
+            padding: 0 8px 0 5px;
+        }
+
+        /* Syntax Highlighting Colors */
+        .cm-s-default .cm-keyword {
+            color: #0000ff !important;
+            font-weight: bold;
+        }
+
+        .cm-s-default .cm-comment {
+            color: #3f7f5f !important;
+            font-style: normal;
+        }
+
+        .cm-s-default .cm-string {
+            color: #2a00ff !important;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-reset {
+            background-color: var(--moodle-pink);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--moodle-pink-hover);
+        }
+
+        .btn-check {
+            background-color: var(--moodle-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-check:hover {
+            background-color: var(--moodle-blue-hover);
+        }
+
+        .btn-submit-test {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            width: 100%;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-submit-test:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+        /* Moodle CodeRunner Specific Result Styling */
+        .coderunner-container {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .coderunner-error-box {
+            background-color: #f8b8c0;
+            color: #333;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            margin-bottom: 0;
+            display: none;
+        }
+
+        .coderunner-error-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #000;
+            font-family: sans-serif;
+        }
+
+        .coderunner-feedback-box {
+            background-color: var(--moodle-yellow-bg);
+            border: 1px solid var(--moodle-yellow-border);
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Lösung-Button ist während der Klausur VERSTECKT und erscheint erst nach Abgabe! */
+        .solution-toggle {
+            cursor: pointer;
+            color: #000;
+            font-weight: bold;
+            margin: 10px 0;
+            display: none; 
+            user-select: none;
+        }
+
+        .solution-toggle:hover {
+            text-decoration: underline;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .moodle-badge-line {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .moodle-badge {
+            background: var(--moodle-pink);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .moodle-badge.success { background: #28a745; }
+        .moodle-badge.partial { background: #e6a100; }
+
+        /* Generic MC Feedback */
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .feedback.show { display: block; }
+        .feedback.success { background-color: var(--moodle-green-bg); color: var(--moodle-green-text); border: 1px solid var(--moodle-green-border); }
+        .feedback.error { background-color: var(--moodle-red-bg); color: var(--moodle-red-text); border: 1px solid var(--moodle-red-border); }
+
+        table.example-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            background: #fff;
+        }
+        table.example-table th, table.example-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 13px;
+        }
+        table.example-table th {
+            background: #f2f2f2;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .moodle-timer-box {
+                position: static;
+                margin-bottom: 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SCHWEBENDE MOODLE TIMER BOX -->
+<div class="moodle-timer-box" id="timerBox">
+    Verbleibende Zeit
+    <div class="moodle-timer-time" id="timerDisplay">01:30:00</div>
+</div>
+
+<div class="container">
+    <header>
+        <h1>Java Wirtschaftsinformatik - Klausurtrainer</h1>
+        <p class="subtitle">Interaktives Übungstool im Moodle / FH SWF Prüfungs-Design</p>
+    </header>
+
+    <!-- MOODLE ZUSAMMENFASSUNG BEI ABGABE -->
+    <div class="moodle-summary-card" id="summaryCard">
+        <h2 style="margin-top:0; color:var(--moodle-blue);">Zusammenfassung der Bewertung</h2>
+        <table class="moodle-summary-table">
+            <tr>
+                <td class="label">Status</td>
+                <td id="sumStatus">Beendet</td>
+            </tr>
+            <tr>
+                <td class="label">Begonnen</td>
+                <td id="sumStart">-</td>
+            </tr>
+            <tr>
+                <td class="label">Abgeschlossen</td>
+                <td id="sumEnd">-</td>
+            </tr>
+            <tr>
+                <td class="label">Dauer</td>
+                <td id="sumDuration">-</td>
+            </tr>
+            <tr>
+                <td class="label">Punkte</td>
+                <td id="sumPoints">-</td>
+            </tr>
+            <tr>
+                <td class="label">Bewertung</td>
+                <td id="sumGrade"><b>-</b></td>
+            </tr>
+        </table>
+        <div id="passBanner"></div>
+    </div>
+
+    <!-- FRAGE 1 -->
+    <div class="question-card" id="q1">
+        <div class="question-header">
+            <span class="question-title">Frage 1: Interfaces und abstrakte Klassen</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche der folgenden Aussagen zu Abstraktionswerkzeugen in Java sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehrere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Variablen in einem Interface sind implizit immer <code>private final</code>.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Eine Java-Klasse kann beliebig viele Interfaces implementieren, aber nur maximal eine abstrakte Klasse erweitern (<code>extends</code>).</label></li>
+            <li><label><input type="checkbox" value="c"> c. Abstrakte Klassen können gemeinsamen Zustand (Instanzvariablen) an ihre Unterklassen vererben, Interfaces hingegen nicht.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Das Austauschbarkeitsprinzip besagt, dass überall dort, wo ein Interface-Typ erwartet wird, jede Implementierung fehlerfrei eingesetzt werden können muss.</label></li>
+        </ul>
+        <div class="feedback" id="fb1"></div>
+    </div>
+
+    <!-- FRAGE 2 -->
+    <div class="question-card" id="q2">
+        <div class="question-header">
+            <span class="question-title">Frage 2: Exception Handling & Kontrollfluss</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche Ausgabe erzeugt der Aufruf von <code>berechne()</code> in der Konsole?<br>
+            <small><i>(Wählen Sie genau eine Antwort)</i></small>
+        </div>
+        <div class="code-block">public static int berechne() {
+    try {
+        int x = 100 / 0;
+        return 1;
+    } catch (ArithmeticException e) {
+        return 2;
+    } finally {
+        return 3;
+    }
+}
+public static void main(String[] args) {
+    System.out.println(berechne());
+}</div>
+        <ul class="options-list">
+            <li><label><input type="radio" name="q2" value="a"> a. 1</label></li>
+            <li><label><input type="radio" name="q2" value="b"> b. 2</label></li>
+            <li><label><input type="radio" name="q2" value="c"> c. 3</label></li>
+            <li><label><input type="radio" name="q2" value="d"> d. Das Programm stürzt mit einer <code>ArithmeticException</code> ab.</label></li>
+        </ul>
+        <div class="feedback" id="fb2"></div>
+    </div>
+
+    <!-- FRAGE 3 -->
+    <div class="question-card" id="q3">
+        <div class="question-header">
+            <span class="question-title">Frage 3: Collections 2 - equals() und hashCode()</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Sie legen Instanzen ihrer eigenen Klasse <code>LogEntry</code> in ein <code>HashSet&lt;LogEntry&gt;</code>. Sie haben die Methode <code>equals()</code> korrekt überschrieben, um die Einträge anhand ihrer fachlichen ID zu vergleichen, haben aber vergessen, <code>hashCode()</code> zu überschreiben. Was passiert?<br>
+            <small><i>(Wählen Sie eine oder mehrere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Der Compiler meldet einen Syntaxfehler, da <code>hashCode()</code> zwingend überschrieben werden muss, wenn <code>equals()</code> überschrieben wird.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Das HashSet kann fachliche Duplikate enthalten, da Objekte mit gleicher ID aufgrund unterschiedlicher Hash-Werte in verschiedenen Buckets landen können.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Das HashSet lehnt Duplikate weiterhin zuverlässig ab, da die überschriebene <code>equals()</code>-Methode für die finale Prüfung ausreicht.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Die Reihenfolge der Elemente beim Auslesen aus dem HashSet ist nun alphabetisch sortiert.</label></li>
+        </ul>
+        <div class="feedback" id="fb3"></div>
+    </div>
+
+    <!-- FRAGE 4 -->
+    <div class="question-card" id="q4">
+        <div class="question-header">
+            <span class="question-title">Frage 4: Dateizugriff (java.io vs. java.nio)</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche Aussagen zum Dateizugriff und Ressourcenmanagement sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Die alte Methode <code>java.io.File.delete()</code> wirft automatisch eine <code>IOException</code>, wenn die zu löschende Datei nicht existiert.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Die moderne Methode <code>Files.readString(...)</code> liest den gesamten Text ein und schließt die Datei danach automatisch, ein explizites <code>.close()</code> ist nicht nötig.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Objekte von Klassen, die das Interface <code>AutoCloseable</code> implementieren, dürfen in den runden Klammern eines <code>try-with-resources</code>-Blocks deklariert werden.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Wenn ein Fehler im try-Block auftritt, wird die <code>.close()</code>-Methode im try-with-resources nicht mehr ausgeführt (Ressourcenleck).</label></li>
+        </ul>
+        <div class="feedback" id="fb4"></div>
+    </div>
+
+    <!-- FRAGE 5 -->
+    <div class="question-card" id="q5">
+        <div class="question-header">
+            <span class="question-title">Frage 5: Generics und Bounds</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Was bewirkt der Type Bound in der folgenden Klassendeklaration?<br>
+            <code>class MeasureBox&lt;T extends Measurable&gt;</code><br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Der Compiler stellt zur Compile-Zeit sicher, dass für <code>T</code> nur Datentypen verwendet werden, die das Interface <code>Measurable</code> implementieren.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Zur Laufzeit bleibt die genaue Typ-Information von <code>T</code> vollständig erhalten (keine Type Erasure), da ein Bound definiert wurde.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Innerhalb der Klasse <code>MeasureBox</code> dürfen auf Objekten vom Typ <code>T</code> direkt Methoden aufgerufen werden, die im Interface <code>Measurable</code> definiert sind.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Es zwingt die Java-Virtual-Machine, bei jedem Erstellen der Klasse einen manuellen Cast auf <code>Object</code> durchzuführen.</label></li>
+        </ul>
+        <div class="feedback" id="fb5"></div>
+    </div>
+
+    <!-- FRAGE 6 -->
+    <div class="question-card" id="q6">
+        <div class="question-header">
+            <span class="question-title">Frage 6: Threads & Nebenläufigkeit</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche der folgenden Aussagen zur Nebenläufigkeit in Java sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Der Aufruf von <code>t1.run()</code> auf einem Thread-Objekt startet sofort einen neuen, parallel laufenden Ausführungsfaden (Worker-Thread).</label></li>
+            <li><label><input type="checkbox" value="b"> b. Eine Race Condition entsteht, wenn mehrere Threads unkoordiniert auf denselben veränderbaren Zustand (z. B. auf dem Heap) zugreifen und das Ergebnis vom zufälligen Timing der Threads abhängt.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Die Methode <code>t1.join()</code> friert den Thread <code>t1</code> ein, bis der Main-Thread seine aktuelle Aufgabe beendet hat.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Die Nutzung von <code>Collections.synchronizedList(...)</code> schützt eine Liste vollautomatisch vor allen Nebenläufigkeitsfehlern, selbst wenn zwei Methodenaufrufe (wie <code>if(!list.contains(x)) list.add(x);</code>) hintereinander ausgeführt werden.</label></li>
+        </ul>
+        <div class="feedback" id="fb6"></div>
+    </div>
+
+    <!-- FRAGE 7 -->
+    <div class="question-card" id="q7">
+        <div class="question-header">
+            <span class="question-title">Frage 7: Funktionale Interfaces & Lambdas</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche Aussagen zu funktionalen Interfaces und deren Verwendung sind zutreffend?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Ein funktionales Interface darf neben der einen zwingend erforderlichen abstrakten Methode keine weiteren Methoden (wie z. B. <code>default</code>-Methoden) enthalten.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Das Standard-Interface <code>Consumer&lt;T&gt;</code> repräsentiert eine Operation, die ein Objekt vom Typ <code>T</code> als Eingabe nimmt und einen <code>boolean</code> zurückgibt.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Der Compiler kann den Datentyp der Lambda-Parameter (z.B. bei <code>(a, b) -&gt; ...</code>) durch Typ-Ableitung (Type Inference) aus dem sogenannten Zieltyp (Target Type) der aufgerufenen Methode ermitteln.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Methodenreferenzen (z. B. <code>LogEntry::isError</code>) können als kompakte Alternative zu einem Lambda-Ausdruck verwendet werden, sofern die Signatur der referenzierten Methode zum Zieltyp passt.</label></li>
+        </ul>
+        <div class="feedback" id="fb7"></div>
+    </div>
+
+    <!-- FRAGE 8 -->
+    <div class="question-card" id="q8">
+        <div class="question-header">
+            <span class="question-title">Frage 8: Stream API & Parallele Verarbeitung</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche der folgenden Aussagen über die Java Stream API sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Zwischenoperationen (Intermediate Operations) wie <code>filter</code> oder <code>map</code> werden erst dann tatsächlich ausgeführt, wenn eine Terminaloperation (z. B. <code>count()</code> oder <code>toList()</code>) aufgerufen wird.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Es ist sicher und empfehlenswert, innerhalb eines <code>parallelStream()</code> die Methode <code>.forEach(element -&gt; meineListe.add(element))</code> zu nutzen, um Ergebnisse in einer regulären <code>ArrayList</code> zu sammeln.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Die Operation <code>Collectors.groupingBy(...)</code> wird typischerweise innerhalb der <code>collect</code>-Methode verwendet und liefert standardmäßig eine <code>Map</code> als Datenstruktur zurück.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Ein Stream modifiziert bei der Verarbeitung (z.B. durch <code>map</code> oder <code>sorted</code>) direkt die Ursprungs-Collection, aus der er erzeugt wurde.</label></li>
+        </ul>
+        <div class="feedback" id="fb8"></div>
+    </div>
+
+    <!-- FRAGE 9 -->
+    <div class="question-card" id="q9">
+        <div class="question-header">
+            <span class="question-title">Frage 9: Auslieferung, JARs & Classpath</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Sie möchten eine Applikation ausliefern, die die externe Bibliothek Log4j nutzt. Welche Aussagen sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Eine sogenannte Fat-JAR (oder Uber-JAR) enthält sowohl die <code>.class</code>-Dateien des eigenen Projekts als auch die entpackten <code>.class</code>-Dateien der fremden Bibliotheken in einem einzigen Archiv.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Der Parameter <code>-cp</code> (Classpath) wird nur beim Kompilieren (<code>javac</code>) benötigt. Zur Laufzeit (<code>java</code>) findet die Java Virtual Machine alle benötigten Bibliotheken immer automatisch im Projektordner.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Eine JAR-Datei ist technisch gesehen ein ZIP-Archiv, dessen Metadaten (wie die Startklasse) in einer Datei unter <code>META-INF/MANIFEST.MF</code> hinterlegt werden.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Wenn in Windows der Classpath mehrere Ordner umfasst, müssen diese bei der Eingabe im Terminal zwingend mit einem Semikolon (<code>;</code>) getrennt werden.</label></li>
+        </ul>
+        <div class="feedback" id="fb9"></div>
+    </div>
+
+    <!-- FRAGE 10 -->
+    <div class="question-card" id="q10">
+        <div class="question-header">
+            <span class="question-title">Frage 10: Debugging, Regex & Exceptions</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche Aussagen zu den fortgeschrittenen Themengebieten sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Exception Chaining (das Übergeben der originalen Exception an den Konstruktor einer neuen Exception) verhindert, dass der ursprüngliche Stacktrace und damit die eigentliche technische Fehlerursache verloren gehen.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Die Matcher-Methode <code>matches()</code> liefert <code>true</code>, wenn das gesuchte Regex-Pattern irgendwo versteckt innerhalb des übergebenen Textes gefunden wird.</label></li>
+            <li><label><input type="checkbox" value="c"> c. Ein Conditional Breakpoint (bedingter Haltepunkt) im Debugger stoppt die Ausführung des Programms nur dann, wenn ein definierter logischer Ausdruck (z. B. <code>i == 49</code>) zu diesem Zeitpunkt <code>true</code> ergibt.</label></li>
+            <li><label><input type="checkbox" value="d"> d. Code innerhalb eines <code>finally</code>-Blocks wird nicht ausgeführt, falls die aufgetretene Exception bereits erfolgreich durch einen <code>catch</code>-Block abgefangen und behandelt wurde.</label></li>
+        </ul>
+        <div class="feedback" id="fb10"></div>
+    </div>
+
+    <!-- FRAGE 11 -->
+    <div class="question-card" id="q11">
+        <div class="question-header">
+            <span class="question-title">Frage 11: Logging mit Log4j2 & Code-Konventionen</span>
+            <span class="question-points">3,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Welche der folgenden Aussagen sind korrekt?<br>
+            <small><i>(Wählen Sie eine oder mehere Antworten)</i></small>
+        </div>
+        <ul class="options-list">
+            <li><label><input type="checkbox" value="a"> a. Die Verwendung von <code>System.out.println</code> ist für professionelle Serveranwendungen ungeeignet, da sich Ausgaben nicht einfach filtern oder ohne Code-Änderung in strukturierte Dateien umleiten lassen.</label></li>
+            <li><label><input type="checkbox" value="b"> b. Wenn das Log-Level in der Konfigurationsdatei (<code>log4j2.xml</code>) auf <code>WARN</code> gestellt ist, werden Nachrichten vom Level <code>ERROR</code> unterdrückt (nicht ausgegeben).</label></li>
+            <li><label><input type="checkbox" value="c"> c. Ein "Appender" in der Log4j-Konfiguration bestimmt das Ziel der Log-Ausgabe (z. B. Konsole oder Textdatei).</label></li>
+            <li><label><input type="checkbox" value="d"> d. Die Methode <code>log.debug(...)</code> sollte für schwerwiegende Systemabstürze verwendet werden, da Entwickler "Bugs" so am schnellsten finden.</label></li>
+        </ul>
+        <div class="feedback" id="fb11"></div>
+    </div>
+
+    <!-- FRAGE 12 -->
+    <div class="question-card" id="q12">
+        <div class="question-header">
+            <span class="question-title">Frage 12: Stream API Pipeline</span>
+            <span class="question-points">5,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Vervollständigen Sie die Methode <code>processServerLogs</code>. Eine Liste von rohen Log-Strings soll ausgewertet werden.<br>
+            Jeder String hat das Format <code>SERVICE_NAME:DAUER_IN_MS</code> (z.B. <code>database:450</code>).
+            <ul>
+                <li>Extrahieren Sie nur Einträge, deren Dauer <b>strikt größer als <code>500</code> ms</b> ist.</li>
+                <li>Erstellen Sie eine <code>List&lt;String&gt;</code>, die ausschließlich die Namen der Services enthält, die zu langsam waren.</li>
+                <li>Duplikate in der Ergebnisliste sind nicht erlaubt (jeder Service darf nur einmal vorkommen).</li>
+            </ul>
+            <b>Zwingende Vorgabe:</b> Verwenden Sie für die gesamte Logik ausschließlich eine einzige Stream-Pipeline.<br>
+            Die sichtbare Methodensignatur darf nicht geändert werden. Bearbeiten Sie die markierten Bereiche im Codefeld.
+        </div>
+
+        <p><b>Zum Beispiel:</b></p>
+        <table class="example-table">
+            <tr>
+                <th>Test</th>
+                <th>Resultat</th>
+            </tr>
+            <tr>
+                <td><code>System.out.println(processServerLogs(List.of("web:120", "auth:600", "auth:800", "db:900")));</code></td>
+                <td><code>[auth, db]</code> (Reihenfolge irrelevant)</td>
+            </tr>
+        </table>
+
+        <div class="btn-group">
+            <button class="btn-reset" onclick="resetQ12()">Antwort zurücksetzen</button>
+        </div>
+
+        <textarea id="code12" class="code-editor" spellcheck="false">import java.util.List;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static List<String> processServerLogs(List<String> rawLogs) {
+        
+        // TODO: Implementieren Sie die Stream-Pipeline
+        return rawLogs.stream()
+            
+            // IHRE LÖSUNG HIER
+            
+    }
+}</textarea>
+        <br>
+        <button class="btn-check" onclick="checkQ12()">Antwort überprüfen</button>
+        
+        <div class="coderunner-container" id="cr12">
+            <div class="coderunner-error-box" id="err12"></div>
+            <div class="coderunner-feedback-box">
+                <div>Die Eingabe-Strings werden anhand des Trennzeichens ':' zerlegt, nach Dauer gefiltert, der Servicename extrahiert, Duplikate entfernt und in einer Liste gesammelt.</div>
+                <div class="solution-toggle" id="solToggle12" onclick="toggleSolution('sol12', solEditor12)">► Lösung des Frageautors anzeigen/verbergen (Java)</div>
+                <div class="solution-content" id="sol12">
+                    <textarea id="solCode12">import java.util.List;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static List<String> processServerLogs(List<String> rawLogs) {
+        return rawLogs.stream()
+            .map(entry -> entry.split(":"))
+            .filter(parts -> Integer.parseInt(parts[1]) > 500)
+            .map(parts -> parts[0])
+            .distinct()
+            .collect(Collectors.toList());
+    }
+}</textarea>
+                </div>
+                <div class="moodle-badge-line" id="badge12"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRAGE 13 -->
+    <div class="question-card" id="q13">
+        <div class="question-header">
+            <span class="question-title">Frage 13: Thread-Sicherheit mit Monitor-Objekt</span>
+            <span class="question-points">6,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Vervollständigen Sie die Klasse <code>HitCounter</code>. Sie wird in einer Serverumgebung eingesetzt, in der mehrere Threads gleichzeitig Aufrufe registrieren.
+            <ul>
+                <li>Die Methode <code>registerHit()</code> erhöht den internen Zähler um <code>1</code>.</li>
+                <li>Es muss zwingend verhindert werden, dass bei gleichzeitigen Aufrufen durch mehrere Threads Updates verloren gehen (Lost Updates).</li>
+                <li><b>Verwenden Sie den in der Vorlesung gelehrten Mechanismus zum Schutz kritischer Bereiche über ein eigenes Monitor-Objekt (nicht <code>this</code>).</b></li>
+            </ul>
+            Die sichtbare Methodensignatur und die vorhandenen Felder dürfen nicht geändert werden.
+        </div>
+
+        <p><b>Zum Beispiel:</b></p>
+        <table class="example-table">
+            <tr>
+                <th>Test</th>
+                <th>Resultat</th>
+            </tr>
+            <tr>
+                <td><code>// Nach Start von 100 Threads, die je 1000 mal registerHit() aufrufen<br>System.out.println(counter.getHits());</code></td>
+                <td><code>100000</code></td>
+            </tr>
+        </table>
+
+        <div class="btn-group">
+            <button class="btn-reset" onclick="resetQ13()">Antwort zurücksetzen</button>
+        </div>
+
+        <textarea id="code13" class="code-editor" spellcheck="false">class HitCounter {
+    private int hits = 0;
+    
+    // TODO 1: Deklarieren und initialisieren Sie ein geeignetes Lock-Objekt
+    
+    
+    public void registerHit() {
+        // TODO 2: Schützen Sie den folgenden kritischen Bereich korrekt
+        
+            hits++;
+        
+    }
+    
+    public int getHits() {
+        return hits;
+    }
+}</textarea>
+        <br>
+        <button class="btn-check" onclick="checkQ13()">Antwort überprüfen</button>
+
+        <div class="coderunner-container" id="cr13">
+            <div class="coderunner-error-box" id="err13"></div>
+            <div class="coderunner-feedback-box">
+                <div>Kritische Abschnitte werden mit synchronized(...) und einem internen Objekt vor Race Conditions geschützt.</div>
+                <div class="solution-toggle" id="solToggle13" onclick="toggleSolution('sol13', solEditor13)">► Lösung des Frageautors anzeigen/verbergen (Java)</div>
+                <div class="solution-content" id="sol13">
+                    <textarea id="solCode13">class HitCounter {
+    private int hits = 0;
+    private final Object lock = new Object();
+    
+    public void registerHit() {
+        synchronized (lock) {
+            hits++;
+        }
+    }
+    
+    public int getHits() {
+        return hits;
+    }
+}</textarea>
+                </div>
+                <div class="moodle-badge-line" id="badge13"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRAGE 14 -->
+    <div class="question-card" id="q14">
+        <div class="question-header">
+            <span class="question-title">Frage 14: Endboss - Sensordaten-Auswertung</span>
+            <span class="question-points">12,00 Punkte</span>
+        </div>
+        <div class="question-text">
+            Schreiben Sie ein komplettes, eigenständiges Java-Programm zur Auswertung von Sensordaten.<br><br>
+            <b>Aufgabe:</b><br>
+            Erstellen Sie eine Klasse <code>SensorAnalyzer</code> mit einer statischen Methode <code>findCriticalSensors</code>.
+            <ul>
+                <li><b>Eingabe:</b> Ein <code>java.nio.file.Path</code> zu einer Textdatei.</li>
+                <li><b>Format der Datei:</b> Jede Zeile enthält exakt einen Sensorwert im Format <code>SENSOR_ID;WERT</code> (z. B. <code>Temp-01;45.5</code>).</li>
+                <li><b>Fehlerbehandlung:</b>
+                    <ul>
+                        <li>Wenn eine Zeile nicht das geforderte Format aufweist (z.B. fehlendes Semikolon) oder der Wert keine gültige Kommazahl (<code>double</code>) ist, werfen Sie eine eigene, checked Exception namens <code>CorruptedDataException</code>.</li>
+                        <li>Diese Exception muss die fehlerhafte Originalzeile in ihrer Fehlermeldung enthalten.</li>
+                        <li>Wenn die Datei nicht existiert oder eine <code>IOException</code> auftritt, fangen Sie diese und werfen Sie eine <code>RuntimeException</code> (Unchecked).</li>
+                    </ul>
+                </li>
+                <li><b>Ausgabe:</b> Die Methode liest die Datei zeilenweise (speicherschonend!) ein. Sie ermittelt alle <code>SENSOR_IDs</code>, bei denen der gemessene Wert <b>größer oder gleich <code>100.0</code></b> ist.</li>
+                <li><b>Rückgabewert:</b> Eine <code>Set&lt;String&gt;</code>, die die IDs der kritischen Sensoren enthält.</li>
+            </ul>
+            <i>Hinweise: Sie müssen die Klasse CorruptedDataException selbst definieren. Verwenden Sie try-with-resources.</i>
+        </div>
+
+        <p><b>Zum Beispiel:</b></p>
+        <table class="example-table">
+            <tr>
+                <th>Test</th>
+                <th>Resultat</th>
+            </tr>
+            <tr>
+                <td><code>Path p = Files.createTempFile("sensors", ".txt");<br>Files.writeString(p, "Temp-01;45.5\nTemp-02;102.3\nTemp-03;100.0");<br>System.out.println(SensorAnalyzer.findCriticalSensors(p));</code></td>
+                <td><code>[Temp-02, Temp-03]</code></td>
+            </tr>
+            <tr>
+                <td><code>Path p = Files.createTempFile("sensors_bad", ".txt");<br>Files.writeString(p, "Temp-01;INVALID_DOUBLE");<br>SensorAnalyzer.findCriticalSensors(p);</code></td>
+                <td><code>throws CorruptedDataException ("Temp-01;INVALID_DOUBLE")</code></td>
+            </tr>
+        </table>
+
+        <div class="btn-group">
+            <button class="btn-reset" onclick="resetQ14()">Antwort zurücksetzen</button>
+        </div>
+
+        <textarea id="code14" class="code-editor" spellcheck="false">import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+// TODO 1: Eigene checked Exception 'CorruptedDataException' schreiben
+
+
+// TODO 2: Klasse SensorAnalyzer mit statischer Methode findCriticalSensors schreiben
+public class SensorAnalyzer {
+    
+    public static Set<String> findCriticalSensors(Path path) throws CorruptedDataException {
+        // Ihre Implementierung hier
+        
+    }
+}</textarea>
+        <br>
+        <button class="btn-check" onclick="checkQ14()">Antwort überprüfen</button>
+
+        <div class="coderunner-container" id="cr14">
+            <div class="coderunner-error-box" id="err14"></div>
+            <div class="coderunner-feedback-box">
+                <div>Die Datei wird speicherschonend mit BufferedReader oder Files.lines eingelesen, zerlegt und bei Formatfehlern mit CorruptedDataException abgebrochen. IOExceptions werden gefangen und als RuntimeException gekapselt.</div>
+                <div class="solution-toggle" id="solToggle14" onclick="toggleSolution('sol14', solEditor14)">► Lösung des Frageautors anzeigen/verbergen (Java)</div>
+                <div class="solution-content" id="sol14">
+                    <textarea id="solCode14">import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+class CorruptedDataException extends Exception {
+    public CorruptedDataException(String line) {
+        super("Corrupted line: " + line);
+    }
+}
+
+public class SensorAnalyzer {
+    public static Set<String> findCriticalSensors(Path path) throws CorruptedDataException {
+        Set<String> result = new HashSet<>();
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) continue;
+                String[] parts = line.split(";");
+                if (parts.length != 2) {
+                    throw new CorruptedDataException(line);
+                }
+                try {
+                    double val = Double.parseDouble(parts[1]);
+                    if (val >= 100.0) {
+                        result.add(parts[0]);
+                    }
+                } catch (NumberFormatException e) {
+                    throw new CorruptedDataException(line);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Dateifehler: " + e.getMessage(), e);
+        }
+        return result;
+    }
+}</textarea>
+                </div>
+                <div class="moodle-badge-line" id="badge14"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABGABE BUTTON -->
+    <button class="btn-submit-test" onclick="submitFullTest(false)">Versuch beenden und Auswertung anzeigen</button>
+
+</div>
+
+<script>
+    // TIMER LOGIK (1 Stunde 30 Minuten = 5400 Sekunden)
+    let totalSeconds = 90 * 60;
+    let timerInterval = null;
+    const testStartTime = new Date();
+
+    function startCountdown() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            totalSeconds--;
+            updateTimerDisplay();
+
+            if (totalSeconds <= 0) {
+                clearInterval(timerInterval);
+                alert("Die Zeit ist abgelaufen (1 Std. 30 Min.)! Der Test wird jetzt automatisch abgegeben.");
+                submitFullTest(true);
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+
+        const hStr = String(h).padStart(2, '0');
+        const mStr = String(m).padStart(2, '0');
+        const sStr = String(s).padStart(2, '0');
+
+        const display = document.getElementById('timerDisplay');
+        const timerBox = document.getElementById('timerBox');
+
+        display.innerText = `${hStr}:${mStr}:${sStr}`;
+
+        if (totalSeconds <= 300) {
+            timerBox.classList.add('warning');
+        } else {
+            timerBox.classList.remove('warning');
+        }
+    }
+
+    const mcAnswers = {
+        1: ['b', 'c', 'd'],
+        2: ['c'],
+        3: ['b'],
+        4: ['b', 'c'],
+        5: ['a', 'c'],
+        6: ['b'],
+        7: ['c', 'd'],
+        8: ['a', 'c'],
+        9: ['a', 'c', 'd'],
+        10: ['a', 'c'],
+        11: ['a', 'c']
+    };
+
+    const mcExplanations = {
+        1: {
+            a: { correct: false, text: 'Variablen in Interfaces sind implizit immer public static final (Konstanten), niemals private!' },
+            b: { correct: true, text: 'Java unterstützt Mehrfachimplementierung für Interfaces, aber nur einfache Vererbung bei Klassen (extends).' },
+            c: { correct: true, text: 'Abstrakte Klassen können normale Instanzvariablen besitzen. Interfaces enthalten keine Instanzvariablen/Zustand.' },
+            d: { correct: true, text: 'Das ist die Kernidee des Liskovschen Substitutionsprinzips / Austauschbarkeitsprinzips.' }
+        },
+        2: {
+            a: { correct: false, text: 'return 1 wird nicht erreicht, weil 100 / 0 sofort eine ArithmeticException wirft.' },
+            b: { correct: false, text: 'return 2 wird im catch zwar ausgewertet, aber der finally-Block wird danach ZWINGEND ausgeführt und überschreibt den Rückgabewert.' },
+            c: { correct: true, text: 'Ein return im finally-Block überschreibt alle vorherigen return-Statements aus try oder catch!' },
+            d: { correct: false, text: 'Die Exception wird im catch-Block abgefangen, somit stürzt das Programm nicht ab.' }
+        },
+        3: {
+            a: { correct: false, text: 'Das Verletzen des equals/hashCode-Kontrakts ist ein logischer Fehler, kein Compiler- / Syntaxfehler.' },
+            b: { correct: true, text: 'HashSet sucht zuerst über hashCode() den Bucket. Haben gleiche Objekte verschiedene Hash-Codes (aus Object.hashCode()), landen sie in verschiedenen Buckets – equals() wird gar nicht erst aufgerufen!' },
+            c: { correct: false, text: 'Falsch, da equals() nur aufgerufen wird, wenn zwei Objekte im SELBEN Bucket landen.' },
+            d: { correct: false, text: 'Ein HashSet sortiert niemals alphabetisch. Dafür müsste man TreeSet nutzen.' }
+        },
+        4: {
+            a: { correct: false, text: 'java.io.File.delete() gibt nur false zurück, wirft aber keine Exception. Erst Files.delete() aus java.nio wirft z. B. eine NoSuchFileException.' },
+            b: { correct: true, text: 'Files.readString(...) kümmert sich intern selbstständig um das Öffnen und Schließen der Stream-Ressource.' },
+            c: { correct: true, text: 'Das ist die Grundvoraussetzung für try-with-resources: Die Klasse muss AutoCloseable implementieren.' },
+            d: { correct: false, text: 'Falsch! Der Vorteil von try-with-resources ist gerade, dass .close() AUCH bei Exceptions garantiert aufgerufen wird.' }
+        },
+        5: {
+            a: { correct: true, text: 'Prüfung findet zur Compile-Zeit statt. Ungültige Typen führen zu einem Compiler-Fehler.' },
+            b: { correct: false, text: 'Falsch. Type Erasure findet IMMER statt. Zur Laufzeit wird T hier durch den Bound Measurable ersetzt.' },
+            c: { correct: true, text: 'Da T garantiert Measurable ist, kennt der Compiler die Schnittstelle und erlaubt Methodenaufrufe daraus.' },
+            d: { correct: false, text: 'Die JVM führt keine manuellen Casts auf Object durch, T wird wegen Erasure durch Measurable ersetzt.' }
+        },
+        6: {
+            a: { correct: false, text: 't1.run() führt den Code sequenziell im AKTUELLEN Thread aus. Um einen neuen Thread zu starten, muss man t1.start() aufrufen!' },
+            b: { correct: true, text: 'Das ist die exakte Definition einer Race Condition.' },
+            c: { correct: false, text: 'Umgekehrt! t1.join() lässt den aufrufenden Thread (z. B. Main) warten, bis Thread t1 fertig ist.' },
+            d: { correct: false, text: 'Einzelne Aufrufe sind synchronisiert, aber zusammengesetzte Operationen (Check-then-Act) erfordern externes Locking!' }
+        },
+        7: {
+            a: { correct: false, text: 'Funktionale Interfaces dürfen beliebig viele default- oder static-Methoden besitzen, solange sie genau EINE abstrakte Methode haben.' },
+            b: { correct: false, text: 'Consumer<T> hat den Rückgabetyp void. Das Interface, das boolean zurückgibt, heißt Predicate<T>.' },
+            c: { correct: true, text: 'Das ist der Mechanismus der Type Inference in Java.' },
+            d: { correct: true, text: 'Methodenreferenzen sind lediglich eine Kurzschreibweise für Lambdas.' }
+        },
+        8: {
+            a: { correct: true, text: 'Streams arbeiten träge (lazy Evaluation). Ohne Terminaloperation passiert gar nichts.' },
+            b: { correct: false, text: 'ArrayList ist NICHT thread-sicher! Das führt bei parallelStream zu Race Conditions. Stattdessen .collect(Collectors.toList()) nutzen.' },
+            c: { correct: true, text: 'groupingBy gruppiert Daten und gibt eine Map<K, List<V>> zurück.' },
+            d: { correct: false, text: 'Streams verändern die Datenquelle NIEMALS (Immutability-Prinzip).' }
+        },
+        9: {
+            a: { correct: true, text: 'Das definiert ein Fat-JAR: Alle Klassen inklusive aller Abhängigkeiten in einer JAR.' },
+            b: { correct: false, text: 'Der Classpath muss AUCH bei der Ausführung (java -cp ...) angegeben werden, sonst findet die JVM externe Klassen nicht.' },
+            c: { correct: true, text: 'JARs basieren auf dem ZIP-Format und nutzen MANIFEST.MF für Metadaten.' },
+            d: { correct: true, text: 'Unter Windows ist das Trennzeichen ; (unter Linux/Mac ist es :).' }
+        },
+        10: {
+            a: { correct: true, text: 'Exception Chaining bewahrt die Ursache (Cause) und den kompletten Cause-Stacktrace.' },
+            b: { correct: false, text: 'matches() prüft, ob der GESAMTE String zum Muster passt. Für Teiltreffer nutzt man find().' },
+            c: { correct: true, text: 'Genau das macht ein bedingter Haltepunkt im Debugger.' },
+            d: { correct: false, text: 'finally wird IMMER ausgeführt, egal ob eine Exception abgefangen wurde oder nicht.' }
+        },
+        11: {
+            a: { correct: true, text: 'System.out.println ist ungemanagt, unflexibel und bremst Serveranwendungen aus.' },
+            b: { correct: false, text: 'Ist das Level WARN, werden WARN, ERROR und FATAL ausgegeben. Nur untergeordnete Level (INFO, DEBUG) werden unterdrückt.' },
+            c: { correct: true, text: 'Appender legen das Ziel fest (FileAppender, ConsoleAppender etc.).' },
+            d: { correct: false, text: 'Schwerwiegende Fehler gehören auf ERROR oder FATAL. DEBUG ist nur für Entwickler-Details gedacht.' }
+        }
+    };
+
+    const initCode12 = `import java.util.List;
+import java.util.stream.Collectors;
+
+class Solution {
+    public static List<String> processServerLogs(List<String> rawLogs) {
+        
+        // TODO: Implementieren Sie die Stream-Pipeline
+        return rawLogs.stream()
+            
+            // IHRE LÖSUNG HIER
+            
+    }
+}`;
+
+    const initCode13 = `class HitCounter {
+    private int hits = 0;
+    
+    // TODO 1: Deklarieren und initialisieren Sie ein geeignetes Lock-Objekt
+    
+    
+    public void registerHit() {
+        // TODO 2: Schützen Sie den folgenden kritischen Bereich korrekt
+        
+            hits++;
+        
+    }
+    
+    public int getHits() {
+        return hits;
+    }
+}`;
+
+    const initCode14 = `import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+// TODO 1: Eigene checked Exception 'CorruptedDataException' schreiben
+
+
+// TODO 2: Klasse SensorAnalyzer mit statischer Methode findCriticalSensors schreiben
+public class SensorAnalyzer {
+    
+    public static Set<String> findCriticalSensors(Path path) throws CorruptedDataException {
+        // Ihre Implementierung hier
+        
+    }
+}`;
+
+    let editor12, editor13, editor14;
+    let solEditor12, solEditor13, solEditor14;
+
+    window.onload = function() {
+        const config = {
+            mode: "text/x-java",
+            lineNumbers: true,
+            tabSize: 4,
+            indentUnit: 4,
+            lineWrapping: true
+        };
+
+        const solConfig = {
+            mode: "text/x-java",
+            lineNumbers: true,
+            readOnly: true,
+            tabSize: 4,
+            indentUnit: 4,
+            lineWrapping: true
+        };
+
+        editor12 = CodeMirror.fromTextArea(document.getElementById('code12'), config);
+        editor13 = CodeMirror.fromTextArea(document.getElementById('code13'), config);
+        editor14 = CodeMirror.fromTextArea(document.getElementById('code14'), config);
+
+        editor12.setSize(null, 220);
+        editor13.setSize(null, 220);
+        editor14.setSize(null, 320);
+
+        solEditor12 = CodeMirror.fromTextArea(document.getElementById('solCode12'), solConfig);
+        solEditor13 = CodeMirror.fromTextArea(document.getElementById('solCode13'), solConfig);
+        solEditor14 = CodeMirror.fromTextArea(document.getElementById('solCode14'), solConfig);
+
+        solEditor12.setSize(null, 200);
+        solEditor13.setSize(null, 200);
+        solEditor14.setSize(null, 360);
+
+        startCountdown();
+    };
+
+    function resetQ12() {
+        if (editor12) editor12.setValue(initCode12);
+        document.getElementById('cr12').style.display = "none";
+    }
+
+    function resetQ13() {
+        if (editor13) editor13.setValue(initCode13);
+        document.getElementById('cr13').style.display = "none";
+    }
+
+    function resetQ14() {
+        if (editor14) editor14.setValue(initCode14);
+        document.getElementById('cr14').style.display = "none";
+    }
+
+    function toggleSolution(id, solEditor) {
+        const elem = document.getElementById(id);
+        if (elem.style.display === "block") {
+            elem.style.display = "none";
+        } else {
+            elem.style.display = "block";
+            if (solEditor) {
+                setTimeout(() => solEditor.refresh(), 10);
+            }
+        }
+    }
+
+    // Teilpunkte-Berechnung für MC Fragen
+    function evalMC(qNum) {
+        const card = document.getElementById('q' + qNum);
+        const inputs = card.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+        const userSelected = [];
+        inputs.forEach(input => { if (input.checked) userSelected.push(input.value); });
+
+        const correctKeys = mcAnswers[qNum];
+        const maxPoints = 3.0;
+        const pointsPerItem = maxPoints / correctKeys.length;
+
+        let pts = 0.0;
+        userSelected.forEach(val => {
+            if (correctKeys.includes(val)) {
+                pts += pointsPerItem;
+            } else {
+                pts -= pointsPerItem;
+            }
+        });
+
+        return Math.max(0.0, pts);
+    }
+
+    function checkDetailedMC(qNum, correctKeys, explanations) {
+        const card = document.getElementById('q' + qNum);
+        const inputs = card.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+        const userSelected = [];
+
+        inputs.forEach(input => { if (input.checked) userSelected.push(input.value); });
+
+        const pts = evalMC(qNum);
+        const fb = document.getElementById('fb' + qNum);
+        
+        fb.className = "feedback show " + (pts === 3.0 ? "success" : "error");
+
+        let html = '<div style="font-weight:bold; margin-bottom:10px;">';
+        html += `Erreichte Punkte: ${pts.toFixed(2).replace('.', ',')} / 3,00 Punkte`;
+        html += '</div><b>Erklärungen:</b><ul style="margin:5px 0; padding-left:20px;">';
+
+        ['a', 'b', 'c', 'd'].forEach(opt => {
+            if (!explanations[opt]) return;
+            const isOptCorrect = explanations[opt].correct;
+            const wasSelected = userSelected.includes(opt);
+            
+            let statusText = "";
+            if (isOptCorrect && wasSelected) {
+                statusText = '<b style="color:green">[✓ Richtig]</b> ';
+            } else if (isOptCorrect && !wasSelected) {
+                statusText = '<b style="color:red">[✗ Gefehlt]</b> ';
+            } else if (!isOptCorrect && wasSelected) {
+                statusText = '<b style="color:red">[✗ Falsch]</b> ';
+            }
+
+            html += `<li><b>Option ${opt.toUpperCase()}:</b> ${statusText}${explanations[opt].text}</li>`;
+        });
+
+        html += '</ul>';
+        fb.innerHTML = html;
+    }
+
+    // SMART EVALUATION ENGINE FOR CODE
+    function evalQ12() {
+        const code = editor12 ? editor12.getValue() : document.getElementById('code12').value;
+        
+        if (code.trim() === initCode12.trim() || code.trim().length === 0) {
+            return { points: 0.0, maxPoints: 5.0, errors: ["__tester__.java: error: Keine eigene Lösung eingegeben."] };
+        }
+
+        let points = 0.0;
+        const maxPoints = 5.0;
+        const errors = [];
+
+        if (code.includes(".split(") || code.includes(":")) {
+            points += 1.25;
+        } else {
+            errors.push("__tester__.java:14: error: String splitting for ':' missing [+0/1.25 Pkt]");
+        }
+
+        if (code.includes("> 500") || code.includes(">500")) {
+            points += 1.25;
+        } else {
+            errors.push("__tester__.java:15: error: Filter for duration > 500 ms missing [+0/1.25 Pkt]");
+        }
+
+        if (code.includes(".distinct()")) {
+            points += 1.25;
+        } else {
+            errors.push("__tester__.java:16: error: Duplicate removal via .distinct() missing [+0/1.25 Pkt]");
+        }
+
+        if (code.includes(".collect(") || code.includes(".toList()")) {
+            points += 1.25;
+        } else {
+            errors.push("__tester__.java:18: error: Terminal collector missing (.collect / .toList) [+0/1.25 Pkt]");
+        }
+
+        return { points, maxPoints, errors };
+    }
+
+    function checkQ12() {
+        const res = evalQ12();
+        const cr = document.getElementById('cr12');
+        const err = document.getElementById('err12');
+        const badge = document.getElementById('badge12');
+
+        cr.style.display = "block";
+        if (res.errors.length > 0) {
+            err.style.display = "block";
+            err.innerHTML = "<h4>Syntax- / Logik-Check (Teilpunkte-Analyse)</h4>" + res.errors.join("\n");
+        } else {
+            err.style.display = "none";
+        }
+
+        let badgeClass = "moodle-badge";
+        let badgeText = "Falsch";
+        if (res.points === res.maxPoints) {
+            badgeClass = "moodle-badge success";
+            badgeText = "Richtig";
+        } else if (res.points > 0) {
+            badgeClass = "moodle-badge partial";
+            badgeText = "Teilweise richtig";
+        }
+
+        badge.innerHTML = `<span class="${badgeClass}">${badgeText}</span> Bewertung für diese Einreichung: ${res.points.toFixed(2).replace('.', ',')}/${res.maxPoints.toFixed(2).replace('.', ',')}.`;
+    }
+
+    function evalQ13() {
+        const code = editor13 ? editor13.getValue() : document.getElementById('code13').value;
+        
+        if (code.trim() === initCode13.trim() || code.trim().length === 0) {
+            return { points: 0.0, maxPoints: 6.0, errors: ["__tester__.java: error: Keine eigene Lösung eingegeben."] };
+        }
+
+        let points = 0.0;
+        const maxPoints = 6.0;
+        const errors = [];
+
+        if (code.includes("Object") && code.includes("new Object()")) {
+            points += 2.0;
+        } else {
+            errors.push("__tester__.java:5: error: Dedicated lock object missing (e.g. private final Object lock = new Object();) [+0/2.00 Pkt]");
+        }
+
+        if (code.includes("synchronized") && !code.includes("synchronized(this)") && !code.includes("synchronized (this)")) {
+            points += 1.0;
+        } else if (code.includes("synchronized(this)") || code.includes("synchronized (this)")) {
+            errors.push("__tester__.java:8: error: Forbidden use of 'this' as lock! [+0/1.00 Pkt]");
+        }
+
+        if (code.includes("synchronized")) {
+            points += 3.0;
+        } else {
+            errors.push("__tester__.java:9: error: Synchronized block for critical section missing [+0/3.00 Pkt]");
+        }
+
+        return { points, maxPoints, errors };
+    }
+
+    function checkQ13() {
+        const res = evalQ13();
+        const cr = document.getElementById('cr13');
+        const err = document.getElementById('err13');
+        const badge = document.getElementById('badge13');
+
+        cr.style.display = "block";
+        if (res.errors.length > 0) {
+            err.style.display = "block";
+            err.innerHTML = "<h4>Concurrency Check (Teilpunkte-Analyse)</h4>" + res.errors.join("\n");
+        } else {
+            err.style.display = "none";
+        }
+
+        let badgeClass = "moodle-badge";
+        let badgeText = "Falsch";
+        if (res.points === res.maxPoints) {
+            badgeClass = "moodle-badge success";
+            badgeText = "Richtig";
+        } else if (res.points > 0) {
+            badgeClass = "moodle-badge partial";
+            badgeText = "Teilweise richtig";
+        }
+
+        badge.innerHTML = `<span class="${badgeClass}">${badgeText}</span> Bewertung für diese Einreichung: ${res.points.toFixed(2).replace('.', ',')}/${res.maxPoints.toFixed(2).replace('.', ',')}.`;
+    }
+
+    function evalQ14() {
+        const code = editor14 ? editor14.getValue() : document.getElementById('code14').value;
+        
+        if (code.trim() === initCode14.trim() || code.trim().length === 0) {
+            return { points: 0.0, maxPoints: 12.0, errors: ["__tester__.java: error: Keine eigene Lösung eingegeben."] };
+        }
+
+        let points = 0.0;
+        const maxPoints = 12.0;
+        const errors = [];
+
+        if (code.includes("class CorruptedDataException extends Exception")) {
+            points += 3.0;
+        } else {
+            errors.push("__tester__.java:5: error: Checked Exception CorruptedDataException must extend java.lang.Exception [+0/3.00 Pkt]");
+        }
+
+        if (code.includes("try") && (code.includes("BufferedReader") || code.includes("Files.lines") || code.includes("Scanner") || code.includes("newBufferedReader"))) {
+            points += 3.0;
+        } else {
+            errors.push("__tester__.java:15: error: Memory-efficient line reading via try-with-resources missing [+0/3.00 Pkt]");
+        }
+
+        if (code.includes("IOException")) {
+            points += 3.0;
+        } else {
+            errors.push("__tester__.java:25: error: Catching IOException and wrapping into RuntimeException missing [+0/3.00 Pkt]");
+        }
+
+        if (code.includes("100.0") || code.includes("100")) {
+            points += 3.0;
+        } else {
+            errors.push("__tester__.java:20: error: Sensor value threshold check (>= 100.0) missing [+0/3.00 Pkt]");
+        }
+
+        return { points, maxPoints, errors };
+    }
+
+    function checkQ14() {
+        const res = evalQ14();
+        const cr = document.getElementById('cr14');
+        const err = document.getElementById('err14');
+        const badge = document.getElementById('badge14');
+
+        cr.style.display = "block";
+        if (res.errors.length > 0) {
+            err.style.display = "block";
+            err.innerHTML = "<h4>Compiler & Requirement Check (Teilpunkte-Analyse)</h4>" + res.errors.join("\n");
+        } else {
+            err.style.display = "none";
+        }
+
+        let badgeClass = "moodle-badge";
+        let badgeText = "Falsch";
+        if (res.points === res.maxPoints) {
+            badgeClass = "moodle-badge success";
+            badgeText = "Richtig";
+        } else if (res.points > 0) {
+            badgeClass = "moodle-badge partial";
+            badgeText = "Teilweise richtig";
+        }
+
+        badge.innerHTML = `<span class="${badgeClass}">${badgeText}</span> Bewertung für diese Einreichung: ${res.points.toFixed(2).replace('.', ',')}/${res.maxPoints.toFixed(2).replace('.', ',')}.`;
+    }
+
+    function formatMoodleDate(date) {
+        const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+        const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+        return `${days[date.getDay()]}, ${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}, ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+    }
+
+    function submitFullTest(isAutoTimeout = false) {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+
+        const testEndTime = new Date();
+
+        // Auswertung & Feedback für Theoriefragen erst jetzt aktivieren
+        for (let i = 1; i <= 11; i++) {
+            checkDetailedMC(i, mcAnswers[i], mcExplanations[i]);
+        }
+
+        // Code-Aufgaben prüfen
+        checkQ12();
+        checkQ13();
+        checkQ14();
+
+        // JETZT die Lösungs-Buttons bei den Code-Aufgaben freischalten!
+        document.getElementById('solToggle12').style.display = "inline-block";
+        document.getElementById('solToggle13').style.display = "inline-block";
+        document.getElementById('solToggle14').style.display = "inline-block";
+
+        let achievedPoints = 0.0;
+
+        for (let i = 1; i <= 11; i++) {
+            achievedPoints += evalMC(i);
+        }
+
+        achievedPoints += evalQ12().points;
+        achievedPoints += evalQ13().points;
+        achievedPoints += evalQ14().points;
+
+        const maxPoints = 56.00;
+        const percentage = ((achievedPoints / maxPoints) * 100).toFixed(2);
+        const isPassed = percentage >= 50.0;
+
+        const diffMs = testEndTime - testStartTime;
+        const diffSecs = Math.floor(diffMs / 1000);
+        const mins = Math.floor(diffSecs / 60);
+        const secs = diffSecs % 60;
+        const durationStr = mins > 0 ? `${mins} Minuten ${secs} Sekunden` : `${secs} Sekunden`;
+
+        document.getElementById('sumStart').innerText = formatMoodleDate(testStartTime);
+        document.getElementById('sumEnd').innerText = formatMoodleDate(testEndTime);
+        document.getElementById('sumDuration').innerText = durationStr;
+        document.getElementById('sumPoints').innerText = `${achievedPoints.toFixed(2).replace('.', ',')}/${maxPoints.toFixed(2).replace('.', ',')}`;
+        document.getElementById('sumGrade').innerHTML = `<b>${achievedPoints.toFixed(2).replace('.', ',')} von ${maxPoints.toFixed(2).replace('.', ',')} (${percentage.replace('.', ',')}%)</b>`;
+
+        const banner = document.getElementById('passBanner');
+        let autoNote = isAutoTimeout ? "<br><i>(Automatische Abgabe wegen Zeitablauf)</i>" : "";
+
+        if (isPassed) {
+            banner.className = "status-pass";
+            banner.innerHTML = `✓ BESTANDEN! Du hast ${percentage.replace('.', ',')}% erreicht (mindestens 50,00% benötigt).` + autoNote;
+        } else {
+            banner.className = "status-fail";
+            banner.innerHTML = `✗ NICHT BESTANDEN! Du hast nur ${percentage.replace('.', ',')}% erreicht (mindestens 50,00% benötigt).` + autoNote;
+        }
+
+        const sumCard = document.getElementById('summaryCard');
+        sumCard.style.display = "block";
+        sumCard.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
