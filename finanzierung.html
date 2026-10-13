@@ -1,0 +1,1601 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finanzierung Praxisguide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: Lernheft mit Kapitelleiste (links ab Desktop, als Chip-Leiste oben am Handy); Formeln stehen auf Karopapier, Zahlen in Kontoblatt-Tabellen */
+:root{
+  --bg:#f3f5f9;
+  --surface:#ffffff;
+  --ink:#121a2c;
+  --muted:#556079;
+  --line:#d7dde9;
+  --grid:#e6ebf4;
+  --accent:#1844ad;
+  --accent-ink:#ffffff;
+  --accent-soft:#e6edfc;
+  --in:#0b7a4b;
+  --in-soft:#e2f3ea;
+  --out:#b3202d;
+  --out-soft:#fbe7e9;
+  --warn:#965300;
+  --warn-soft:#fcf0dc;
+  --fk:#8794b6;
+  --font-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c111d; --surface:#131a2a; --ink:#e6ebf5; --muted:#9aa5bf; --line:#283350; --grid:#1b2338;
+    --accent:#86a6ff; --accent-ink:#0c111d; --accent-soft:#1a2645;
+    --in:#4fc78e; --in-soft:#10291f; --out:#f27580; --out-soft:#2c151a; --warn:#f0b35c; --warn-soft:#2a2112; --fk:#6b7899;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c111d; --surface:#131a2a; --ink:#e6ebf5; --muted:#9aa5bf; --line:#283350; --grid:#1b2338;
+  --accent:#86a6ff; --accent-ink:#0c111d; --accent-soft:#1a2645;
+  --in:#4fc78e; --in-soft:#10291f; --out:#f27580; --out-soft:#2c151a; --warn:#f0b35c; --warn-soft:#2a2112; --fk:#6b7899;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (min-width:1000px){html{scroll-padding-top:24px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell{max-width:1220px;margin:0 auto;padding-inline:16px;padding-block:0 80px;display:grid;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.shell{grid-template-columns:220px minmax(0,1fr);gap:48px;padding-inline:28px}}
+main{min-width:0;max-width:860px}
+
+/* Navigation */
+.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;gap:6px;overflow-x:auto;padding:10px 16px;margin-inline:-16px;background:var(--bg);border-bottom:1px solid var(--line);scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:.82rem;font-weight:500;color:var(--muted);text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.toc a .tn{font-family:var(--font-mono);font-size:.74rem;margin-right:4px}
+.toc a.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.toc a.done::after{content:"✓";margin-left:6px;color:var(--in);font-weight:600}
+.toc a.active.done::after{color:inherit}
+.toc .grp{display:none}
+@media (min-width:1000px){
+  .toc{flex-direction:column;align-self:start;top:calc(env(safe-area-inset-top,0px) + 24px);margin:32px 0 0;padding:0;border:0;background:transparent;gap:1px;max-height:calc(100vh - 48px);overflow-y:auto}
+  .toc a{border:0;background:transparent;border-radius:6px;padding:5px 10px;font-size:.88rem}
+  .toc a.active{background:var(--accent-soft);color:var(--accent)}
+  .toc .grp{display:block;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding:14px 10px 4px}
+}
+
+/* Typo */
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.6vw,2.1rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.22rem;font-weight:700;margin-top:8px}
+h4{font-size:1rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-family:var(--font-mono);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.lead{font-size:1.1rem;color:var(--ink);max-width:62ch}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+var{font-style:italic;font-family:var(--font-body)}
+sub,sup{font-size:.72em}
+.in{color:var(--in);font-weight:600}
+.out{color:var(--out);font-weight:600}
+.num,.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.flow{display:flex;flex-direction:column;gap:18px}
+.flow > p,.flow > ul,.flow > ol{max-width:68ch}
+ul.clean,ol.clean{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+
+/* Hero */
+.hero{padding-block:40px 32px;display:flex;flex-direction:column;gap:18px}
+.progress{display:flex;flex-direction:column;gap:6px;max-width:360px}
+.progress .bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--in);transition:width .3s}
+.note{font-size:.9rem;color:var(--muted);max-width:70ch;border-left:2px solid var(--line);padding-left:12px}
+
+/* Kapitel */
+.chapter{padding-block:44px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:22px}
+.ch-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.ch-num{font-family:var(--font-mono);font-weight:600;font-size:1rem;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:1px 8px}
+.ch-sub{font-family:var(--font-mono);font-size:.78rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;width:100%}
+
+/* Boxen */
+.box{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--surface);display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.tldr{background:var(--accent-soft);border-color:transparent}
+.tldr .lbl{color:var(--accent)}
+.tldr p{font-size:1.04rem}
+.trap{background:var(--warn-soft);border-color:transparent}
+.trap .lbl{color:var(--warn)}
+.example .lbl{color:var(--in)}
+.example{border-style:dashed}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px}
+.steps li::before{content:counter(s);font-family:var(--font-mono);font-size:.78rem;font-weight:600;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--in-soft);color:var(--in);margin-top:2px}
+.done-row{display:flex;justify-content:flex-end}
+.done{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:500;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.done input{width:18px;height:18px;accent-color:var(--in)}
+.done:has(input:checked){border-color:var(--in);color:var(--in);background:var(--in-soft)}
+
+/* Formeln auf Karopapier */
+.fx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.fx{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background-color:var(--surface);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:18px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fx-name{font-family:var(--font-mono);font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.fx-eq{font-size:1.08rem;overflow-x:auto;padding-block:4px;line-height:1.3}
+.fx-leg{font-size:.82rem;color:var(--muted)}
+.f{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .18em}
+.f>span:first-child{border-bottom:1.4px solid currentColor;padding:0 .3em .1em}
+.f>span:last-child{padding:.1em .3em 0}
+.big .fx-eq{font-size:1.25rem}
+
+/* Tabellen */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.92rem}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right;white-space:nowrap}
+td.r{font-family:var(--font-mono)}
+tr.sum td{font-weight:600;border-top:1.5px solid var(--ink)}
+tr.hl td{background:var(--accent-soft)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:.7rem;font-weight:600;padding:1px 7px;border-radius:4px;white-space:nowrap}
+.tag.ek{background:var(--accent-soft);color:var(--accent)}
+.tag.fk{background:var(--out-soft);color:var(--out)}
+.tag.innen{background:var(--in-soft);color:var(--in)}
+.tag.neutral{background:var(--grid);color:var(--muted)}
+
+/* Grafiken */
+.fig{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fig-scroll{overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+.fig-scroll svg{min-width:440px}
+.calc svg,.chart-scroll svg{display:block;width:100%;height:auto}
+.chart-scroll{overflow-x:auto;min-width:0}
+.chart-scroll svg{min-width:520px}
+.cap{font-size:.84rem;color:var(--muted)}
+svg text{font-family:var(--font-body);fill:var(--ink)}
+svg .t-mut{fill:var(--muted)}
+svg .t-mono{font-family:var(--font-mono)}
+svg .t-acc{fill:var(--accent)}
+svg .t-in{fill:var(--in)}
+svg .t-out{fill:var(--out)}
+svg .t-inv{fill:var(--accent-ink)}
+svg .c-in{fill:var(--in)}
+svg .c-out{fill:var(--out)}
+svg .c-acc{fill:var(--accent)}
+svg .c-accs{fill:var(--accent-soft)}
+svg .c-fk{fill:var(--fk)}
+svg .c-surf{fill:var(--surface)}
+svg .c-bg{fill:var(--bg)}
+svg .c-warns{fill:var(--warn-soft)}
+svg .c-ins{fill:var(--in-soft)}
+svg .c-outs{fill:var(--out-soft)}
+svg .s-line{stroke:var(--line);fill:none}
+svg .s-ink{stroke:var(--ink);fill:none}
+svg .s-mut{stroke:var(--muted);fill:none}
+svg .s-acc{stroke:var(--accent);fill:none}
+svg .s-in{stroke:var(--in);fill:none}
+svg .s-out{stroke:var(--out);fill:none}
+svg .s-warn{stroke:var(--warn);fill:none}
+svg .dash{stroke-dasharray:5 4}
+svg .ah-ink{fill:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* Matrix */
+.matrix{display:grid;grid-template-columns:minmax(84px,.6fr) minmax(0,1fr) minmax(0,1fr);gap:6px}
+.matrix > div{border-radius:8px;padding:12px;min-width:0}
+.mx-h{font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:flex-end}
+.mx-row{font-family:var(--font-mono);font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center}
+.mx-c{background:var(--surface);border:1px solid var(--line)}
+.mx-c strong{display:block;font-family:var(--font-display);font-size:1.02rem;margin-bottom:2px}
+.mx-c span{font-size:.86rem;color:var(--muted)}
+.mx-c.ek{box-shadow:inset 0 3px 0 var(--accent)}
+.mx-c.fk{box-shadow:inset 0 3px 0 var(--out)}
+.mx-wide{grid-column:2 / 4;background:var(--bg);border:1px dashed var(--line);font-size:.88rem}
+@media (max-width:520px){.matrix{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mx-row{grid-column:1 / 3;padding:8px 2px 0!important}.mx-corner{display:none}.mx-wide{grid-column:1 / 3}}
+
+/* T-Konto */
+.tkonto{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);font-size:.9rem}
+.tkonto > div{padding:12px 14px;min-width:0}
+.tkonto .tk-h{background:var(--bg);font-family:var(--font-display);font-weight:700;border-bottom:1.5px solid var(--ink)}
+.tkonto .tk-h small{display:block;font-family:var(--font-mono);font-weight:500;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tkonto .tk-l{border-right:1.5px solid var(--ink)}
+.tk-row{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.tk-row.sub{padding-left:12px;color:var(--muted);font-size:.86rem}
+.tk-row.grp{font-weight:600;margin-top:6px}
+.tk-row .num{white-space:nowrap}
+.tk-sum{border-top:1.5px solid var(--ink);font-weight:600}
+@media (max-width:560px){.tkonto{grid-template-columns:minmax(0,1fr)}.tkonto .tk-l{border-right:0}.tkonto>:nth-child(1){order:1}.tkonto>:nth-child(3){order:2}.tkonto>:nth-child(5){order:3;border-bottom:1.5px solid var(--ink)}.tkonto>:nth-child(2){order:4}.tkonto>:nth-child(4){order:5}.tkonto>:nth-child(6){order:6}}
+
+/* Karten-Raster */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .k{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);font-weight:600}
+.card h4{font-size:1rem}
+.card p{font-size:.9rem;color:var(--muted)}
+a.card{text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--accent)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+
+/* Rechner */
+.calc{border:1px solid var(--accent);border-radius:10px;background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.calc .lbl{color:var(--accent)}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--muted);font-weight:500}
+input[type=number],input[type=text]{font:500 1rem var(--font-mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.out-row{display:flex;flex-wrap:wrap;gap:10px}
+.kpi{flex:1 1 140px;border-radius:8px;background:var(--bg);padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.kpi span{font-size:.76rem;color:var(--muted)}
+.kpi b{font:600 1.2rem var(--font-mono)}
+.kpi.good b{color:var(--in)} .kpi.bad b{color:var(--out)}
+.verdict{font-size:.92rem;padding:10px 12px;border-radius:8px;background:var(--bg)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 .86rem var(--font-body);padding:7px 12px;border:0;background:var(--surface);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.btn{font:600 .88rem var(--font-body);padding:8px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+
+/* Balken (HTML) */
+.hbar{display:flex;height:40px;border-radius:8px;overflow:hidden;font-size:.78rem;font-weight:600}
+.hbar > div{display:flex;align-items:center;justify-content:center;padding:0 6px;overflow:hidden;white-space:nowrap;min-width:0}
+.bilanz-bars{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.bb-col{display:flex;flex-direction:column;height:320px;border-radius:8px;overflow:hidden;font-size:.8rem}
+.bb-col > div{display:flex;flex-direction:column;justify-content:center;padding:6px 10px;border-bottom:2px solid var(--surface);min-height:0}
+.bb-col b{font-family:var(--font-mono)}
+.bb-h{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* Karteikarten */
+.fc-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.fc{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px;min-height:150px;display:flex;flex-direction:column;gap:8px;cursor:pointer;text-align:left;font:inherit;color:inherit;min-width:0}
+.fc:hover{border-color:var(--accent)}
+.fc .fc-k{font-family:var(--font-mono);font-size:.7rem;color:var(--muted)}
+.fc .fc-q{font-family:var(--font-display);font-weight:700;font-size:1.05rem}
+.fc .fc-a{display:none;font-size:.98rem;line-height:1.35;overflow-x:auto}
+.fc .fc-ex{display:none;font-size:.8rem;color:var(--muted)}
+.fc .fc-hint{font-size:.78rem;color:var(--muted);margin-top:auto}
+.fc.open{background-color:var(--surface);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:18px 18px;border-color:var(--accent)}
+.fc.open .fc-a,.fc.open .fc-ex{display:block}
+.fc.open .fc-hint{display:none}
+
+/* Trainer */
+.q{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.q-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.q-head b{font-family:var(--font-display);font-size:1.02rem}
+.q-text{max-width:70ch}
+.q-ans{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.q-ans input{max-width:200px}
+.q-unit{font-family:var(--font-mono);color:var(--muted)}
+.q-opts{display:flex;flex-direction:column;gap:6px}
+.q-opts label{display:flex;gap:10px;align-items:flex-start;font-size:.94rem;padding:8px 10px;border-radius:8px;border:1px solid var(--line);cursor:pointer}
+.q-opts input{margin-top:4px;accent-color:var(--accent)}
+.q-fb{display:none;border-radius:8px;padding:10px 12px;font-size:.92rem}
+.q-fb.ok{display:block;background:var(--in-soft);color:var(--ink)}
+.q-fb.no{display:block;background:var(--out-soft);color:var(--ink)}
+.q-fb b.ok{color:var(--in)} .q-fb b.no{color:var(--out)}
+details.sol summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--accent)}
+details.sol > div{padding-top:8px;font-size:.92rem;display:flex;flex-direction:column;gap:6px}
+.score{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);align-self:flex-end;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 16px;font:600 .9rem var(--font-mono);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.src li{font-size:.9rem}
+footer{padding-block:32px;color:var(--muted);font-size:.84rem;border-top:1px solid var(--line)}
+</style>
+
+<div class="shell">
+<nav class="toc" id="toc" aria-label="Kapitel">
+  <a href="#start">Start</a>
+  <span class="grp">Grundlagen</span>
+  <a href="#k1" data-sec="k1"><span class="tn">1</span>Einführung</a>
+  <span class="grp">Außenfinanzierung</span>
+  <a href="#k21" data-sec="k21"><span class="tn">2.1</span>Einlagen &amp; Beteiligung</a>
+  <a href="#k22" data-sec="k22"><span class="tn">2.2</span>Kreditfinanzierung</a>
+  <a href="#k23" data-sec="k23"><span class="tn">2.3</span>Surrogate</a>
+  <span class="grp">Innenfinanzierung</span>
+  <a href="#k31" data-sec="k31"><span class="tn">3.1</span>Grundlagen</a>
+  <a href="#k32" data-sec="k32"><span class="tn">3.2</span>Cashflow</a>
+  <a href="#k33" data-sec="k33"><span class="tn">3.3</span>Formen</a>
+  <span class="grp">Finanzplanung</span>
+  <a href="#k41" data-sec="k41"><span class="tn">4.1</span>Kapitalbedarf &amp; Liquidität</a>
+  <a href="#k42" data-sec="k42"><span class="tn">4.2</span>Kapitalstruktur &amp; Regeln</a>
+  <span class="grp">Pauken</span>
+  <a href="#formeln">Formel-Karten</a>
+  <a href="#trainer">Klausurtrainer</a>
+  <a href="#quellen">Quellen</a>
+</nav>
+
+<main>
+<!-- ============ START ============ -->
+<header class="hero" id="start">
+  <p class="eyebrow">Investition &amp; Finanzierung · Teil Finanzierung</p>
+  <h1>Finanzierung in Praxisbeispielen</h1>
+  <p class="lead">Jedes Thema deiner Agenda läuft gleich ab: kurz verstehen, an einer Beispielfirma nachrechnen, Formel einprägen, Klausurfalle kennen. Unten warten Formel-Karteikarten und ein Klausurtrainer mit Lösungswegen.</p>
+  <div class="progress" aria-live="polite">
+    <span class="small muted" id="progText">0 von 9 Kapiteln abgehakt</span>
+    <div class="bar"><i id="progBar"></i></div>
+  </div>
+  <p class="note">Grundlage sind deine Agenda und Standard-Lehrbuchwissen (Wöhe, Perridon/Steiner, Olfert). Die Folien deines Profs lagen mir nicht vor, im Repo lag nur dein Java-Klausurtrainer. Wo Lehrbücher verschiedene Konventionen nutzen (360 oder 365 Zinstage, Cashflow-Definition, Namen der Deckungsgrade), steht ein Hinweis. Im Zweifel gilt das Skript.</p>
+</header>
+
+<section class="chapter" id="karte" aria-labelledby="karte-h">
+  <div class="ch-head"><h2 id="karte-h">Die Landkarte</h2></div>
+  <p class="lead">Fast jede Klausurfrage lässt sich auf zwei Fragen runterbrechen: <strong>Woher kommt das Geld?</strong> (von außen oder aus dem eigenen Umsatz) und <strong>wem gehört es?</strong> (Eigentümern oder Gläubigern).</p>
+  <div class="cards">
+    <a class="card" href="#k1"><span class="k">1 · Einführung</span><h4>Begriffe &amp; Systematik</h4><p>Investition vs. Finanzierung, Ziele, die 2×2-Matrix, EK vs. FK.</p></a>
+    <a class="card" href="#k21"><span class="k">2 · Außenfinanzierung</span><h4>Geld von außen</h4><p>Eigentümer (Beteiligung), Gläubiger (Kredit), Ersatzformen (Leasing, Factoring).</p></a>
+    <a class="card" href="#k31"><span class="k">3 · Innenfinanzierung</span><h4>Geld aus dem Umsatz</h4><p>Cashflow, Gewinn einbehalten, Abschreibungen, Rückstellungen.</p></a>
+    <a class="card" href="#k41"><span class="k">4 · Finanzplanung</span><h4>Reicht das Geld?</h4><p>Kapitalbedarf, Liquidität, Kapitalstruktur, Finanzierungsregeln, Leverage.</p></a>
+  </div>
+  <div class="box example">
+    <span class="lbl">Der durchgehende Fall</span>
+    <p><strong>Rad &amp; Co.</strong> (fiktiv) baut E-Bikes in Hagen. Die Firma startet als GmbH und geht später als AG an die Börse. Alle Praxisbeispiele rechnen mit derselben Firma und derselben Bilanz, damit du die Zahlen wiedererkennst und siehst, wie die Themen zusammenhängen.</p>
+  </div>
+</section>
+
+<!-- ============ 1 EINFÜHRUNG ============ -->
+<section class="chapter" id="k1" aria-labelledby="k1-h">
+  <div class="ch-head"><span class="ch-num">1</span><h2 id="k1-h">Einführung</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p><strong>Investition</strong> ist, wofür das Geld ausgegeben wird (Aktivseite, Mittelverwendung). <strong>Finanzierung</strong> ist, woher das Geld kommt (Passivseite, Mittelherkunft). Zahlungsorientiert gedacht beginnt eine Finanzierung mit einer <span class="in">Einzahlung</span> und wird später mit <span class="out">Auszahlungen</span> (Zins, Tilgung, Dividende) bedient. Eine Investition ist das Spiegelbild.</p>
+  </div>
+
+  <h3>Die Bilanz als Bild</h3>
+  <div class="tkonto" role="table" aria-label="Bilanz Rad &amp; Co. GmbH">
+    <div class="tk-h tk-l"><small>Investition · Mittelverwendung</small>Aktiva</div>
+    <div class="tk-h"><small>Finanzierung · Mittelherkunft</small>Passiva</div>
+    <div class="tk-l">
+      <div class="tk-row grp"><span>A. Anlagevermögen</span><span class="num">600.000</span></div>
+      <div class="tk-row sub"><span>Gebäude</span><span class="num">350.000</span></div>
+      <div class="tk-row sub"><span>Maschinen</span><span class="num">250.000</span></div>
+      <div class="tk-row grp"><span>B. Umlaufvermögen</span><span class="num">400.000</span></div>
+      <div class="tk-row sub"><span>Vorräte <small>(davon eiserner Bestand 60.000)</small></span><span class="num">180.000</span></div>
+      <div class="tk-row sub"><span>Forderungen LuL</span><span class="num">140.000</span></div>
+      <div class="tk-row sub"><span>Bank/Kasse</span><span class="num">80.000</span></div>
+    </div>
+    <div>
+      <div class="tk-row grp"><span>A. Eigenkapital</span><span class="num">350.000</span></div>
+      <div class="tk-row grp"><span>B. Fremdkapital langfristig</span><span class="num">350.000</span></div>
+      <div class="tk-row sub"><span>Bankdarlehen</span><span class="num">300.000</span></div>
+      <div class="tk-row sub"><span>Pensionsrückstellungen</span><span class="num">50.000</span></div>
+      <div class="tk-row grp"><span>C. Fremdkapital kurzfristig</span><span class="num">300.000</span></div>
+      <div class="tk-row sub"><span>Verbindlichkeiten LuL</span><span class="num">200.000</span></div>
+      <div class="tk-row sub"><span>Kontokorrentkredit</span><span class="num">100.000</span></div>
+    </div>
+    <div class="tk-l tk-sum"><div class="tk-row"><span>Summe</span><span class="num">1.000.000</span></div></div>
+    <div class="tk-sum"><div class="tk-row"><span>Summe</span><span class="num">1.000.000</span></div></div>
+  </div>
+  <p class="cap">Bilanz der Rad &amp; Co. GmbH in €. Diese Zahlen brauchst du in Kapitel 3.2 und 4 wieder.</p>
+
+  <h3>Zahlungsreihen: Finanzierung vs. Investition</h3>
+  <div class="two">
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 300 180" role="img" aria-label="Zahlungsreihe einer Finanzierung: plus 100 in t0, dann minus 6, minus 6, minus 106">
+        <text x="12" y="16" class="t-mut" font-size="12" font-weight="600">FINANZIERUNG (Kredit 100, 6 % Zins)</text>
+        <line x1="20" y1="90" x2="290" y2="90" class="s-ink"/>
+        <rect x="40" y="30" width="34" height="60" class="c-in"/><text x="57" y="26" text-anchor="middle" font-size="12" class="t-in t-mono">+100</text>
+        <rect x="100" y="90" width="34" height="4" class="c-out"/><text x="117" y="108" text-anchor="middle" font-size="12" class="t-out t-mono">−6</text>
+        <rect x="160" y="90" width="34" height="4" class="c-out"/><text x="177" y="108" text-anchor="middle" font-size="12" class="t-out t-mono">−6</text>
+        <rect x="220" y="90" width="34" height="64" class="c-out"/><text x="237" y="166" text-anchor="middle" font-size="12" class="t-out t-mono">−106</text>
+        <text x="57" y="178" text-anchor="middle" font-size="11" class="t-mut">t0</text><text x="117" y="178" text-anchor="middle" font-size="11" class="t-mut">t1</text><text x="177" y="178" text-anchor="middle" font-size="11" class="t-mut">t2</text><text x="237" y="178" text-anchor="middle" font-size="11" class="t-mut">t3</text>
+      </svg>
+      <figcaption class="cap">Startet mit Einzahlung. Danach fließt Geld zurück an den Kapitalgeber.</figcaption>
+    </figure>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 300 180" role="img" aria-label="Zahlungsreihe einer Investition: minus 100 in t0, dann dreimal plus 40">
+        <text x="12" y="16" class="t-mut" font-size="12" font-weight="600">INVESTITION (Maschine 100)</text>
+        <line x1="20" y1="90" x2="290" y2="90" class="s-ink"/>
+        <rect x="40" y="90" width="34" height="60" class="c-out"/><text x="57" y="164" text-anchor="middle" font-size="12" class="t-out t-mono">−100</text>
+        <rect x="100" y="66" width="34" height="24" class="c-in"/><text x="117" y="60" text-anchor="middle" font-size="12" class="t-in t-mono">+40</text>
+        <rect x="160" y="66" width="34" height="24" class="c-in"/><text x="177" y="60" text-anchor="middle" font-size="12" class="t-in t-mono">+40</text>
+        <rect x="220" y="66" width="34" height="24" class="c-in"/><text x="237" y="60" text-anchor="middle" font-size="12" class="t-in t-mono">+40</text>
+        <text x="57" y="178" text-anchor="middle" font-size="11" class="t-mut">t0</text><text x="117" y="178" text-anchor="middle" font-size="11" class="t-mut">t1</text><text x="177" y="178" text-anchor="middle" font-size="11" class="t-mut">t2</text><text x="237" y="178" text-anchor="middle" font-size="11" class="t-mut">t3</text>
+      </svg>
+      <figcaption class="cap">Startet mit Auszahlung. Danach kommen Rückflüsse aus dem Umsatz.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Finanzwirtschaftliche Ziele</h3>
+  <div class="cards">
+    <div class="card"><span class="k">Muss-Bedingung</span><h4>Liquidität</h4><p>Jederzeit zahlen können. Zahlungsunfähigkeit ist Insolvenzgrund (§ 17 InsO).</p></div>
+    <div class="card"><span class="k">Ziel</span><h4>Rentabilität</h4><p>Möglichst viel Gewinn pro eingesetztem Kapital.</p></div>
+    <div class="card"><span class="k">Ziel</span><h4>Sicherheit</h4><p>Risiko gering halten: genug EK als Puffer, passende Fristen.</p></div>
+    <div class="card"><span class="k">Ziel</span><h4>Unabhängigkeit</h4><p>Keine Mitsprache von Banken oder neuen Gesellschaftern.</p></div>
+  </div>
+  <p>Klassischer <strong>Zielkonflikt</strong>: Geld auf dem Girokonto ist maximal liquide, bringt aber praktisch keine Rendite. Geld in Maschinen bringt Rendite, ist aber gebunden. Finanzierung heißt, diese Ziele auszubalancieren.</p>
+
+  <h3>Systematik: die 2×2-Matrix</h3>
+  <div class="matrix" role="table" aria-label="Finanzierungsarten nach Herkunft und Rechtsstellung">
+    <div class="mx-h mx-corner"></div>
+    <div class="mx-h">Eigenkapital</div>
+    <div class="mx-h">Fremdkapital</div>
+    <div class="mx-row">Außen&shy;finanzierung</div>
+    <div class="mx-c ek"><strong>Einlagen- &amp; Beteiligungs&shy;finanzierung</strong><span>Eigentümer bringen Geld ein (Kap. 2.1)</span></div>
+    <div class="mx-c fk"><strong>Kredit&shy;finanzierung</strong><span>Bank, Lieferant, Anleihegläubiger (Kap. 2.2)</span></div>
+    <div class="mx-row">Innen&shy;finanzierung</div>
+    <div class="mx-c ek"><strong>Selbst&shy;finanzierung</strong><span>Gewinn wird einbehalten (Kap. 3.3)</span></div>
+    <div class="mx-c fk"><strong>Finanzierung aus Rückstellungen</strong><span>z. B. Pensionsrückstellungen (Kap. 3.3)</span></div>
+    <div class="mx-row">Ohne klare Zuordnung</div>
+    <div class="mx-wide">Innen: <strong>Abschreibungen</strong> und <strong>Vermögensumschichtung</strong> (Kap. 3.3). Außen: <strong>Finanzierungssurrogate</strong> wie Leasing und Factoring ersetzen einen Kredit (Kap. 2.3). Dazwischen: <strong>Mezzanine</strong> (Genussrechte, stille Beteiligung, Nachrangdarlehen) als Mischform aus EK und FK.</div>
+  </div>
+
+  <h3>Eigenkapital vs. Fremdkapital</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Kriterium</th><th>Eigenkapital</th><th>Fremdkapital</th></tr></thead>
+    <tbody>
+      <tr><td>Rechtsstellung</td><td>Eigentümer / Gesellschafter</td><td>Gläubiger</td></tr>
+      <tr><td>Haftung</td><td>haftet (mindestens mit der Einlage)</td><td>haftet nicht</td></tr>
+      <tr><td>Vergütung</td><td>Gewinnanteil, variabel, auch Verlust</td><td>fester Zins, erfolgsunabhängig</td></tr>
+      <tr><td>Mitsprache</td><td>ja (Geschäftsführung, Stimmrecht)</td><td>grundsätzlich nein</td></tr>
+      <tr><td>Anspruch bei Insolvenz</td><td>Restbetrag, nachrangig</td><td>Rückzahlung, vorrangig</td></tr>
+      <tr><td>Laufzeit</td><td>unbefristet</td><td>befristet</td></tr>
+      <tr><td>Steuer</td><td>Ausschüttung aus versteuertem Gewinn</td><td>Zinsen sind Betriebsausgabe (Grenzen: Zinsschranke, gewerbesteuerliche Hinzurechnung)</td></tr>
+      <tr><td>Liquiditätsbelastung</td><td>keine festen Zahlungen</td><td>Zins und Tilgung fix</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box example"><span class="lbl">Praxisbeispiel</span>
+    <p>Rad &amp; Co. braucht <strong>200.000 €</strong> für eine neue Montagelinie. Sechs Wege, wie das Geld zusammenkommen kann, und wo sie in der Matrix landen:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Weg</th><th>Einordnung</th></tr></thead>
+      <tbody>
+        <tr><td>Die Gesellschafter zahlen 200.000 € ein</td><td><span class="tag ek">Außen · EK</span> Beteiligungsfinanzierung</td></tr>
+        <tr><td>Bankdarlehen über 200.000 €</td><td><span class="tag fk">Außen · FK</span> Kreditfinanzierung</td></tr>
+        <tr><td>Der Jahresgewinn wird nicht ausgeschüttet</td><td><span class="tag innen">Innen · EK</span> Selbstfinanzierung</td></tr>
+        <tr><td>Pensionsrückstellungen, Auszahlung erst in 20 Jahren</td><td><span class="tag innen">Innen · FK</span> Rückstellungsfinanzierung</td></tr>
+        <tr><td>Die Montagelinie wird geleast statt gekauft</td><td><span class="tag neutral">Surrogat</span> ersetzt den Kredit</td></tr>
+        <tr><td>Die alte Lagerhalle wird verkauft</td><td><span class="tag innen">Innen</span> Vermögensumschichtung</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Rückstellungen sind <strong>Fremdkapital</strong>, die Finanzierung daraus ist trotzdem <strong>Innenfinanzierung</strong>. Das Geld kommt aus dem Umsatz, nicht von einem Gläubiger.</li>
+      <li>Finanzierung ≠ Investition: Der Bankkredit ist Finanzierung (Passiva), die Maschine, die du damit kaufst, ist Investition (Aktiva).</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k1" data-sec="k1"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 2.1 BETEILIGUNG ============ -->
+<section class="chapter" id="k21" aria-labelledby="k21-h">
+  <div class="ch-head"><span class="ch-sub">Außenfinanzierung</span><span class="ch-num">2.1</span><h2 id="k21-h">Einlagen- und Beteiligungsfinanzierung</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Eigentümer bringen von außen <strong>Eigenkapital</strong> ein. Bei Einzelunternehmen und Personengesellschaften heißt das <strong>Einlagenfinanzierung</strong>, bei Kapitalgesellschaften (GmbH, AG) <strong>Beteiligungsfinanzierung</strong>. Die AG kann über die Börse sehr viele Anleger erreichen, deshalb dreht sich die Klausur meist um die <strong>Kapitalerhöhung</strong> und das <strong>Bezugsrecht</strong>.</p>
+  </div>
+
+  <h3>Wer kommt wie an Eigenkapital?</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Rechtsform</th><th>Mindestkapital</th><th>Haftung</th><th>Weg zu neuem EK</th></tr></thead>
+    <tbody>
+      <tr><td>Einzelunternehmen</td><td>keins</td><td>unbeschränkt, privat</td><td>Inhaber legt ein</td></tr>
+      <tr><td>OHG / KG</td><td>keins</td><td>OHG-Gesellschafter und Komplementär unbeschränkt, Kommanditist bis zur Einlage</td><td>Einlagen erhöhen, neue Gesellschafter aufnehmen</td></tr>
+      <tr><td>GmbH</td><td>25.000 € Stammkapital (§ 5 GmbHG)</td><td>beschränkt auf Gesellschaftsvermögen</td><td>Stammkapital erhöhen, neue Gesellschafter, Venture Capital</td></tr>
+      <tr><td>AG</td><td>50.000 € Grundkapital (§ 7 AktG)</td><td>beschränkt auf Gesellschaftsvermögen</td><td>neue Aktien ausgeben, Börse</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Nicht emissionsfähige</strong> Unternehmen (alles außer AG/KGaA) haben ein Problem: Ihre Anteile sind schwer handelbar, der Kreis möglicher Geldgeber ist klein. Lösungen sind Venture Capital und Private Equity (Beteiligungsgesellschaften steigen auf Zeit ein), Business Angels oder stille Gesellschafter. <strong>Emissionsfähige</strong> Unternehmen (AG, KGaA) verbriefen Anteile als Aktien und können sie an der Börse platzieren.</p>
+
+  <h3>Aktien in 30 Sekunden</h3>
+  <div class="cards">
+    <div class="card"><span class="k">§ 8 AktG</span><h4>Nennbetrags- vs. Stückaktie</h4><p>Nennbetrag mind. 1 € oder Stückaktie ohne Nennbetrag (gleicher Anteil am Grundkapital).</p></div>
+    <div class="card"><span class="k">§ 10 AktG</span><h4>Inhaber- vs. Namensaktie</h4><p>Namensaktie: Aktionär steht im Aktienregister.</p></div>
+    <div class="card"><span class="k">§§ 12, 139 AktG</span><h4>Stamm- vs. Vorzugsaktie</h4><p>Vorzugsaktie: Dividendenvorzug, dafür meist ohne Stimmrecht.</p></div>
+  </div>
+
+  <h3>Vier Formen der Kapitalerhöhung bei der AG</h3>
+  <div class="cards">
+    <div class="card"><span class="k">§§ 182 ff. AktG</span><h4>Ordentliche Kapitalerhöhung</h4><p>Hauptversammlung beschließt mit ¾-Mehrheit, neue Aktien gegen Einlagen. Frisches Geld. Altaktionäre haben ein Bezugsrecht (§ 186).</p></div>
+    <div class="card"><span class="k">§§ 192 ff. AktG</span><h4>Bedingte Kapitalerhöhung</h4><p>Nur für bestimmte Zwecke: Umtausch aus Wandelanleihen, Fusionen, Aktienoptionen für Mitarbeiter und Management. Grenzen: insgesamt 60 %, für Wandelanleihen 50 %, für Mitarbeiteroptionen 20 % des Grundkapitals.</p></div>
+    <div class="card"><span class="k">§§ 202 ff. AktG</span><h4>Genehmigtes Kapital</h4><p>Satzung ermächtigt den Vorstand, das Grundkapital innerhalb von max. 5 Jahren um max. 50 % zu erhöhen. Vorteil: schnell zuschlagen, wenn die Börse gut läuft.</p></div>
+    <div class="card"><span class="k">§§ 207 ff. AktG</span><h4>Aus Gesellschaftsmitteln</h4><p>Rücklagen werden in Grundkapital umgewandelt, Aktionäre bekommen Gratisaktien. <strong>Kein neues Geld</strong>, reiner Passivtausch.</p></div>
+  </div>
+
+  <h3>Das Bezugsrecht</h3>
+  <p>Neue Aktien werden fast immer <strong>unter</strong> dem Börsenkurs ausgegeben, damit sie sicher verkauft werden. Dadurch fällt der Kurs auf einen Mischkurs. Das Bezugsrecht gleicht diesen Verlust für Altaktionäre aus. Es schützt doppelt: vor <strong>Vermögensverwässerung</strong> (Kursverlust) und vor <strong>Stimmrechtsverwässerung</strong> (Anteil sinkt). Ausschließen kann die Hauptversammlung es nur mit ¾-Mehrheit (§ 186 Abs. 3 AktG).</p>
+
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Bezugsverhältnis</div>
+      <div class="fx-eq"><var>BV</var> = <span class="f"><span><var>a</var></span><span><var>n</var></span></span> = <span class="f"><span>altes Grundkapital</span><span>Erhöhungsbetrag</span></span></div>
+      <div class="fx-leg">a = Anzahl alter Aktien, n = Anzahl neuer Aktien. Immer <strong>alt : neu</strong>.</div></div>
+    <div class="fx"><div class="fx-name">Mischkurs</div>
+      <div class="fx-eq"><var>K</var><sub>m</sub> = <span class="f"><span><var>a</var> · <var>K</var><sub>a</sub> + <var>n</var> · <var>K</var><sub>n</sub></span><span><var>a</var> + <var>n</var></span></span></div>
+      <div class="fx-leg">K<sub>a</sub> Börsenkurs alt, K<sub>n</sub> Ausgabekurs neu. Gewichteter Durchschnitt.</div></div>
+    <div class="fx"><div class="fx-name">Rechnerischer Wert des Bezugsrechts</div>
+      <div class="fx-eq"><var>B</var> = <span class="f"><span><var>K</var><sub>a</sub> − <var>K</var><sub>n</sub></span><span><span class="f"><span><var>a</var></span><span><var>n</var></span></span> + 1</span></span> = <var>K</var><sub>a</sub> − <var>K</var><sub>m</sub></div>
+      <div class="fx-leg">Das „+ 1“ nicht vergessen.</div></div>
+    <div class="fx"><div class="fx-name">Bezugsrecht mit Dividendennachteil</div>
+      <div class="fx-eq"><var>B</var> = <span class="f"><span><var>K</var><sub>a</sub> − (<var>K</var><sub>n</sub> + <var>DN</var>)</span><span><span class="f"><span><var>a</var></span><span><var>n</var></span></span> + 1</span></span></div>
+      <div class="fx-leg">DN = Dividende, die junge Aktien im ersten Jahr weniger bekommen. Sie sind dadurch weniger wert.</div></div>
+  </div>
+
+  <div class="calc" id="brCalc">
+    <span class="lbl">Rechner · Bezugsrecht</span>
+    <div class="fields">
+      <label for="brKa"><span>Kurs alt K<sub>a</sub> (€)</span><input type="number" id="brKa" value="120" step="0.01"></label>
+      <label for="brKn"><span>Ausgabekurs K<sub>n</sub> (€)</span><input type="number" id="brKn" value="90" step="0.01"></label>
+      <label for="brA">alt (a)<input type="number" id="brA" value="4" min="1" step="1"></label>
+      <label for="brN">neu (n)<input type="number" id="brN" value="1" min="1" step="1"></label>
+      <label for="brD">Dividendennachteil (€)<input type="number" id="brD" value="0" step="0.01"></label>
+    </div>
+    <div class="out-row">
+      <div class="kpi"><span>Bezugsverhältnis</span><b id="brBV">4 : 1</b></div>
+      <div class="kpi"><span>Mischkurs K<sub>m</sub></span><b id="brKm">114,00 €</b></div>
+      <div class="kpi good"><span>Bezugsrecht B</span><b id="brB">6,00 €</b></div>
+    </div>
+    <svg id="brLine" viewBox="0 0 360 84" role="img" aria-label="Zahlenstrahl: Ausgabekurs, Mischkurs, alter Kurs"></svg><p class="cap">Grüne Strecke = Kursverlust der Altaktie = Bezugsrecht.</p>
+  </div>
+
+  <div class="box example"><span class="lbl">Praxisbeispiel · Kapitalerhöhung der Rad &amp; Co. AG</span>
+    <p>Rad &amp; Co. ist inzwischen eine AG mit <strong>4 Mio. € Grundkapital</strong> (4 Mio. Stückaktien, rechnerisch 1 € je Aktie). Kurs: <strong>120 €</strong>. Für ein neues Werk werden <strong>1 Mio. neue Aktien zu 90 €</strong> ausgegeben.</p>
+    <ol class="steps">
+      <li><span>Bezugsverhältnis: 4 Mio. : 1 Mio. = <strong>4 : 1</strong>. Für 4 alte Aktien darf man 1 neue kaufen.</span></li>
+      <li><span>Mischkurs: (4 · 120 + 1 · 90) / 5 = <strong>114 €</strong>.</span></li>
+      <li><span>Bezugsrecht: (120 − 90) / (4 + 1) = <strong>6 €</strong>. Probe: 120 − 114 = 6 ✓</span></li>
+      <li><span>Emissionserlös: 1 Mio. · 90 € = 90 Mio. €. In der Bilanz: Grundkapital +1 Mio. €, <strong>Kapitalrücklage +89 Mio. €</strong> (Agio, § 272 Abs. 2 Nr. 1 HGB).</span></li>
+    </ol>
+    <p>Aktionärin Lea hat <strong>100 Aktien</strong>, vorher wert 100 · 120 = <strong>12.000 €</strong>. Sie hat drei Möglichkeiten:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Option</th><th>Was sie tut</th><th class="r">Depot danach</th><th class="r">Cash</th><th class="r">Vermögen</th></tr></thead>
+      <tbody>
+        <tr><td>A · Ausüben</td><td>100 Bezugsrechte → 25 neue Aktien für 2.250 €</td><td class="r">125 · 114 = 14.250</td><td class="r">−2.250</td><td class="r">12.000 + Einzahlung</td></tr>
+        <tr><td>B · Verkaufen</td><td>100 Bezugsrechte à 6 € verkaufen</td><td class="r">100 · 114 = 11.400</td><td class="r">+600</td><td class="r">12.000</td></tr>
+        <tr><td>C · Opération blanche</td><td>20 Bezugsrechte ausüben (5 neue Aktien = 450 €), 80 verkaufen (480 €)</td><td class="r">105 · 114 = 11.970</td><td class="r">+30</td><td class="r">12.000</td></tr>
+      </tbody>
+    </table></div>
+    <p>Egal was Lea macht, ihr Vermögen bleibt gleich. Genau dafür ist das Bezugsrecht da. Die Opération blanche (Kauf neuer Aktien ohne eigenes Geld) rechnest du so: neue Aktien = x · B / K<sub>m</sub> = 100 · 6 / 114 = 5,26 → abgerundet <strong>5</strong>.</p>
+  </div>
+
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Bezugsverhältnis immer <strong>alt : neu</strong>. Steht in der Aufgabe „Erhöhung um 1 Mio. bei 4 Mio. Grundkapital“, ist BV = 4 : 1, nicht 5 : 1.</li>
+      <li>Im Nenner steht <strong>BV + 1</strong>, nicht BV.</li>
+      <li>Kapitalerhöhung aus Gesellschaftsmitteln bringt <strong>kein Geld</strong>. Nur Rücklagen werden zu Grundkapital.</li>
+      <li>Das Agio (Ausgabekurs minus Nennwert) gehört in die Kapitalrücklage, nicht ins Grundkapital.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k21" data-sec="k21"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 2.2 KREDIT ============ -->
+<section class="chapter" id="k22" aria-labelledby="k22-h">
+  <div class="ch-head"><span class="ch-sub">Außenfinanzierung</span><span class="ch-num">2.2</span><h2 id="k22-h">Kreditfinanzierung</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Fremde (Bank, Lieferant, Anleihekäufer) überlassen Geld <strong>auf Zeit</strong>. Dafür gibt es <strong>Zins und Tilgung</strong>, aber keine Mitsprache. Für die Klausur zählen drei Rechnungen: <strong>Skonto</strong> (Lieferantenkredit), <strong>Tilgungspläne</strong> und <strong>Effektivzins</strong>. Dazu kommen die Kreditsicherheiten.</p>
+  </div>
+
+  <h3>Kurzfristige Kredite</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Kreditart</th><th>Wer gibt?</th><th>Kern</th><th>Kosten / Sicherheit</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Lieferantenkredit</strong></td><td>Lieferant</td><td>Zahlungsziel statt Sofortzahlung</td><td>Entgangener Skonto, sehr teuer. Sicherung über Eigentumsvorbehalt</td></tr>
+      <tr><td><strong>Kundenanzahlung</strong></td><td>Kunde</td><td>Kunde zahlt vor Lieferung (z. B. Anlagenbau)</td><td>meist zinslos, oft gegen Anzahlungsbürgschaft</td></tr>
+      <tr><td><strong>Kontokorrentkredit</strong></td><td>Bank</td><td>Kreditlinie auf dem Geschäftskonto, flexibel</td><td>Zinsen nur auf genutzten Betrag; Überziehung teuer</td></tr>
+      <tr><td><strong>Lombardkredit</strong></td><td>Bank</td><td>kurzfristiges Darlehen gegen Pfand (Wertpapiere, Waren)</td><td>Pfandrecht, beliehen wird nur ein Teil des Werts</td></tr>
+      <tr><td><strong>Diskontkredit</strong></td><td>Bank</td><td>Bank kauft einen Wechsel vor Fälligkeit</td><td>Diskont als Zinsabzug; heute kaum noch üblich</td></tr>
+      <tr><td><strong>Akzept- / Avalkredit</strong></td><td>Bank</td><td>Kreditleihe: Die Bank leiht ihren guten Namen (Wechselakzept bzw. Bürgschaft/Garantie), kein Geld</td><td>Provision statt Zins</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Skonto: der teuerste Kredit, den du nicht bemerkst</h3>
+  <figure class="fig fig-scroll" style="margin:0">
+    <svg viewBox="0 0 620 150" style="min-width:520px" role="img" aria-label="Zeitstrahl: Rechnungstag, Skontofrist nach 10 Tagen, Zahlungsziel nach 30 Tagen">
+      <line x1="40" y1="80" x2="590" y2="80" class="s-ink" stroke-width="2"/>
+      <line x1="40" y1="72" x2="40" y2="88" class="s-ink" stroke-width="2"/>
+      <line x1="220" y1="66" x2="220" y2="94" class="s-in" stroke-width="3"/>
+      <line x1="580" y1="66" x2="580" y2="94" class="s-out" stroke-width="3"/>
+      <text x="40" y="112" text-anchor="middle" font-size="13" class="t-mut">Tag 0</text>
+      <text x="40" y="128" text-anchor="middle" font-size="12" class="t-mut">Rechnung</text>
+      <text x="220" y="112" text-anchor="middle" font-size="13" class="t-in" font-weight="600">Tag 10</text>
+      <text x="220" y="128" text-anchor="middle" font-size="12" class="t-in">zahle 98 %</text>
+      <text x="580" y="112" text-anchor="middle" font-size="13" class="t-out" font-weight="600">Tag 30</text>
+      <text x="580" y="128" text-anchor="middle" font-size="12" class="t-out">zahle 100 %</text>
+      <path d="M222 56 Q222 44 234 44 L388 44 Q400 44 400 32 Q400 44 412 44 L566 44 Q578 44 578 56" class="s-warn" stroke-width="2"/>
+      <text x="400" y="22" text-anchor="middle" font-size="13" font-weight="600">20 Tage Kredit kosten 2 % → ≈ 36 % p. a.</text>
+    </svg>
+    <figcaption class="cap">Konditionen „2 % Skonto bei Zahlung in 10 Tagen, netto 30 Tage“. Wer erst am Tag 30 zahlt, „leiht“ sich 20 Tage lang Geld vom Lieferanten und zahlt dafür 2 %.</figcaption>
+  </figure>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Skonto-Effektivzins (Näherung)</div>
+      <div class="fx-eq"><var>i</var> ≈ <span class="f"><span>Skontosatz · 360</span><span>Zahlungsziel − Skontofrist</span></span></div>
+      <div class="fx-leg">2 · 360 / (30 − 10) = 36 %</div></div>
+    <div class="fx"><div class="fx-name">Skonto-Effektivzins (genau)</div>
+      <div class="fx-eq"><var>i</var> = <span class="f"><span><var>s</var></span><span>100 − <var>s</var></span></span> · <span class="f"><span>360</span><span><var>Z</var> − <var>SF</var></span></span> · 100</div>
+      <div class="fx-leg">2/98 · 360/20 · 100 = 36,73 %. Manche Skripte rechnen mit 365 Tagen.</div></div>
+  </div>
+  <div class="calc" id="skCalc">
+    <span class="lbl">Rechner · Skonto ziehen oder nicht?</span>
+    <div class="fields">
+      <label for="skS">Skonto (%)<input type="number" id="skS" value="2" step="0.1"></label>
+      <label for="skSF">Skontofrist (Tage)<input type="number" id="skSF" value="10" step="1"></label>
+      <label for="skZ">Zahlungsziel (Tage)<input type="number" id="skZ" value="30" step="1"></label>
+      <label for="skKK">Kontokorrentzins (%)<input type="number" id="skKK" value="10" step="0.1"></label>
+    </div>
+    <div class="out-row">
+      <div class="kpi"><span>Näherung</span><b id="skA">36,00 %</b></div>
+      <div class="kpi"><span>genau</span><b id="skE">36,73 %</b></div>
+    </div>
+    <p class="verdict" id="skV"></p>
+  </div>
+  <div class="box example"><span class="lbl">Praxisbeispiel</span>
+    <p>Rad &amp; Co. bekommt eine Rechnung über <strong>50.000 €</strong> für Akkus, Konditionen 2/10, netto 30. Auf dem Konto ist gerade kein Geld, der Kontokorrentkredit kostet 10 % p. a.</p>
+    <ol class="steps">
+      <li><span>Skonto: 2 % von 50.000 € = <strong>1.000 €</strong>. Zu zahlen am Tag 10: 49.000 €.</span></li>
+      <li><span>Kontokorrent für 20 Tage: 49.000 · 0,10 · 20/360 = <strong>272,22 €</strong> Zinsen.</span></li>
+      <li><span>Ersparnis: 1.000 − 272,22 = <strong>727,78 €</strong>. Also Skonto ziehen, auch mit Dispo.</span></li>
+    </ol>
+    <p>Merksatz: Skonto ziehen, solange der Kreditzins unter dem Skonto-Effektivzins liegt. Das ist praktisch immer der Fall.</p>
+  </div>
+
+  <h3>Langfristige Kredite: Darlehen und Tilgung</h3>
+  <p>Beim Darlehen entscheidet die Tilgungsform, wie die Belastung über die Jahre verteilt ist. Zinsen werden immer auf die <strong>Restschuld</strong> zu Jahresbeginn gerechnet.</p>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Ratentilgung</div>
+      <div class="fx-eq"><var>T</var> = <span class="f"><span><var>K</var></span><span><var>n</var></span></span> &nbsp;·&nbsp; <var>Z</var><sub>t</sub> = <var>RS</var><sub>t−1</sub> · <var>i</var></div>
+      <div class="fx-leg">Tilgung konstant, Zinsen sinken, Gesamtbelastung sinkt.</div></div>
+    <div class="fx"><div class="fx-name">Annuität</div>
+      <div class="fx-eq"><var>A</var> = <var>K</var> · <span class="f"><span><var>q</var><sup>n</sup> · (<var>q</var> − 1)</span><span><var>q</var><sup>n</sup> − 1</span></span>, &nbsp;<var>q</var> = 1 + <var>i</var></div>
+      <div class="fx-leg">Rate konstant. Zinsanteil sinkt, Tilgungsanteil steigt. Der Bruch heißt Annuitätenfaktor (Kapitalwiedergewinnungsfaktor).</div></div>
+    <div class="fx"><div class="fx-name">Endfällig (Festdarlehen)</div>
+      <div class="fx-eq"><var>Z</var><sub>t</sub> = <var>K</var> · <var>i</var>, &nbsp;Tilgung komplett im Jahr <var>n</var></div>
+      <div class="fx-leg">Niedrige laufende Belastung, aber höchste Zinssumme.</div></div>
+  </div>
+
+  <div class="calc" id="tpCalc">
+    <span class="lbl">Rechner · Tilgungsplan</span>
+    <div class="fields">
+      <label for="tpK">Darlehen (€)<input type="number" id="tpK" value="100000" step="1000" min="0"></label>
+      <label for="tpI">Zins (% p. a.)<input type="number" id="tpI" value="5" step="0.1" min="0"></label>
+      <label for="tpN">Laufzeit (Jahre)<input type="number" id="tpN" value="5" step="1" min="1" max="30"></label>
+    </div>
+    <div class="seg" role="group" aria-label="Tilgungsform">
+      <button type="button" data-tp="rate" aria-pressed="false">Ratentilgung</button>
+      <button type="button" data-tp="ann" aria-pressed="true">Annuität</button>
+      <button type="button" data-tp="end" aria-pressed="false">Endfällig</button>
+    </div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Tilgung</span><span><i style="background:var(--out)"></i>Zinsen</span></div>
+    <div class="chart-scroll"><svg id="tpChart" viewBox="0 0 640 260" role="img" aria-label="Tilgungsplan als gestapeltes Balkendiagramm"></svg></div>
+    <p class="cap">Alle drei Formen nutzen dieselbe Skala, damit du sie direkt vergleichen kannst. Schalt mal auf „Endfällig“.</p>
+    <div class="tw"><table id="tpTable"></table></div>
+    <div class="out-row" id="tpSums"></div>
+  </div>
+
+  <h3>Effektivzins: Was kostet der Kredit wirklich?</h3>
+  <p>Banken zahlen Darlehen manchmal nicht zu 100 % aus. Der Abschlag heißt <strong>Disagio</strong> (Damnum). Du zahlst Zinsen auf 100 %, bekommst aber weniger, also ist der Effektivzins höher als der Nominalzins.</p>
+  <div class="fx-grid">
+    <div class="fx big"><div class="fx-name">Effektivzins (Näherung, endfällig)</div>
+      <div class="fx-eq"><var>i</var><sub>eff</sub> ≈ <span class="f"><span><var>p</var><sub>nom</sub> + <span class="f"><span>Disagio</span><span>Laufzeit</span></span></span><span>Auszahlungskurs</span></span> · 100</div>
+      <div class="fx-leg">Alles in Prozentpunkten bzw. %. Gleiche Logik für Anleiherenditen: Kurs statt Auszahlungskurs, Rückzahlungsgewinn statt Disagio.</div></div>
+    <div class="fx big"><div class="fx-name">Zerobond-Kurs</div>
+      <div class="fx-eq"><var>C</var><sub>0</sub> = <span class="f"><span>Rückzahlungsbetrag</span><span>(1 + <var>i</var>)<sup>n</sup></span></span></div>
+      <div class="fx-leg">Keine laufenden Zinsen. Der Zins steckt im Abschlag beim Kauf.</div></div>
+  </div>
+  <div class="box example"><span class="lbl">Praxisbeispiel</span>
+    <ol class="steps">
+      <li><span>Rad &amp; Co. nimmt 100.000 € auf, Auszahlung 96 % (Disagio 4 %), Nominalzins 5 %, 5 Jahre, endfällig.</span></li>
+      <li><span>Näherung: (5 + 4/5) / 96 · 100 = 5,8 / 0,96 = <strong>6,04 %</strong>.</span></li>
+      <li><span>Genau (interner Zinsfuß von −96, +5, +5, +5, +5, +105): <strong>5,95 %</strong>. Die Näherung liegt leicht drüber, für die Klausur reicht sie meist.</span></li>
+      <li><span>Zerobond: Rückzahlung 100 € in 5 Jahren, Marktzins 4 % → Kurs heute 100 / 1,04<sup>5</sup> = <strong>82,19 €</strong>.</span></li>
+    </ol>
+  </div>
+
+  <h3>Anleihen und Sonderformen</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Form</th><th>Kern</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Anleihe (Industrieobligation)</strong></td><td>Großer Kredit, in viele Teilschuldverschreibungen gestückelt und an der Börse handelbar; fester Kupon.</td></tr>
+      <tr><td><strong>Schuldscheindarlehen</strong></td><td>Großdarlehen von Versicherungen oder Banken, nicht börsennotiert. Der Schuldschein ist nur Beweisurkunde.</td></tr>
+      <tr><td><strong>Zerobond</strong></td><td>Keine laufenden Zinsen, Ausgabe mit Abschlag, Rückzahlung zum Nennwert.</td></tr>
+      <tr><td><strong>Wandelanleihe</strong></td><td>Gläubiger darf die Anleihe in Aktien tauschen; die Anleihe erlischt dann. Grundlage: bedingte Kapitalerhöhung.</td></tr>
+      <tr><td><strong>Optionsanleihe</strong></td><td>Anleihe bleibt bestehen, dazu gibt es einen Optionsschein zum Aktienkauf.</td></tr>
+      <tr><td><strong>Gewinnschuldverschreibung</strong></td><td>Verzinsung ganz oder teilweise vom Gewinn abhängig.</td></tr>
+      <tr><td><strong>Genussschein (Mezzanine)</strong></td><td>Mischform: gewinnabhängige Vergütung, oft nachrangig, Verlustbeteiligung möglich.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Kreditsicherheiten</h3>
+  <p><strong>Akzessorisch</strong> heißt: Die Sicherheit hängt an der Forderung. Ist die Forderung weg, ist die Sicherheit weg. <strong>Fiduziarisch</strong> (abstrakt) heißt: Die Sicherheit besteht unabhängig davon, und eine Sicherungsabrede regelt die Verwendung.</p>
+  <div class="two">
+    <div class="box"><span class="lbl">Personalsicherheiten · eine Person haftet</span>
+      <ul class="clean">
+        <li><strong>Bürgschaft</strong> (§ 765 BGB), <span class="tag ek">akzessorisch</span>. Selbstschuldnerisch heißt ohne Einrede der Vorausklage (§§ 771, 773 BGB): Die Bank kann sofort den Bürgen in Anspruch nehmen. Unter Kaufleuten Standard (§ 349 HGB).</li>
+        <li><strong>Garantie</strong>, <span class="tag neutral">nicht akzessorisch</span>, gesetzlich nicht geregelt. Garant haftet unabhängig von der Hauptschuld.</li>
+      </ul>
+    </div>
+    <div class="box"><span class="lbl">Realsicherheiten · eine Sache oder Forderung haftet</span>
+      <ul class="clean">
+        <li><strong>Eigentumsvorbehalt</strong> (§ 449 BGB): Ware gehört dem Lieferanten, bis sie bezahlt ist.</li>
+        <li><strong>Sicherungsübereignung</strong> (§§ 929, 930 BGB): Bank wird Eigentümer, Firma behält die Maschine und nutzt sie weiter.</li>
+        <li><strong>Pfandrecht</strong> (§ 1204 BGB), <span class="tag ek">akzessorisch</span>: Gläubiger bekommt die Sache in Besitz.</li>
+        <li><strong>Sicherungsabtretung / Zession</strong> (§ 398 BGB): Forderungen gegen Kunden werden abgetreten, still oder offen, einzeln oder als Globalzession.</li>
+        <li><strong>Hypothek</strong> (§ 1113 BGB), <span class="tag ek">akzessorisch</span>, und <strong>Grundschuld</strong> (§ 1191 BGB), <span class="tag neutral">nicht akzessorisch</span>. In der Praxis ist die Grundschuld Standard, weil sie für neue Kredite wiederverwendet werden kann.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Bei der Annuität ist die <strong>Rate</strong> konstant, nicht die Tilgung. Die Zinssumme liegt zwischen Ratentilgung und endfälligem Darlehen (im Beispiel: 15.000 € &lt; 15.487 € &lt; 25.000 €).</li>
+      <li>Zinsen immer auf die Restschuld zu <strong>Jahresbeginn</strong>.</li>
+      <li>Hypothek akzessorisch, Grundschuld nicht. Das wird gern abgefragt.</li>
+      <li>Skonto-Formel: Im Nenner steht die <strong>Differenz</strong> Zahlungsziel − Skontofrist, nicht das Zahlungsziel.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k22" data-sec="k22"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 2.3 SURROGATE ============ -->
+<section class="chapter" id="k23" aria-labelledby="k23-h">
+  <div class="ch-head"><span class="ch-sub">Außenfinanzierung</span><span class="ch-num">2.3</span><h2 id="k23-h">Finanzierungssurrogate</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Surrogat heißt Ersatz. Diese Instrumente <strong>ersetzen einen klassischen Kredit</strong>: Beim <strong>Leasing</strong> nutzt du eine Maschine, statt sie mit Kredit zu kaufen. Beim <strong>Factoring</strong> verkaufst du Forderungen gegen Kunden und bekommst das Geld sofort, statt auf die Zahlung zu warten.</p>
+  </div>
+
+  <h3>Leasing</h3>
+  <figure class="fig fig-scroll" style="margin:0">
+    <svg viewBox="0 0 560 300" role="img" aria-label="Leasing-Dreieck aus Hersteller, Leasinggeber und Leasingnehmer">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah-ink"/></marker></defs>
+      <rect x="195" y="16" width="170" height="46" rx="8" class="c-accs"/><text x="280" y="44" text-anchor="middle" font-size="15" font-weight="600">Hersteller</text>
+      <rect x="16" y="214" width="174" height="46" rx="8" class="c-accs"/><text x="103" y="242" text-anchor="middle" font-size="15" font-weight="600">Leasinggeber</text>
+      <rect x="370" y="214" width="174" height="46" rx="8" class="c-accs"/><text x="457" y="242" text-anchor="middle" font-size="15" font-weight="600">Leasingnehmer</text>
+      <line x1="110" y1="210" x2="225" y2="66" class="s-mut" stroke-width="1.6" marker-end="url(#ah)"/>
+      <text x="150" y="126" text-anchor="end" font-size="13">kauft &amp; bezahlt</text>
+      <line x1="335" y1="66" x2="450" y2="210" class="s-mut" stroke-width="1.6" marker-end="url(#ah)"/>
+      <text x="410" y="126" font-size="13">liefert Objekt</text>
+      <line x1="366" y1="228" x2="194" y2="228" class="s-out" stroke-width="1.8" marker-end="url(#ah)"/>
+      <text x="280" y="220" text-anchor="middle" font-size="13" class="t-out">Leasingraten</text>
+      <line x1="194" y1="248" x2="366" y2="248" class="s-in" stroke-width="1.8" marker-end="url(#ah)"/>
+      <text x="280" y="270" text-anchor="middle" font-size="13" class="t-in">Nutzungsrecht</text>
+    </svg>
+    <figcaption class="cap">Indirektes Leasing über eine Leasinggesellschaft. Beim direkten Leasing ist der Hersteller selbst der Leasinggeber.</figcaption>
+  </figure>
+  <div class="tw"><table>
+    <thead><tr><th>Kriterium</th><th>Operating-Leasing</th><th>Finanzierungsleasing</th></tr></thead>
+    <tbody>
+      <tr><td>Vertragsdauer</td><td>kurz, jederzeit kündbar</td><td>feste, unkündbare Grundmietzeit</td></tr>
+      <tr><td>Investitionsrisiko</td><td>beim Leasinggeber</td><td>beim Leasingnehmer</td></tr>
+      <tr><td>Amortisation</td><td>Teilamortisation, über mehrere Nutzer</td><td>Voll- oder Teilamortisation durch einen Nutzer</td></tr>
+      <tr><td>Typisch</td><td>IT, Kopierer, Mietwagen</td><td>Maschinen, Anlagen, Immobilien</td></tr>
+    </tbody>
+  </table></div>
+  <p>Weitere Begriffe: <strong>Vollamortisation</strong> (Raten decken Anschaffungskosten plus Kosten plus Gewinn des Leasinggebers komplett), <strong>Teilamortisation</strong> (Restwert über Verkauf oder Andienungsrecht), <strong>Sale-and-lease-back</strong> (eigenes Objekt verkaufen und zurückleasen, bringt sofort Liquidität).</p>
+
+  <h3>Wer bilanziert das Leasingobjekt?</h3>
+  <p>Steuerlich entscheidet beim Vollamortisationsleasing beweglicher Güter das Verhältnis <strong>Grundmietzeit / betriebsgewöhnliche Nutzungsdauer</strong> (Leasingerlass, EStH Anhang 21). Vereinfacht, ohne Kauf- oder Verlängerungsoption:</p>
+  <div class="calc" id="lsCalc">
+    <span class="lbl">Rechner · Zurechnung</span>
+    <div class="fields">
+      <label for="lsND">Nutzungsdauer (Jahre)<input type="number" id="lsND" value="5" step="0.5" min="0.5"></label>
+      <label for="lsGMZ">Grundmietzeit (Jahre)<input type="number" id="lsGMZ" value="4" step="0.5" min="0"></label>
+    </div>
+    <div class="chart-scroll"><svg id="lsBar" viewBox="0 0 600 84" style="min-width:440px" role="img" aria-label="Zurechnungszonen: unter 40 Prozent Leasingnehmer, 40 bis 90 Prozent Leasinggeber, über 90 Prozent Leasingnehmer"></svg></div>
+    <p class="verdict" id="lsV"></p>
+  </div>
+  <p class="small muted">International ist das anders: Nach IFRS 16 (seit 2019) bilanziert der Leasingnehmer grundsätzlich ein Nutzungsrecht und eine Leasingverbindlichkeit.</p>
+  <div class="two">
+    <div class="box"><span class="lbl" style="color:var(--in)">Vorteile</span>
+      <ul class="clean"><li>Kein Eigenkapital gebunden, Liquidität geschont</li><li>Raten planbar und als Aufwand absetzbar (wenn der Leasinggeber bilanziert)</li><li>Bilanz bleibt kurz, EK-Quote sinkt nicht</li><li>Einfacher Tausch bei technischem Fortschritt</li></ul></div>
+    <div class="box"><span class="lbl" style="color:var(--out)">Nachteile</span>
+      <ul class="clean"><li>Meist teurer als Kreditkauf (Marge des Leasinggebers)</li><li>Kein Eigentum, kein Restwert</li><li>Feste Raten auch bei schlechter Auslastung</li><li>Grundmietzeit unkündbar</li></ul></div>
+  </div>
+  <div class="box example"><span class="lbl">Praxisbeispiel</span>
+    <p>Rad &amp; Co. least eine Lackieranlage (Wert 100.000 €, Nutzungsdauer 5 Jahre) mit einer Grundmietzeit von 4 Jahren. 4 / 5 = <strong>80 %</strong>, liegt zwischen 40 % und 90 %, also bilanziert der <strong>Leasinggeber</strong>. Rad &amp; Co. bucht nur die Raten als Aufwand, die Bilanz bleibt bei 1.000.000 € und die EK-Quote bei 35 %. Mit einem Bankkredit wären es 1.100.000 € Bilanzsumme und nur noch 31,8 % EK-Quote.</p>
+  </div>
+
+  <h3>Factoring</h3>
+  <figure class="fig fig-scroll" style="margin:0">
+    <svg viewBox="0 0 600 300" style="min-width:520px" role="img" aria-label="Factoring-Ablauf zwischen Rad und Co, Kunde und Factor in fünf Schritten">
+      <rect x="16" y="126" width="156" height="48" rx="8" class="c-accs"/><text x="94" y="155" text-anchor="middle" font-size="15" font-weight="600">Rad &amp; Co.</text>
+      <rect x="428" y="20" width="156" height="48" rx="8" class="c-bg"/><text x="506" y="49" text-anchor="middle" font-size="15" font-weight="600">Kunde</text>
+      <rect x="428" y="232" width="156" height="48" rx="8" class="c-ins"/><text x="506" y="261" text-anchor="middle" font-size="15" font-weight="600">Factor</text>
+      <line x1="172" y1="138" x2="424" y2="54" class="s-mut" stroke-width="1.6" marker-end="url(#ah)"/>
+      <text x="300" y="82" text-anchor="middle" font-size="13">① Lieferung + Rechnung (Ziel 60 Tage)</text>
+      <line x1="172" y1="166" x2="424" y2="240" class="s-mut" stroke-width="1.6" marker-end="url(#ah)"/>
+      <text x="290" y="186" text-anchor="middle" font-size="13">② verkauft Forderung</text>
+      <line x1="424" y1="262" x2="172" y2="186" class="s-in" stroke-width="1.8" marker-end="url(#ah)"/>
+      <text x="290" y="250" text-anchor="middle" font-size="13" class="t-in">③ 80 % sofort · ⑤ Rest − Gebühren</text>
+      <line x1="506" y1="72" x2="506" y2="228" class="s-mut" stroke-width="1.6" marker-end="url(#ah)"/>
+      <text x="496" y="154" text-anchor="end" font-size="13">④ Kunde zahlt an Factor</text>
+    </svg>
+  </figure>
+  <div class="cards">
+    <div class="card"><span class="k">Funktion 1</span><h4>Finanzierung</h4><p>Factor zahlt sofort meist 80–90 % der Forderung aus. Rest als Sperrbetrag bis zur Zahlung.</p></div>
+    <div class="card"><span class="k">Funktion 2</span><h4>Delkredere</h4><p>Factor übernimmt das Ausfallrisiko. Nur dann ist es <strong>echtes</strong> Factoring.</p></div>
+    <div class="card"><span class="k">Funktion 3</span><h4>Dienstleistung</h4><p>Debitorenbuchhaltung, Mahnwesen, Inkasso.</p></div>
+  </div>
+  <p><strong>Echt vs. unecht:</strong> Beim unechten Factoring bleibt das Ausfallrisiko beim Unternehmen, wirtschaftlich ist das eher ein Kredit. <strong>Offen vs. still:</strong> Beim offenen Factoring weiß der Kunde Bescheid und zahlt direkt an den Factor, beim stillen merkt er nichts. Bilanziell ist echtes Factoring ein <strong>Aktivtausch</strong> (Forderung → Bank). Tilgt Rad &amp; Co. mit dem Geld Schulden, sinkt die Bilanzsumme und die EK-Quote steigt.</p>
+  <div class="box example"><span class="lbl">Praxisbeispiel · Was kostet Factoring?</span>
+    <p>Rad &amp; Co. verkauft Forderungen über <strong>100.000 €</strong> (Ziel 60 Tage). Bevorschussung 80 %, Factoringgebühr 1,5 %, Delkrederegebühr 0,5 %, Zins 9 % p. a. auf den Vorschuss.</p>
+    <ol class="steps">
+      <li><span>Sofort: 80 % = <strong>80.000 €</strong>. Sperrbetrag 20.000 € bis zur Zahlung des Kunden.</span></li>
+      <li><span>Gebühren: (1,5 % + 0,5 %) · 100.000 = <strong>2.000 €</strong>.</span></li>
+      <li><span>Zinsen: 80.000 · 0,09 · 60/360 = <strong>1.200 €</strong>.</span></li>
+      <li><span>Gesamtkosten <strong>3.200 €</strong>, also rund 3.200 / 80.000 · 360/60 ≈ 24 % p. a. auf das vorgezogene Geld. Das lohnt sich nur, wenn du Ausfallschutz und Buchhaltung wirklich brauchst oder damit z. B. Skonto ziehen kannst.</span></li>
+    </ol>
+  </div>
+  <p><strong>Weitere Surrogate:</strong> <strong>Forfaitierung</strong> ist der regresslose Verkauf einzelner, meist mittel- bis langfristiger Exportforderungen. Bei <strong>Asset Backed Securities</strong> (ABS) wird ein Pool von Forderungen an eine Zweckgesellschaft verkauft, die ihn über Wertpapiere am Kapitalmarkt refinanziert. Manche Lehrbücher zählen Factoring auch zur Innenfinanzierung durch Vermögensumschichtung. Schau, wie dein Skript es einordnet.</p>
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Leasing-Zurechnung: unter 40 % <strong>oder</strong> über 90 % → Leasingnehmer. Nur dazwischen Leasinggeber.</li>
+      <li>Echtes Factoring = Factor trägt das Ausfallrisiko (Delkredere). Offen/still hat damit nichts zu tun.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k23" data-sec="k23"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 3.1 GRUNDLAGEN INNEN ============ -->
+<section class="chapter" id="k31" aria-labelledby="k31-h">
+  <div class="ch-head"><span class="ch-sub">Innenfinanzierung</span><span class="ch-num">3.1</span><h2 id="k31-h">Grundlagen</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Bei der Innenfinanzierung kommt das Geld aus dem <strong>Umsatzprozess</strong>. Kunden zahlen Umsatzerlöse ein. Ein Teil davon fließt sofort wieder ab (Material, Löhne, Zinsen, Steuern). Der Rest <strong>bleibt im Unternehmen</strong>, weil einige Aufwendungen kein Geld kosten (Abschreibungen, Rückstellungen) oder weil der Gewinn nicht ausgeschüttet wird.</p>
+  </div>
+  <h3>Wohin fließen 900.000 € Umsatz?</h3>
+  <div class="fig">
+    <span class="lbl">Rad &amp; Co. · ein Geschäftsjahr</span>
+    <div class="hbar" role="img" aria-label="775.000 Euro fließen ab, 125.000 Euro sind Cashflow">
+      <div style="flex:775;background:var(--out-soft);color:var(--out)">fließt ab: 775.000</div>
+      <div style="flex:125;background:var(--in);color:var(--surface)">125k</div>
+    </div>
+    <p class="cap">Von 900.000 € Umsatz bleiben 125.000 € als <strong>Cashflow</strong> übrig. Hier vergrößert:</p>
+    <div class="hbar" role="img" aria-label="Cashflow 125.000 aufgeteilt in Abschreibungen 50.000, Rückstellungen 15.000, Thesaurierung 40.000, Ausschüttung 20.000">
+      <div style="flex:50;background:var(--accent);color:var(--accent-ink)">50k</div>
+      <div style="flex:15;background:var(--fk);color:var(--surface)">15k</div>
+      <div style="flex:40;background:var(--in);color:var(--surface)">40k</div>
+      <div style="flex:20;background:var(--out-soft);color:var(--out)">20k</div>
+    </div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Abschreibungen 50.000</span><span><i style="background:var(--fk)"></i>Zuführung Pensionsrückstellungen 15.000</span><span><i style="background:var(--in)"></i>einbehaltener Gewinn 40.000</span><span><i style="background:var(--out-soft);outline:1px solid var(--out)"></i>Ausschüttung 20.000</span></div>
+    <p class="cap">105.000 € bleiben im Unternehmen (Innenfinanzierungsvolumen), 20.000 € gehen als Dividende an die Gesellschafter.</p>
+  </div>
+  <h3>Voraussetzungen</h3>
+  <ul class="clean">
+    <li>Die Umsatzerlöse müssen <strong>tatsächlich eingehen</strong>. Eine offene Forderung finanziert nichts.</li>
+    <li>Die Preise müssen die Aufwendungen inklusive Abschreibungen decken, die AfA muss also „verdient“ werden.</li>
+    <li>Nicht zahlungswirksame Aufwendungen (AfA, Zuführung zu Rückstellungen) mindern Gewinn und Steuern, ohne dass Geld abfließt.</li>
+  </ul>
+  <div class="two">
+    <div class="box"><span class="lbl" style="color:var(--in)">Vorteile</span><ul class="clean"><li>Keine Zinsen, keine Tilgung</li><li>Keine neuen Mitspracherechte</li><li>Keine Sicherheiten, keine Kreditwürdigkeitsprüfung</li></ul></div>
+    <div class="box"><span class="lbl" style="color:var(--out)">Nachteile</span><ul class="clean"><li>Volumen begrenzt, hängt am Erfolg</li><li>Keine Kontrolle durch den Kapitalmarkt, Gefahr von Fehlinvestitionen</li><li>Gesellschafter bekommen weniger Ausschüttung</li></ul></div>
+  </div>
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <p>Abschreibungen <strong>erzeugen kein Geld</strong>. Sie halten Geld im Unternehmen, das vorher über die Umsatzerlöse hereingekommen ist. Ohne Umsatz keine Innenfinanzierung.</p>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k31" data-sec="k31"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 3.2 CASHFLOW ============ -->
+<section class="chapter" id="k32" aria-labelledby="k32-h">
+  <div class="ch-head"><span class="ch-sub">Innenfinanzierung</span><span class="ch-num">3.2</span><h2 id="k32-h">Cashflow</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Der Cashflow ist der <strong>Zahlungsüberschuss aus der laufenden Geschäftstätigkeit</strong>. Er zeigt, wie viel Geld das Unternehmen aus eigener Kraft erwirtschaftet hat, also das Innenfinanzierungspotenzial für Investitionen, Tilgung und Ausschüttung. Zwei Rechenwege, ein Ergebnis.</p>
+  </div>
+  <div class="fx-grid">
+    <div class="fx big"><div class="fx-name">Direkte Methode</div>
+      <div class="fx-eq"><var>CF</var> = zahlungswirksame Erträge − zahlungswirksame Aufwendungen</div>
+      <div class="fx-leg">Im Prinzip: Einzahlungen − Auszahlungen aus dem laufenden Geschäft.</div></div>
+    <div class="fx big"><div class="fx-name">Indirekte Methode (Praktikerformel)</div>
+      <div class="fx-eq"><var>CF</var> = Jahresüberschuss + Abschreibungen − Zuschreibungen + Δ langfristige Rückstellungen</div>
+      <div class="fx-leg">Vom Gewinn ausgehend alle nicht zahlungswirksamen Posten zurückrechnen. Erhöhung der Rückstellungen +, Verminderung −.</div></div>
+  </div>
+  <div class="box example"><span class="lbl">Praxisbeispiel · GuV der Rad &amp; Co.</span>
+    <div class="tw"><table>
+      <thead><tr><th>Posten</th><th class="r">€</th><th>Geld fließt?</th></tr></thead>
+      <tbody>
+        <tr><td>Umsatzerlöse</td><td class="r">900.000</td><td><span class="tag innen">ja, Einzahlung</span></td></tr>
+        <tr><td>Materialaufwand</td><td class="r">−400.000</td><td><span class="tag fk">ja</span></td></tr>
+        <tr><td>Löhne und Gehälter</td><td class="r">−250.000</td><td><span class="tag fk">ja</span></td></tr>
+        <tr><td>Zuführung Pensionsrückstellungen</td><td class="r">−15.000</td><td><span class="tag neutral">nein</span></td></tr>
+        <tr><td>Abschreibungen</td><td class="r">−50.000</td><td><span class="tag neutral">nein</span></td></tr>
+        <tr><td>Zinsaufwand</td><td class="r">−20.000</td><td><span class="tag fk">ja</span></td></tr>
+        <tr><td>Sonstige betriebliche Aufwendungen</td><td class="r">−80.000</td><td><span class="tag fk">ja</span></td></tr>
+        <tr><td>Steuern</td><td class="r">−25.000</td><td><span class="tag fk">ja</span></td></tr>
+        <tr class="sum"><td>Jahresüberschuss</td><td class="r">60.000</td><td></td></tr>
+      </tbody>
+    </table></div>
+    <ol class="steps">
+      <li><span><strong>Direkt:</strong> 900.000 − (400.000 + 250.000 + 20.000 + 80.000 + 25.000) = 900.000 − 775.000 = <strong>125.000 €</strong></span></li>
+      <li><span><strong>Indirekt:</strong> 60.000 + 50.000 + 15.000 = <strong>125.000 €</strong> ✓</span></li>
+    </ol>
+  </div>
+  <figure class="fig fig-scroll" style="margin:0">
+    <svg viewBox="0 0 520 270" role="img" aria-label="Wasserfall: Jahresüberschuss 60.000 plus Abschreibungen 50.000 plus Rückstellungen 15.000 gleich Cashflow 125.000">
+      <line x1="20" y1="220" x2="500" y2="220" class="s-ink"/>
+      <rect x="40" y="136" width="80" height="84" class="c-acc"/>
+      <text x="80" y="128" text-anchor="middle" font-size="13" class="t-mono">60.000</text>
+      <line x1="120" y1="136" x2="150" y2="136" class="s-mut dash"/>
+      <rect x="150" y="66" width="80" height="70" class="c-in"/>
+      <text x="190" y="58" text-anchor="middle" font-size="13" class="t-mono">+50.000</text>
+      <line x1="230" y1="66" x2="260" y2="66" class="s-mut dash"/>
+      <rect x="260" y="45" width="80" height="21" class="c-in"/>
+      <text x="300" y="37" text-anchor="middle" font-size="13" class="t-mono">+15.000</text>
+      <line x1="340" y1="45" x2="370" y2="45" class="s-mut dash"/>
+      <rect x="370" y="45" width="80" height="175" class="c-ins"/>
+      <rect x="370" y="45" width="80" height="175" class="s-in" stroke-width="2"/>
+      <text x="410" y="37" text-anchor="middle" font-size="13" font-weight="600" class="t-mono t-in">125.000</text>
+      <text x="80" y="240" text-anchor="middle" font-size="12" class="t-mut">Jahres-</text><text x="80" y="255" text-anchor="middle" font-size="12" class="t-mut">überschuss</text>
+      <text x="190" y="240" text-anchor="middle" font-size="12" class="t-mut">+ Abschrei-</text><text x="190" y="255" text-anchor="middle" font-size="12" class="t-mut">bungen</text>
+      <text x="300" y="240" text-anchor="middle" font-size="12" class="t-mut">+ Δ Pensions-</text><text x="300" y="255" text-anchor="middle" font-size="12" class="t-mut">rückstellungen</text>
+      <text x="410" y="240" text-anchor="middle" font-size="12" font-weight="600">= Cashflow</text>
+    </svg>
+  </figure>
+  <h3>Was man mit dem Cashflow anfängt</h3>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Dynamischer Verschuldungsgrad</div>
+      <div class="fx-eq"><span class="f"><span>Fremdkapital − liquide Mittel</span><span>Cashflow</span></span> = Jahre</div>
+      <div class="fx-leg">Rad &amp; Co.: (650.000 − 80.000) / 125.000 = <strong>4,56 Jahre</strong> bis zur theoretischen Schuldenfreiheit.</div></div>
+    <div class="fx"><div class="fx-name">Innenfinanzierungsgrad</div>
+      <div class="fx-eq"><span class="f"><span>Cashflow</span><span>Investitionen</span></span> · 100</div>
+      <div class="fx-leg">Investiert Rad &amp; Co. 100.000 €, liegt der Grad bei 125 %. Die Investition ist voll selbst finanziert.</div></div>
+  </div>
+  <p class="small muted">Im Konzernabschluss heißt die ausführliche Version Kapitalflussrechnung (DRS 21) mit drei Teilen: Cashflow aus laufender Geschäftstätigkeit, aus Investitionstätigkeit und aus Finanzierungstätigkeit. Welche Cashflow-Definition dein Prof nutzt, steht im Skript. Die Praktikerformel oben ist die häufigste in Einführungsvorlesungen.</p>
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Zuschreibungen <strong>abziehen</strong>. Sie erhöhen den Gewinn, bringen aber kein Geld.</li>
+      <li>Eine <strong>Verminderung</strong> der Rückstellungen wird abgezogen (dann fließt Geld ab, z. B. Rentenzahlung).</li>
+      <li>Cashflow ≠ Gewinn. Ein Unternehmen kann Gewinn machen und trotzdem pleitegehen, wenn das Geld nicht eingeht.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k32" data-sec="k32"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 3.3 FORMEN ============ -->
+<section class="chapter" id="k33" aria-labelledby="k33-h">
+  <div class="ch-head"><span class="ch-sub">Innenfinanzierung</span><span class="ch-num">3.3</span><h2 id="k33-h">Formen der Innenfinanzierung</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Vier Quellen: <strong>Selbstfinanzierung</strong> (Gewinn einbehalten), <strong>Finanzierung aus Abschreibungen</strong>, <strong>Finanzierung aus Rückstellungen</strong> und <strong>Vermögensumschichtung</strong> (Vermögen zu Geld machen). Das große Rechenthema hier ist der Lohmann-Ruchti-Effekt.</p>
+  </div>
+
+  <h3>A · Selbstfinanzierung</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Offene Selbstfinanzierung</th><th>Stille Selbstfinanzierung</th></tr></thead>
+    <tbody>
+      <tr><td>Wie?</td><td>Gewinn wird ausgewiesen und nicht ausgeschüttet → Gewinnrücklagen</td><td>Gewinn wird gar nicht erst ausgewiesen: stille Reserven durch Unterbewertung von Aktiva oder Überbewertung von Passiva</td></tr>
+      <tr><td>Sichtbar?</td><td>ja, in der Bilanz</td><td>nein</td></tr>
+      <tr><td>Steuer</td><td>Gewinn wird vorher versteuert</td><td>Steuerstundung: versteuert erst, wenn die Reserve aufgelöst wird</td></tr>
+      <tr><td>Beispiel</td><td>40.000 € des Jahresüberschusses in die Gewinnrücklagen</td><td>Grundstück steht mit 100.000 € Anschaffungskosten in der Bilanz (Obergrenze nach § 253 HGB), Marktwert 300.000 € → 200.000 € stille Reserve</td></tr>
+    </tbody>
+  </table></div>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Nötiger Gewinn vor Steuern</div>
+      <div class="fx-eq"><var>G</var><sub>brutto</sub> = <span class="f"><span>gewünschte Thesaurierung</span><span>1 − <var>s</var></span></span></div>
+      <div class="fx-leg">Rad &amp; Co. will 70.000 € einbehalten, Steuersatz 30 % → 70.000 / 0,7 = <strong>100.000 €</strong> Gewinn vor Steuern nötig.</div></div>
+  </div>
+
+  <h3>B · Finanzierung aus Abschreibungen</h3>
+  <p>Abschreibungen sind Aufwand ohne Auszahlung. Über die Verkaufspreise fließen die <strong>Abschreibungsgegenwerte</strong> als Geld zurück. Bis die Maschine ersetzt werden muss, ist das Geld frei. Das ist der <strong>Kapitalfreisetzungseffekt</strong>. Investiert man das Geld sofort in neue gleichartige Maschinen, wächst der Maschinenpark, ohne dass neues Kapital von außen kommt. Das ist der <strong>Kapazitätserweiterungseffekt</strong> (Lohmann-Ruchti-Effekt).</p>
+  <div class="fx-grid">
+    <div class="fx big"><div class="fx-name">Kapazitätserweiterungsfaktor</div>
+      <div class="fx-eq"><var>KEF</var> = <span class="f"><span>2<var>n</var></span><span><var>n</var> + 1</span></span></div>
+      <div class="fx-leg">n = Nutzungsdauer. Bei n = 5: 10/6 = 1,67. Aus 10 Maschinen werden langfristig ca. 16–17. Gilt bei linearer AfA und beliebiger Teilbarkeit.</div></div>
+  </div>
+  <div class="calc" id="lrCalc">
+    <span class="lbl">Rechner · Lohmann-Ruchti-Tabelle</span>
+    <div class="fields">
+      <label for="lrN0">Maschinen am Start<input type="number" id="lrN0" value="10" min="1" max="50" step="1"></label>
+      <label for="lrND">Nutzungsdauer (Jahre)<input type="number" id="lrND" value="5" min="2" max="10" step="1"></label>
+      <label for="lrP">Preis je Maschine (€)<input type="number" id="lrP" value="10000" min="100" step="100"></label>
+    </div>
+    <div class="out-row">
+      <div class="kpi"><span>KEF = 2n/(n+1)</span><b id="lrKEF">1,67</b></div>
+      <div class="kpi good"><span>theoretisch max.</span><b id="lrMax">16,7</b></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Maschinenbestand zu Jahresbeginn</span><span><i style="background:var(--warn)"></i>Grenze laut KEF</span></div>
+    <div class="chart-scroll"><svg id="lrChart" viewBox="0 0 640 240" role="img" aria-label="Maschinenbestand pro Jahr"></svg></div>
+    <div class="tw"><table id="lrTable"></table></div>
+    <p class="cap">Annahme: Abschreibungen werden am Jahresende in ganzen Maschinen reinvestiert, Restbeträge werden ins nächste Jahr vorgetragen. Maschinen scheiden nach n Jahren aus.</p>
+  </div>
+  <p><strong>Wichtig:</strong> Die <strong>Periodenkapazität</strong> (Maschinen, die gleichzeitig laufen) steigt. Die <strong>Gesamtkapazität</strong> (Summe aller noch möglichen Nutzungsjahre) bleibt gleich, weil die Maschinen im Schnitt nur halb so lange Restlaufzeit haben.</p>
+  <div class="box"><span class="lbl">Prämissen und Kritik</span>
+    <ul class="clean">
+      <li>Abschreibungen müssen über die Preise verdient werden und als Geld eingehen.</li>
+      <li>Konstante Wiederbeschaffungspreise, kein technischer Fortschritt.</li>
+      <li>Beliebige Teilbarkeit der Anlagen (in der Realität nur ganze Maschinen).</li>
+      <li>Die zusätzliche Produktion muss auch verkauft werden können.</li>
+      <li>Zusätzliches Personal, Material und Umlaufvermögen müssen extra finanziert werden.</li>
+    </ul>
+  </div>
+
+  <h3>C · Finanzierung aus Rückstellungen</h3>
+  <p>Rückstellungen sind Aufwand für Verpflichtungen, die erst später zu Auszahlungen führen. Bis dahin bleibt das Geld im Unternehmen. Am stärksten wirkt das bei <strong>Pensionsrückstellungen</strong>, weil zwischen Zusage und Rentenzahlung Jahrzehnte liegen. Der Effekt hält an, solange die Zuführungen größer sind als die Auszahlungen.</p>
+  <div class="box example"><span class="lbl">Praxisbeispiel</span>
+    <p>Rad &amp; Co. führt den Pensionsrückstellungen jährlich <strong>15.000 €</strong> zu. Ohne Rückstellung wären die 15.000 € Gewinn: 30 % Steuern (4.500 €) würden abfließen, den Rest könnten die Gesellschafter ausschütten. Mit Rückstellung bleiben die vollen 15.000 € im Unternehmen, bis die Renten in vielen Jahren gezahlt werden.</p>
+  </div>
+
+  <h3>D · Vermögensumschichtung</h3>
+  <p>Gebundenes Vermögen wird zu Geld gemacht: nicht betriebsnotwendige Grundstücke verkaufen, <strong>Sale-and-lease-back</strong>, Vorräte abbauen, Forderungen schneller eintreiben. Beispiel: Rad &amp; Co. macht 5.000 € Umsatz pro Tag. Verkürzt sie das Kundenziel von 30 auf 20 Tage, sinkt der Forderungsbestand um 10 · 5.000 = <strong>50.000 €</strong>, die als Liquidität frei werden.</p>
+
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Stille Reserven bedeuten <strong>Steuerstundung</strong>, keine Steuerersparnis.</li>
+      <li>Beim Lohmann-Ruchti-Effekt steigt die Periodenkapazität, nicht die Gesamtkapazität.</li>
+      <li>KEF ist ein theoretischer Grenzwert. In der Tabelle mit ganzen Maschinen kommt meist eine Zahl knapp darunter raus.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k33" data-sec="k33"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 4.1 KAPITALBEDARF ============ -->
+<section class="chapter" id="k41" aria-labelledby="k41-h">
+  <div class="ch-head"><span class="ch-sub">Finanzplanung</span><span class="ch-num">4.1</span><h2 id="k41-h">Kapitalbedarf und Liquidität</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p>Erst ausrechnen, <strong>wie viel Geld wie lange gebunden ist</strong> (Kapitalbedarf). Dann sicherstellen, dass du <strong>jederzeit zahlen kannst</strong> (Liquidität). Rückblickend misst du das mit Liquiditätsgraden, vorausschauend planst du es mit dem Finanzplan.</p>
+  </div>
+
+  <h3>Kapitalbedarf im Anlagevermögen</h3>
+  <p>Einfach: Anschaffungskosten der Anlagen inklusive Nebenkosten (Transport, Montage) plus Gründungs- und Ingangsetzungskosten.</p>
+
+  <h3>Kapitalbedarf im Umlaufvermögen</h3>
+  <p>Jede Ausgabe ist vom Tag der Zahlung bis zu dem Tag gebunden, an dem der Kunde bezahlt. Die Kapitalbindungsdauer unterscheidet sich je nach Ausgabenart.</p>
+  <div class="fx-grid">
+    <div class="fx big"><div class="fx-name">Kapitalbedarf Umlaufvermögen</div>
+      <div class="fx-eq"><var>KB</var><sub>UV</sub> = Σ (durchschnittliche tägliche Ausgaben · Kapitalbindungsdauer)</div>
+      <div class="fx-leg">Für jede Ausgabenart einzeln rechnen, dann addieren.</div></div>
+    <div class="fx big"><div class="fx-name">Bindungsdauer Material</div>
+      <div class="fx-eq">Lager Rohstoffe + Produktion + Lager Fertigerzeugnisse + Kundenziel − Lieferantenziel</div>
+      <div class="fx-leg">Das Lieferantenziel verkürzt nur die Bindung beim Material.</div></div>
+  </div>
+  <figure class="fig fig-scroll" style="margin:0">
+    <svg viewBox="0 0 700 262" style="min-width:600px" role="img" aria-label="Zeitstrahl der Kapitalbindung über 65 Tage für Material, Löhne und Gemeinkosten">
+      <rect x="150" y="14" width="120" height="30" class="c-accs"/><text x="210" y="34" text-anchor="middle" font-size="12">Rohstofflager 15</text>
+      <rect x="270" y="14" width="80" height="30" class="c-warns"/><text x="310" y="34" text-anchor="middle" font-size="12">Produktion 10</text>
+      <rect x="350" y="14" width="80" height="30" class="c-ins"/><text x="390" y="34" text-anchor="middle" font-size="12">Fertiglager 10</text>
+      <rect x="430" y="14" width="240" height="30" class="c-outs"/><text x="550" y="34" text-anchor="middle" font-size="12">Kundenziel 30</text>
+      <text x="140" y="34" text-anchor="end" font-size="12" class="t-mut">Prozess</text>
+      <rect x="150" y="62" width="160" height="22" class="c-bg"/><rect x="150" y="62" width="160" height="22" class="s-mut dash"/><text x="230" y="78" text-anchor="middle" font-size="12" class="t-mut">Lieferantenziel 20</text>
+      <text x="140" y="78" text-anchor="end" font-size="12" class="t-mut">Zahlungsaufschub</text>
+      <rect x="310" y="100" width="360" height="26" rx="4" class="c-acc"/><text x="490" y="118" text-anchor="middle" font-size="12" font-weight="600" class="t-inv">Material: 45 Tage</text>
+      <text x="140" y="118" text-anchor="end" font-size="12">Material</text>
+      <rect x="270" y="138" width="400" height="26" rx="4" class="c-in"/><text x="470" y="156" text-anchor="middle" font-size="12" font-weight="600" class="t-inv">Löhne: 50 Tage</text>
+      <text x="140" y="156" text-anchor="end" font-size="12">Fertigungslöhne</text>
+      <rect x="150" y="176" width="520" height="26" rx="4" class="c-fk"/><text x="410" y="194" text-anchor="middle" font-size="12" font-weight="600" class="t-inv">Gemeinkosten: 65 Tage</text>
+      <text x="140" y="194" text-anchor="end" font-size="12">Gemeinkosten</text>
+      <line x1="150" y1="222" x2="670" y2="222" class="s-ink"/>
+      <g class="t-mut" font-size="11">
+        <line x1="150" y1="218" x2="150" y2="226" class="s-ink"/><text x="150" y="240" text-anchor="middle" class="t-mut">0</text>
+        <line x1="270" y1="218" x2="270" y2="226" class="s-ink"/><text x="270" y="240" text-anchor="middle" class="t-mut">15</text>
+        <line x1="310" y1="218" x2="310" y2="226" class="s-ink"/><text x="310" y="240" text-anchor="middle" class="t-mut">20</text>
+        <line x1="350" y1="218" x2="350" y2="226" class="s-ink"/><text x="350" y="240" text-anchor="middle" class="t-mut">25</text>
+        <line x1="430" y1="218" x2="430" y2="226" class="s-ink"/><text x="430" y="240" text-anchor="middle" class="t-mut">35</text>
+        <line x1="670" y1="218" x2="670" y2="226" class="s-ink"/><text x="670" y="240" text-anchor="middle" class="t-mut">65</text>
+      </g>
+      <text x="410" y="258" text-anchor="middle" font-size="11" class="t-mut">Tage</text>
+    </svg>
+    <figcaption class="cap">Material wird erst am Tag 20 bezahlt (Lieferantenziel), Löhne ab Produktionsbeginn (Tag 15), Gemeinkosten ab Tag 0. Alles ist gebunden, bis der Kunde am Tag 65 zahlt.</figcaption>
+  </figure>
+  <div class="box example"><span class="lbl">Praxisbeispiel · neue Produktionslinie</span>
+    <div class="tw"><table>
+      <thead><tr><th>Ausgabenart</th><th class="r">€ pro Tag</th><th>Bindungsdauer</th><th class="r">Tage</th><th class="r">Kapitalbedarf</th></tr></thead>
+      <tbody>
+        <tr><td>Material</td><td class="r">2.000</td><td>15 + 10 + 10 + 30 − 20</td><td class="r">45</td><td class="r">90.000</td></tr>
+        <tr><td>Fertigungslöhne</td><td class="r">1.500</td><td>10 + 10 + 30</td><td class="r">50</td><td class="r">75.000</td></tr>
+        <tr><td>Material- und Fertigungsgemeinkosten</td><td class="r">1.000</td><td>15 + 10 + 10 + 30</td><td class="r">65</td><td class="r">65.000</td></tr>
+        <tr><td>Verwaltungs- und Vertriebsgemeinkosten</td><td class="r">500</td><td>15 + 10 + 10 + 30</td><td class="r">65</td><td class="r">32.500</td></tr>
+        <tr class="sum"><td colspan="4">Kapitalbedarf Umlaufvermögen</td><td class="r">262.500</td></tr>
+        <tr><td colspan="4">+ Anlagevermögen (Maschinen 300.000, Einrichtung 50.000)</td><td class="r">350.000</td></tr>
+        <tr class="sum hl"><td colspan="4">Gesamtkapitalbedarf</td><td class="r">612.500</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted">Annahme: Gemeinkosten fallen ab Tag 0 gleichmäßig an und binden über die ganze Prozessdauer. Manche Skripte setzen sie erst ab Produktionsbeginn an. Achte darauf, was deine Aufgabe vorgibt.</p>
+  </div>
+  <p><strong>Was den Kapitalbedarf treibt:</strong> Prozessgeschwindigkeit (kürzere Lager- und Produktionszeiten senken ihn), Zahlungsziele, Beschäftigung, Preisniveau, Betriebsgröße.</p>
+
+  <h3>Liquidität messen: Liquiditätsgrade</h3>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">1. Grades (Barliquidität)</div>
+      <div class="fx-eq"><span class="f"><span>liquide Mittel</span><span>kurzfristige Verbindlichkeiten</span></span> · 100</div>
+      <div class="fx-leg">Rad &amp; Co.: 80.000 / 300.000 = <strong>26,7 %</strong></div></div>
+    <div class="fx"><div class="fx-name">2. Grades (Quick Ratio)</div>
+      <div class="fx-eq"><span class="f"><span>liquide Mittel + kurzfr. Forderungen</span><span>kurzfristige Verbindlichkeiten</span></span> · 100</div>
+      <div class="fx-leg">(80.000 + 140.000) / 300.000 = <strong>73,3 %</strong></div></div>
+    <div class="fx"><div class="fx-name">3. Grades (Current Ratio)</div>
+      <div class="fx-eq"><span class="f"><span>kurzfristiges Umlaufvermögen</span><span>kurzfristige Verbindlichkeiten</span></span> · 100</div>
+      <div class="fx-leg">400.000 / 300.000 = <strong>133,3 %</strong></div></div>
+    <div class="fx"><div class="fx-name">Working Capital</div>
+      <div class="fx-eq">Umlaufvermögen − kurzfristige Verbindlichkeiten</div>
+      <div class="fx-leg">400.000 − 300.000 = <strong>100.000 €</strong>. Positiv heißt: Ein Teil des UV ist langfristig finanziert.</div></div>
+  </div>
+  <p><strong>Faustregeln</strong> (in der Literatur uneinheitlich): 2. Grades mindestens 100 % („One-to-one-Rule“), 3. Grades mindestens 200 % („Two-to-one-Rule“), manche Quellen nennen 120–150 %. Für den 1. Grad gibt es keinen festen Wert. Zu viel Barliquidität kostet Rendite. <strong>Rad &amp; Co. verfehlt beim 2. Grad die 100 %</strong>. Die Forderungen und die Bank reichen nicht, um alle kurzfristigen Schulden zu decken. Ein Grund mehr, Skonto zu ziehen oder über Factoring nachzudenken.</p>
+
+  <h3>Liquidität planen: der Finanzplan</h3>
+  <p>Liquiditätsgrade sind eine <strong>Momentaufnahme der Vergangenheit</strong>. Der Finanzplan schaut nach vorne: Anfangsbestand + Einzahlungen − Auszahlungen = Endbestand. Fällt er unter den Mindestbestand, muss gegengesteuert werden.</p>
+  <div class="box example"><span class="lbl">Praxisbeispiel · Rad &amp; Co., Mindestbestand 20.000 €</span>
+    <div class="tw"><table>
+      <thead><tr><th></th><th class="r">Jan</th><th class="r">Feb</th><th class="r">Mär</th><th class="r">Apr</th></tr></thead>
+      <tbody>
+        <tr><td>Anfangsbestand</td><td class="r">80.000</td><td class="r">60.000</td><td class="r">20.000</td><td class="r">20.000</td></tr>
+        <tr><td>+ Einzahlungen</td><td class="r">150.000</td><td class="r">140.000</td><td class="r">180.000</td><td class="r">190.000</td></tr>
+        <tr><td>− Auszahlungen</td><td class="r">170.000</td><td class="r">210.000</td><td class="r">165.000</td><td class="r">160.000</td></tr>
+        <tr class="sum"><td>= Bestand vor Maßnahmen</td><td class="r">60.000</td><td class="r" style="color:var(--out)">−10.000</td><td class="r">35.000</td><td class="r">50.000</td></tr>
+        <tr><td>Über-/Unterdeckung zum Mindestbestand</td><td class="r">+40.000</td><td class="r" style="color:var(--out)">−30.000</td><td class="r">+15.000</td><td class="r">+30.000</td></tr>
+        <tr><td>Maßnahme Kontokorrent</td><td class="r">–</td><td class="r">+30.000</td><td class="r">−15.000</td><td class="r">−15.000</td></tr>
+        <tr class="sum hl"><td>Endbestand</td><td class="r">60.000</td><td class="r">20.000</td><td class="r">20.000</td><td class="r">35.000</td></tr>
+      </tbody>
+    </table></div>
+    <div class="legend"><span><i style="background:var(--in)"></i>Einzahlungen</span><span><i style="background:var(--out)"></i>Auszahlungen</span><span><i style="background:var(--accent)"></i>Bestand vor Maßnahmen</span><span><i style="background:var(--warn)"></i>Mindestbestand</span></div>
+    <div class="chart-scroll"><svg id="fpChart" viewBox="0 0 640 260" role="img" aria-label="Einzahlungen, Auszahlungen und Bestand von Januar bis April"></svg></div>
+    <p class="small muted">Im Februar steht der Kauf einer Maschine (60.000 €) an. Die Lücke wird mit dem Kontokorrentkredit geschlossen und ab März zurückgeführt. Zinsen dafür sind hier vereinfacht weggelassen.</p>
+  </div>
+  <p><strong>Bei Unterdeckung:</strong> Kreditlinie nutzen, Zahlungen verschieben, Kundenzahlungen beschleunigen (Factoring, Mahnwesen), Lagerbestände abbauen. <strong>Bei Überdeckung:</strong> Kredite tilgen, Skonto ziehen, Geld kurzfristig anlegen.</p>
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>Liquiditätsgrade sind <strong>statisch und vergangenheitsbezogen</strong> (Bilanzstichtag). Fälligkeiten innerhalb des Jahres sieht man nicht.</li>
+      <li>Beim Kapitalbedarf das Lieferantenziel nur beim Material abziehen.</li>
+      <li>Liquidität ist eine Muss-Bedingung, Rentabilität „nur“ ein Ziel.</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k41" data-sec="k41"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ 4.2 KAPITALSTRUKTUR ============ -->
+<section class="chapter" id="k42" aria-labelledby="k42-h">
+  <div class="ch-head"><span class="ch-sub">Finanzplanung</span><span class="ch-num">4.2</span><h2 id="k42-h">Kapitalstruktur und Finanzierungsregeln</h2></div>
+  <div class="box tldr"><span class="lbl">Kurz gesagt</span>
+    <p><strong>Vertikal</strong> (nur Passivseite): Wie viel EK, wie viel FK? <strong>Horizontal</strong> (Aktiva gegen Passiva): Passt die Fristigkeit von Kapital und Vermögen zusammen? Dazu der <strong>Leverage-Effekt</strong>: Mehr Schulden können die EK-Rendite hebeln, nach oben wie nach unten.</p>
+  </div>
+
+  <h3>Vertikale Kennzahlen</h3>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Eigenkapitalquote</div><div class="fx-eq"><span class="f"><span>EK</span><span>Gesamtkapital</span></span> · 100</div><div class="fx-leg">Rad &amp; Co.: 350.000 / 1.000.000 = <strong>35 %</strong></div></div>
+    <div class="fx"><div class="fx-name">Verschuldungsgrad</div><div class="fx-eq"><span class="f"><span>FK</span><span>EK</span></span> · 100</div><div class="fx-leg">650.000 / 350.000 = <strong>185,7 %</strong></div></div>
+  </div>
+  <p><strong>Vertikale Regel:</strong> klassisch EK : FK = 1 : 1, abgeschwächt 1 : 2 oder je nach Branche noch weniger. Rad &amp; Co. liegt bei 1 : 1,86, also im abgeschwächten Bereich.</p>
+
+  <h3>Horizontale Regeln: Fristenkongruenz</h3>
+  <p><strong>Goldene Finanzierungsregel:</strong> Kapital soll mindestens so lange zur Verfügung stehen, wie es im Vermögen gebunden ist. Langfristiges Vermögen also langfristig finanzieren. Die <strong>goldene Bilanzregel</strong> überträgt das auf die Bilanz:</p>
+  <div class="fx-grid">
+    <div class="fx"><div class="fx-name">Deckungsgrad I / A · eng</div><div class="fx-eq"><span class="f"><span>EK</span><span>AV</span></span> · 100 ≥ 100 %</div><div class="fx-leg">350.000 / 600.000 = <strong style="color:var(--out)">58,3 %</strong> ✗</div></div>
+    <div class="fx"><div class="fx-name">Deckungsgrad II / B · weit</div><div class="fx-eq"><span class="f"><span>EK + langfr. FK</span><span>AV</span></span> · 100 ≥ 100 %</div><div class="fx-leg">700.000 / 600.000 = <strong style="color:var(--in)">116,7 %</strong> ✓</div></div>
+    <div class="fx"><div class="fx-name">Deckungsgrad III / C · weiteste</div><div class="fx-eq"><span class="f"><span>EK + langfr. FK</span><span>AV + langfr. gebundenes UV</span></span> · 100 ≥ 100 %</div><div class="fx-leg">700.000 / (600.000 + 60.000) = <strong style="color:var(--in)">106,1 %</strong> ✓. Langfristig gebundenes UV = eiserner Bestand.</div></div>
+  </div>
+  <div class="fig">
+    <span class="lbl">Bilanz Rad &amp; Co. als Säulen</span>
+    <div class="bilanz-bars">
+      <div><div class="bb-h">Aktiva</div>
+        <div class="bb-col">
+          <div style="flex:600;background:var(--accent);color:var(--accent-ink)">Anlagevermögen<b>600.000</b></div>
+          <div style="flex:60;background:var(--warn-soft);color:var(--warn);font-size:.72rem;padding-block:0;line-height:1.1">eiserner Bestand 60.000</div>
+          <div style="flex:340;background:var(--accent-soft);color:var(--accent)">übriges UV<b>340.000</b></div>
+        </div></div>
+      <div><div class="bb-h">Passiva</div>
+        <div class="bb-col">
+          <div style="flex:350;background:var(--in);color:var(--surface)">Eigenkapital<b>350.000</b></div>
+          <div style="flex:350;background:var(--in-soft);color:var(--in)">langfristiges FK<b>350.000</b></div>
+          <div style="flex:300;background:var(--out-soft);color:var(--out)">kurzfristiges FK<b>300.000</b></div>
+        </div></div>
+    </div>
+    <p class="cap">Grün (langfristiges Kapital, 700.000) reicht über das Blau des Anlagevermögens (600.000) hinaus. Deshalb ist Deckungsgrad II erfüllt. Das Eigenkapital allein reicht nicht, Deckungsgrad I ist verletzt.</p>
+  </div>
+  <p class="small muted">Die Namen schwanken: Deckungsgrad A/B/C, Anlagendeckungsgrad I/II/III oder goldene Bilanzregel im engeren/weiteren Sinn. Die Formeln bleiben gleich.</p>
+
+  <h3>Leverage-Effekt</h3>
+  <p>Wenn das Unternehmen mit dem Gesamtkapital mehr verdient (r<sub>GK</sub>), als das Fremdkapital kostet (i), bleibt die Differenz bei den Eigentümern hängen. Je mehr FK pro EK, desto stärker der Hebel. Fällt r<sub>GK</sub> unter i, kehrt sich der Hebel um.</p>
+  <div class="fx-grid">
+    <div class="fx big"><div class="fx-name">Leverage-Formel</div>
+      <div class="fx-eq"><var>r</var><sub>EK</sub> = <var>r</var><sub>GK</sub> + (<var>r</var><sub>GK</sub> − <var>i</var>) · <span class="f"><span>FK</span><span>EK</span></span></div>
+      <div class="fx-leg">FK/EK ist der Verschuldungsgrad als Dezimalzahl.</div></div>
+    <div class="fx big"><div class="fx-name">Rentabilitäten</div>
+      <div class="fx-eq"><var>r</var><sub>GK</sub> = <span class="f"><span>Gewinn + FK-Zinsen</span><span>GK</span></span> &nbsp; <var>r</var><sub>EK</sub> = <span class="f"><span>Gewinn</span><span>EK</span></span></div>
+      <div class="fx-leg">Rad &amp; Co.: r<sub>GK</sub> = (60.000 + 20.000) / 1.000.000 = 8 %, r<sub>EK</sub> = 60.000 / 350.000 = 17,1 %</div></div>
+  </div>
+  <div class="calc" id="lvCalc">
+    <span class="lbl">Rechner · Leverage</span>
+    <div class="fields">
+      <label for="lvR"><span>r<sub>GK</sub>: <b id="lvRv">10 %</b></span><input type="range" id="lvR" min="0" max="20" step="0.5" value="10"></label>
+      <label for="lvI"><span>FK-Zins i: <b id="lvIv">6 %</b></span><input type="range" id="lvI" min="0" max="15" step="0.5" value="6"></label>
+      <label for="lvV"><span>FK/EK: <b id="lvVv">4,0</b></span><input type="range" id="lvV" min="0" max="6" step="0.1" value="4"></label>
+    </div>
+    <div class="out-row">
+      <div class="kpi" id="lvKpi"><span>Eigenkapitalrendite r<sub>EK</sub></span><b id="lvOut">26,0 %</b></div>
+    </div>
+    <div class="chart-scroll"><svg id="lvChart" viewBox="0 0 640 260" role="img" aria-label="Eigenkapitalrendite in Abhängigkeit vom Verschuldungsgrad"></svg></div>
+  </div>
+  <div class="box example"><span class="lbl">Praxisbeispiel · gleiche Firma, andere Struktur</span>
+    <p>Gesamtkapital 1.000.000 €, FK-Zins 6 %, Steuern vereinfacht weggelassen.</p>
+    <div class="tw"><table>
+      <thead><tr><th class="r">EK</th><th class="r">FK</th><th class="r">FK/EK</th><th class="r">r<sub>EK</sub> gutes Jahr<br>(r<sub>GK</sub> 10 %)</th><th class="r">r<sub>EK</sub> schlechtes Jahr<br>(r<sub>GK</sub> 4 %)</th></tr></thead>
+      <tbody>
+        <tr><td class="r">1.000.000</td><td class="r">0</td><td class="r">0</td><td class="r"><b>10 %</b><br><small class="muted">100.000 / 1.000.000</small></td><td class="r"><b>4 %</b><br><small class="muted">40.000 / 1.000.000</small></td></tr>
+        <tr><td class="r">500.000</td><td class="r">500.000</td><td class="r">1</td><td class="r"><b>14 %</b><br><small class="muted">(100.000 − 30.000) / 500.000</small></td><td class="r"><b>2 %</b><br><small class="muted">(40.000 − 30.000) / 500.000</small></td></tr>
+        <tr class="hl"><td class="r">200.000</td><td class="r">800.000</td><td class="r">4</td><td class="r"><b style="color:var(--in)">26 %</b><br><small class="muted">(100.000 − 48.000) / 200.000</small></td><td class="r"><b style="color:var(--out)">−4 %</b><br><small class="muted">(40.000 − 48.000) / 200.000</small></td></tr>
+      </tbody>
+    </table></div>
+    <p>Probe mit der Formel: 10 + (10 − 6) · 4 = 26 % ✓ und 4 + (4 − 6) · 4 = −4 % ✓. Das ist das <strong>Leverage-Risiko</strong>.</p>
+  </div>
+
+  <h3>Kritik an den Finanzierungsregeln</h3>
+  <ul class="clean">
+    <li>Keine theoretische Begründung, warum genau 1 : 1 oder 100 % richtig sein sollen.</li>
+    <li>Statisch: nur der Bilanzstichtag, keine Zahlungsströme und Fälligkeiten.</li>
+    <li>Kredite werden oft verlängert (Prolongation) oder ersetzt (Substitution), Fristigkeit ist also flexibler.</li>
+    <li><strong>Trotzdem praxisrelevant:</strong> Banken und Ratingagenturen schauen auf diese Kennzahlen. Wer sie verletzt, bekommt schlechtere Konditionen.</li>
+  </ul>
+  <div class="box trap"><span class="lbl">Klausurfalle</span>
+    <ul class="clean">
+      <li>In r<sub>GK</sub> gehören die <strong>FK-Zinsen in den Zähler</strong>. Sonst rechnest du doppelt ab.</li>
+      <li>Der Hebel wirkt nur positiv, wenn r<sub>GK</sub> &gt; i. Nicht r<sub>EK</sub> &gt; i.</li>
+      <li>Deckungsgrad III: Der eiserne Bestand kommt in den <strong>Nenner</strong> (zum AV).</li>
+    </ul>
+  </div>
+  <div class="done-row"><label class="done"><input type="checkbox" id="done-k42" data-sec="k42"> Kapitel verstanden</label></div>
+</section>
+
+<!-- ============ FORMEL-KARTEN ============ -->
+<section class="chapter" id="formeln" aria-labelledby="formeln-h">
+  <div class="ch-head"><h2 id="formeln-h">Formel-Karteikarten</h2></div>
+  <p>Alle Formeln zum Auswendiglernen. Erst Namen lesen, Formel im Kopf aufsagen, dann Karte antippen und prüfen. „Mischen“ bringt die Karten in zufällige Reihenfolge.</p>
+  <div class="fc-tools">
+    <div class="seg" role="group" aria-label="Kapitel filtern" id="fcFilter"></div>
+    <button type="button" class="btn ghost" id="fcShuffle">Mischen</button>
+    <button type="button" class="btn ghost" id="fcToggle">Alle aufdecken</button>
+  </div>
+  <div class="fc-grid" id="fcGrid"></div>
+</section>
+
+<!-- ============ TRAINER ============ -->
+<section class="chapter" id="trainer" aria-labelledby="trainer-h">
+  <div class="ch-head"><h2 id="trainer-h">Klausurtrainer</h2></div>
+  <p>22 Aufgaben im Klausurstil. Rechenaufgaben: Ergebnis eintippen (Komma oder Punkt, ohne Einheit). Danach den Lösungsweg aufklappen und mit deinem vergleichen.</p>
+  <div class="fc-tools"><button type="button" class="btn ghost" id="trReset">Alle zurücksetzen</button></div>
+  <div class="flow" id="trList"></div>
+  <div class="score" id="trScore" aria-live="polite">0 / 22 richtig</div>
+</section>
+
+<!-- ============ QUELLEN ============ -->
+<section class="chapter" id="quellen" aria-labelledby="quellen-h">
+  <div class="ch-head"><h2 id="quellen-h">Quellen</h2></div>
+  <p>Gesetzesstellen und Formeln wurden gegen diese Quellen geprüft. Die Beispielfirma und alle Zahlen sind ausgedacht und nachgerechnet.</p>
+  <ul class="clean src">
+    <li>Aktiengesetz: <a href="https://www.gesetze-im-internet.de/aktg/__182.html" target="_blank" rel="noopener">§ 182</a>, <a href="https://www.gesetze-im-internet.de/aktg/__186.html" target="_blank" rel="noopener">§ 186</a>, <a href="https://www.gesetze-im-internet.de/aktg/__192.html" target="_blank" rel="noopener">§ 192</a> (Grenzen 60 % / 50 % / 20 %), <a href="https://www.gesetze-im-internet.de/aktg/__202.html" target="_blank" rel="noopener">§ 202</a> (5 Jahre, max. 50 %), <a href="https://www.gesetze-im-internet.de/aktg/__207.html" target="_blank" rel="noopener">§ 207</a>, <a href="https://www.gesetze-im-internet.de/aktg/__7.html" target="_blank" rel="noopener">§ 7</a></li>
+    <li>GmbHG <a href="https://www.gesetze-im-internet.de/gmbhg/__5.html" target="_blank" rel="noopener">§ 5</a> · HGB <a href="https://www.gesetze-im-internet.de/hgb/__272.html" target="_blank" rel="noopener">§ 272</a>, <a href="https://www.gesetze-im-internet.de/hgb/__253.html" target="_blank" rel="noopener">§ 253</a> · InsO <a href="https://www.gesetze-im-internet.de/inso/__17.html" target="_blank" rel="noopener">§ 17</a></li>
+    <li>BGB: <a href="https://www.gesetze-im-internet.de/bgb/__765.html" target="_blank" rel="noopener">§ 765</a> (Bürgschaft), <a href="https://www.gesetze-im-internet.de/bgb/__449.html" target="_blank" rel="noopener">§ 449</a>, <a href="https://www.gesetze-im-internet.de/bgb/__930.html" target="_blank" rel="noopener">§ 930</a>, <a href="https://www.gesetze-im-internet.de/bgb/__398.html" target="_blank" rel="noopener">§ 398</a>, <a href="https://www.gesetze-im-internet.de/bgb/__1204.html" target="_blank" rel="noopener">§ 1204</a>, <a href="https://www.gesetze-im-internet.de/bgb/__1113.html" target="_blank" rel="noopener">§ 1113</a>, <a href="https://www.gesetze-im-internet.de/bgb/__1191.html" target="_blank" rel="noopener">§ 1191</a></li>
+    <li>Leasingerlass (Zurechnung 40–90 %): <a href="https://esth.bundesfinanzministerium.de/esth/2019/C-Anhaenge/Anhang-21/I/inhalt.html" target="_blank" rel="noopener">EStH 2019, Anhang 21 I</a> (Bundesfinanzministerium)</li>
+    <li>Kapazitätserweiterungsfaktor 2n/(n+1): <a href="https://de.wikipedia.org/wiki/Lohmann-Ruchti-Effekt" target="_blank" rel="noopener">Wikipedia: Lohmann-Ruchti-Effekt</a>, Herleitung: <a href="https://opus4.kobv.de/opus4-hs-koblenz/files/40/Lohmann_Ruchti.pdf" target="_blank" rel="noopener">Hochschule Koblenz (PDF)</a></li>
+    <li>Bezugsrecht: <a href="https://www.gabler-banklexikon.de/definition/bezugsrechtswert-56275" target="_blank" rel="noopener">Gabler Banklexikon, Bezugsrechtswert</a></li>
+    <li>Deckungsgrade: <a href="https://www.controllingportal.de/Fachinfo/Kennzahlen/deckungsgrad1.html" target="_blank" rel="noopener">Controlling-Portal</a> · Skonto-Effektivzins: <a href="https://www.controllingportal.de/Fachinfo/Finanzmathematische-Formeln/Effektivverzinsung-bei-Skonto.html" target="_blank" rel="noopener">Controlling-Portal</a></li>
+    <li>Zum Vertiefen (Standardliteratur): Wöhe/Döring/Brösel, <em>Einführung in die Allgemeine Betriebswirtschaftslehre</em> (Vahlen); Perridon/Steiner/Rathgeber, <em>Finanzwirtschaft der Unternehmung</em> (Vahlen); Olfert, <em>Finanzierung</em> (Kiehl).</li>
+  </ul>
+</section>
+
+<footer>Lernhilfe für die Klausur Investition &amp; Finanzierung. Ersetzt nicht das Skript: Wenn dein Prof eine Formel anders schreibt, gilt seine Version.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+var LS_KEY="finGuide.v1";
+function load(){try{return JSON.parse(localStorage.getItem(LS_KEY)||"{}")||{};}catch(e){return {};}}
+function save(s){try{localStorage.setItem(LS_KEY,JSON.stringify(s));}catch(e){}}
+var state=load(); state.done=state.done||{};
+
+var de=function(x,d){if(d===undefined)d=0;return Number(x).toLocaleString("de-DE",{minimumFractionDigits:d,maximumFractionDigits:d});};
+var eur=function(x,d){return de(x,d===undefined?2:d)+" €";};
+var pct=function(x,d){return de(x,d===undefined?2:d)+" %";};
+var $=function(id){return document.getElementById(id);};
+var F=function(n,d){return '<span class="f"><span>'+n+'</span><span>'+d+'</span></span>';};
+function val(id){var v=parseFloat($(id).value);return isFinite(v)?v:0;}
+function niceStep(raw){var p=Math.pow(10,Math.floor(Math.log10(raw)));var m=raw/p;return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p;}
+function kfmt(v){return Math.abs(v)>=1000?de(v/1000,Math.abs(v)%1000===0?0:1)+"k":de(v,0);}
+
+/* ---------- Fortschritt ---------- */
+var secs=["k1","k21","k22","k23","k31","k32","k33","k41","k42"];
+function renderProgress(){
+  var n=secs.filter(function(s){return state.done[s];}).length;
+  $("progText").textContent=n+" von "+secs.length+" Kapiteln abgehakt";
+  $("progBar").style.width=(n/secs.length*100)+"%";
+  document.querySelectorAll(".toc a[data-sec]").forEach(function(a){a.classList.toggle("done",!!state.done[a.dataset.sec]);});
+}
+document.querySelectorAll(".done input").forEach(function(cb){
+  cb.checked=!!state.done[cb.dataset.sec];
+  cb.addEventListener("change",function(){state.done[cb.dataset.sec]=cb.checked;save(state);renderProgress();});
+});
+renderProgress();
+
+/* ---------- Aktives Kapitel in der Navigation ---------- */
+var toc=$("toc");
+var links={};document.querySelectorAll(".toc a").forEach(function(a){links[a.getAttribute("href").slice(1)]=a;});
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting&&links[en.target.id]){
+        Object.keys(links).forEach(function(k){links[k].classList.remove("active");});
+        var a=links[en.target.id];a.classList.add("active");
+        if(toc.scrollWidth>toc.clientWidth+4){toc.scrollTo({left:Math.max(0,a.offsetLeft-24),behavior:"smooth"});}
+      }
+    });
+  },{rootMargin:"-30% 0px -60% 0px"});
+  Object.keys(links).forEach(function(id){var el=$(id);if(el)io.observe(el);});
+}
+
+/* ---------- Bezugsrecht ---------- */
+function brUpdate(){
+  var Ka=val("brKa"),Kn=val("brKn"),a=Math.max(1,val("brA")),n=Math.max(1,val("brN")),D=val("brD");
+  var bv=a/n,Km=(a*Ka+n*Kn)/(a+n),B=(Ka-(Kn+D))/(bv+1);
+  $("brBV").textContent=de(a,0)+" : "+de(n,0);
+  $("brKm").textContent=eur(Km);
+  $("brB").textContent=eur(B);
+  var lo=Math.min(Kn,Km,Ka),hi=Math.max(Kn,Km,Ka),span=(hi-lo)||1;
+  var X=function(v){return 24+(v-lo)/span*312;};
+  var s='<line x1="16" y1="42" x2="344" y2="42" class="s-line" stroke-width="2"/>';
+  s+='<line x1="'+X(Km)+'" y1="42" x2="'+X(Ka)+'" y2="42" class="s-in" stroke-width="6"/>';
+  s+='<circle cx="'+X(Kn)+'" cy="42" r="6" class="c-fk"/><circle cx="'+X(Ka)+'" cy="42" r="6" class="c-fk"/><circle cx="'+X(Km)+'" cy="42" r="6" class="c-acc"/>';
+  s+='<text x="'+(X(Kn)-6)+'" y="24" font-size="13" class="t-mut">Ausgabekurs <tspan class="t-mono">'+de(Kn,2)+'</tspan></text>';
+  s+='<text x="'+(X(Ka)+6)+'" y="24" text-anchor="end" font-size="13" class="t-mut">Kurs alt <tspan class="t-mono">'+de(Ka,2)+'</tspan></text>';
+  s+='<text x="'+(X(Km)+6)+'" y="70" text-anchor="end" font-size="13" class="t-acc" font-weight="600">Mischkurs '+de(Km,2)+'</text>';
+  $("brLine").innerHTML=s;
+}
+["brKa","brKn","brA","brN","brD"].forEach(function(id){$(id).addEventListener("input",brUpdate);});
+brUpdate();
+
+/* ---------- Skonto ---------- */
+function skUpdate(){
+  var s=val("skS"),sf=val("skSF"),z=val("skZ"),kk=val("skKK");
+  var d=z-sf;
+  if(d<=0||s>=100){$("skA").textContent="–";$("skE").textContent="–";$("skV").textContent="Das Zahlungsziel muss länger sein als die Skontofrist.";return;}
+  var a=s*360/d,e=s/(100-s)*360/d*100;
+  $("skA").textContent=pct(a);$("skE").textContent=pct(e);
+  $("skV").innerHTML=kk<e?'<strong class="in">Skonto ziehen.</strong> Der Kontokorrent kostet '+pct(kk,1)+', der Lieferantenkredit effektiv '+pct(e)+'.':'<strong class="out">Zahlungsziel ausnutzen.</strong> Der Kontokorrent ('+pct(kk,1)+') ist teurer als der Lieferantenkredit ('+pct(e)+').';
+}
+["skS","skSF","skZ","skKK"].forEach(function(id){$(id).addEventListener("input",skUpdate);});
+skUpdate();
+
+/* ---------- Tilgungsplan ---------- */
+var tpType="ann";
+function plan(K,i,n,type){
+  var rows=[],rest=K,q=1+i,A=i===0?K/n:K*Math.pow(q,n)*(q-1)/(Math.pow(q,n)-1);
+  for(var t=1;t<=n;t++){
+    var z=rest*i,tl=type==="rate"?K/n:type==="ann"?A-z:(t===n?K:0);
+    rows.push({t:t,start:rest,z:z,tl:tl,tot:z+tl,end:rest-tl});rest-=tl;
+  }
+  return rows;
+}
+function tpUpdate(){
+  var K=Math.max(0,val("tpK")),i=Math.max(0,val("tpI"))/100,n=Math.min(30,Math.max(1,Math.round(val("tpN"))));
+  var all={rate:plan(K,i,n,"rate"),ann:plan(K,i,n,"ann"),end:plan(K,i,n,"end")};
+  var rows=all[tpType];
+  var mx=0;Object.keys(all).forEach(function(k){all[k].forEach(function(r){mx=Math.max(mx,r.tot);});});
+  if(mx<=0)mx=1;
+  var step=niceStep(mx/4),top=Math.ceil(mx/step)*step;
+  var L=62,R=626,T=14,B=226,W=R-L,H=B-T,bw=Math.min(56,W/n*0.62);
+  var s="";
+  for(var v=0;v<=top+1e-9;v+=step){var y=B-v/top*H;s+='<line x1="'+L+'" y1="'+y+'" x2="'+R+'" y2="'+y+'" class="s-line"/><text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="13" class="t-mut t-mono">'+kfmt(v)+'</text>';}
+  rows.forEach(function(r,idx){
+    var cx=L+W/n*(idx+0.5),x=cx-bw/2,ht=r.tl/top*H,hz=r.z/top*H;
+    s+='<rect x="'+x+'" y="'+(B-ht)+'" width="'+bw+'" height="'+ht+'" class="c-acc"/>';
+    s+='<rect x="'+x+'" y="'+(B-ht-hz)+'" width="'+bw+'" height="'+hz+'" class="c-out"/>';
+    if(n<=12)s+='<text x="'+cx+'" y="'+(B-ht-hz-5)+'" text-anchor="middle" font-size="12" class="t-mono t-mut">'+kfmt(Math.round(r.tot))+'</text>';
+    if(n<=15||(idx+1)%5===0)s+='<text x="'+cx+'" y="'+(B+16)+'" text-anchor="middle" font-size="13" class="t-mut">'+r.t+'</text>';
+  });
+  s+='<line x1="'+L+'" y1="'+B+'" x2="'+R+'" y2="'+B+'" class="s-ink"/>';
+  s+='<text x="'+((L+R)/2)+'" y="'+(B+32)+'" text-anchor="middle" font-size="13" class="t-mut">Jahr</text>';
+  $("tpChart").innerHTML=s;
+  var h='<thead><tr><th class="r">Jahr</th><th class="r">Restschuld Anfang</th><th class="r">Zinsen</th><th class="r">Tilgung</th><th class="r">Rate</th><th class="r">Restschuld Ende</th></tr></thead><tbody>';
+  rows.forEach(function(r){h+='<tr><td class="r">'+r.t+'</td><td class="r">'+de(r.start,2)+'</td><td class="r">'+de(r.z,2)+'</td><td class="r">'+de(r.tl,2)+'</td><td class="r">'+de(r.tot,2)+'</td><td class="r">'+de(Math.abs(r.end)<0.005?0:r.end,2)+'</td></tr>';});
+  var sz=rows.reduce(function(a,r){return a+r.z;},0);
+  h+='<tr class="sum"><td class="r">Σ</td><td></td><td class="r">'+de(sz,2)+'</td><td class="r">'+de(K,2)+'</td><td class="r">'+de(sz+K,2)+'</td><td></td></tr></tbody>';
+  $("tpTable").innerHTML=h;
+  var names={rate:"Ratentilgung",ann:"Annuität",end:"Endfällig"};
+  $("tpSums").innerHTML=Object.keys(all).map(function(k){var z=all[k].reduce(function(a,r){return a+r.z;},0);return '<div class="kpi'+(k===tpType?" good":"")+'"><span>Zinssumme '+names[k]+'</span><b>'+eur(z)+'</b></div>';}).join("");
+}
+document.querySelectorAll("[data-tp]").forEach(function(b){b.addEventListener("click",function(){tpType=b.dataset.tp;document.querySelectorAll("[data-tp]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});tpUpdate();});});
+["tpK","tpI","tpN"].forEach(function(id){$(id).addEventListener("input",tpUpdate);});
+tpUpdate();
+
+/* ---------- Leasing-Zurechnung ---------- */
+function lsUpdate(){
+  var nd=Math.max(0.5,val("lsND")),g=Math.max(0,val("lsGMZ"));
+  var r=g/nd*100,rc=Math.min(100,r);
+  var X=function(p){return 20+p/100*560;};
+  var s='<rect x="'+X(0)+'" y="22" width="'+(X(40)-X(0))+'" height="26" class="c-outs"/>'+
+        '<rect x="'+X(40)+'" y="22" width="'+(X(90)-X(40))+'" height="26" class="c-ins"/>'+
+        '<rect x="'+X(90)+'" y="22" width="'+(X(100)-X(90))+'" height="26" class="c-outs"/>'+
+        '<text x="'+X(20)+'" y="41" text-anchor="middle" font-size="14" class="t-out">Leasingnehmer</text>'+
+        '<text x="'+X(65)+'" y="41" text-anchor="middle" font-size="14" class="t-in">Leasinggeber</text>'+
+        '<text x="'+X(95)+'" y="41" text-anchor="middle" font-size="13" class="t-out">LN</text>';
+  [0,40,90,100].forEach(function(p){s+='<text x="'+X(p)+'" y="70" text-anchor="middle" font-size="13" class="t-mut t-mono">'+p+' %</text>';});
+  s+='<line x1="'+X(rc)+'" y1="12" x2="'+X(rc)+'" y2="54" class="s-ink" stroke-width="3"/><circle cx="'+X(rc)+'" cy="10" r="5" class="c-acc"/>';
+  $("lsBar").innerHTML=s;
+  var who=(r<40||r>90)?"Leasingnehmer":"Leasinggeber";
+  $("lsV").innerHTML="Grundmietzeit / Nutzungsdauer = "+de(g,1)+" / "+de(nd,1)+" = <strong>"+pct(r,1)+"</strong> → bilanziert beim <strong class=\""+(who==="Leasinggeber"?"in":"out")+"\">"+who+"</strong>."+(r>100?" (Grundmietzeit länger als Nutzungsdauer: in der Praxis unüblich.)":"");
+}
+["lsND","lsGMZ"].forEach(function(id){$(id).addEventListener("input",lsUpdate);});
+lsUpdate();
+
+/* ---------- Lohmann-Ruchti ---------- */
+function lr(N0,n,P,years){
+  var coh=[{c:N0,age:0}],cash=0,rows=[];
+  for(var y=1;y<=years;y++){
+    var start=coh.reduce(function(s,k){return s+k.c;},0),afa=start*P/n;cash+=afa;var avail=cash;
+    coh.forEach(function(k){k.age++;});
+    var ret=coh.filter(function(k){return k.age>=n;}).reduce(function(s,k){return s+k.c;},0);
+    coh=coh.filter(function(k){return k.age<n;});
+    var neu=Math.floor(cash/P+1e-9);cash-=neu*P;if(neu>0)coh.push({c:neu,age:0});
+    rows.push({y:y,start:start,afa:afa,avail:avail,neu:neu,ret:ret,end:coh.reduce(function(s,k){return s+k.c;},0),rest:cash});
+  }
+  return rows;
+}
+function lrUpdate(){
+  var N0=Math.min(50,Math.max(1,Math.round(val("lrN0")))),n=Math.min(10,Math.max(2,Math.round(val("lrND")))),P=Math.max(100,val("lrP"));
+  var years=Math.min(20,Math.max(10,2*n)),rows=lr(N0,n,P,years),kef=2*n/(n+1),lim=N0*kef;
+  $("lrKEF").textContent=de(kef,2);$("lrMax").textContent=de(lim,1)+" Maschinen";
+  var mx=Math.max(lim,rows.reduce(function(m,r){return Math.max(m,r.start);},0));
+  var step=niceStep(mx/4),top=Math.ceil(mx/step)*step;
+  var L=44,R=626,T=14,B=206,W=R-L,H=B-T,bw=W/years*0.62,s="";
+  for(var v=0;v<=top+1e-9;v+=step){var y=B-v/top*H;s+='<line x1="'+L+'" y1="'+y+'" x2="'+R+'" y2="'+y+'" class="s-line"/><text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="13" class="t-mut t-mono">'+de(v,0)+'</text>';}
+  rows.forEach(function(r,i){var cx=L+W/years*(i+0.5),h=r.start/top*H;s+='<rect x="'+(cx-bw/2)+'" y="'+(B-h)+'" width="'+bw+'" height="'+h+'" class="c-acc"/><text x="'+cx+'" y="'+(B-h+17)+'" text-anchor="middle" font-size="13" font-weight="600" class="t-mono t-inv">'+r.start+'</text><text x="'+cx+'" y="'+(B+16)+'" text-anchor="middle" font-size="13" class="t-mut">'+r.y+'</text>';});
+  var yl=B-lim/top*H;
+  s+='<line x1="'+L+'" y1="'+yl+'" x2="'+R+'" y2="'+yl+'" class="s-warn dash" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+B+'" x2="'+R+'" y2="'+B+'" class="s-ink"/><text x="'+((L+R)/2)+'" y="'+(B+32)+'" text-anchor="middle" font-size="13" class="t-mut">Jahr</text>';
+  $("lrChart").innerHTML=s;
+  var h='<thead><tr><th class="r">Jahr</th><th class="r">Bestand Anfang</th><th class="r">AfA</th><th class="r">verfügbar</th><th class="r">neu gekauft</th><th class="r">Abgang</th><th class="r">Bestand Ende</th><th class="r">Rest</th></tr></thead><tbody>';
+  rows.forEach(function(r){h+='<tr><td class="r">'+r.y+'</td><td class="r">'+r.start+'</td><td class="r">'+de(r.afa,0)+'</td><td class="r">'+de(r.avail,0)+'</td><td class="r">'+r.neu+'</td><td class="r">'+r.ret+'</td><td class="r">'+r.end+'</td><td class="r">'+de(r.rest,0)+'</td></tr>';});
+  $("lrTable").innerHTML=h+"</tbody>";
+}
+["lrN0","lrND","lrP"].forEach(function(id){$(id).addEventListener("input",lrUpdate);});
+lrUpdate();
+
+/* ---------- Finanzplan-Chart ---------- */
+(function(){
+  var m=["Jan","Feb","Mär","Apr"],ein=[150000,140000,180000,190000],aus=[170000,210000,165000,160000],best=[60000,-10000,35000,50000],min=20000;
+  var lo=-50000,hi=250000,L=62,R=626,T=14,B=220,H=B-T,W=R-L;
+  var Y=function(v){return T+(hi-v)/(hi-lo)*H;};
+  var s="";
+  for(var v=lo;v<=hi;v+=50000){s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+R+'" y2="'+Y(v)+'" class="'+(v===0?"s-ink":"s-line")+'"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="13" class="t-mut t-mono">'+kfmt(v)+'</text>';}
+  var gw=W/4,bw=gw*0.26,pts=[];
+  m.forEach(function(name,i){
+    var cx=L+gw*(i+0.5);
+    s+='<rect x="'+(cx-bw-2)+'" y="'+Y(ein[i])+'" width="'+bw+'" height="'+(Y(0)-Y(ein[i]))+'" class="c-in"/>';
+    s+='<rect x="'+(cx+2)+'" y="'+Y(aus[i])+'" width="'+bw+'" height="'+(Y(0)-Y(aus[i]))+'" class="c-out"/>';
+    s+='<text x="'+cx+'" y="'+(B+18)+'" text-anchor="middle" font-size="13" class="t-mut">'+name+'</text>';
+    pts.push([cx,Y(best[i])]);
+  });
+  s+='<line x1="'+L+'" y1="'+Y(min)+'" x2="'+R+'" y2="'+Y(min)+'" class="s-warn dash" stroke-width="2"/>';
+  s+='<polyline points="'+pts.map(function(p){return p.join(",");}).join(" ")+'" class="s-acc" stroke-width="2.5"/>';
+  pts.forEach(function(p,i){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" class="'+(best[i]<min?"c-out":"c-acc")+'"/><text x="'+(p[0]+9)+'" y="'+(p[1]+(best[i]<0?16:-8))+'" font-size="13" class="t-mono '+(best[i]<min?"t-out":"t-acc")+'">'+kfmt(best[i])+'</text>';});
+  $("fpChart").innerHTML=s;
+})();
+
+/* ---------- Leverage ---------- */
+function lvUpdate(){
+  var r=val("lvR"),i=val("lvI"),v=val("lvV"),re=r+(r-i)*v;
+  $("lvRv").textContent=pct(r,1);$("lvIv").textContent=pct(i,1);$("lvVv").textContent=de(v,1);
+  $("lvOut").textContent=pct(re,1);
+  $("lvKpi").className="kpi "+(re>=r?"good":"bad");
+  var vmax=6,yA=r,yB=r+(r-i)*vmax;
+  var lo=Math.min(0,yA,yB,re),hi=Math.max(yA,yB,re,r,1);
+  var step=niceStep((hi-lo)/5||1);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
+  var L=54,R=626,T=14,B=212,W=R-L,H=B-T;
+  var X=function(x){return L+x/vmax*W;},Y=function(y){return T+(hi-y)/(hi-lo)*H;};
+  var s="";
+  for(var t=lo;t<=hi+1e-9;t+=step){s+='<line x1="'+L+'" y1="'+Y(t)+'" x2="'+R+'" y2="'+Y(t)+'" class="'+(Math.abs(t)<1e-9?"s-ink":"s-line")+'"/><text x="'+(L-8)+'" y="'+(Y(t)+4)+'" text-anchor="end" font-size="13" class="t-mut t-mono">'+de(t,Math.abs(step)<1?1:0)+' %</text>';}
+  for(var x=0;x<=vmax;x++){s+='<text x="'+X(x)+'" y="'+(B+16)+'" text-anchor="middle" font-size="13" class="t-mut t-mono">'+x+'</text>';}
+  s+='<text x="'+((L+R)/2)+'" y="'+(B+32)+'" text-anchor="middle" font-size="13" class="t-mut">Verschuldungsgrad FK/EK</text>';
+  s+='<line x1="'+X(0)+'" y1="'+Y(r)+'" x2="'+X(vmax)+'" y2="'+Y(r)+'" class="s-mut dash"/><text x="'+(R-4)+'" y="'+(Y(r)-6)+'" text-anchor="end" font-size="13" class="t-mut">r<tspan baseline-shift="sub" font-size="10">GK</tspan> = '+pct(r,1)+'</text>';
+  s+='<line x1="'+X(0)+'" y1="'+Y(yA)+'" x2="'+X(vmax)+'" y2="'+Y(yB)+'" class="'+(r>=i?"s-in":"s-out")+'" stroke-width="3"/>';
+  s+='<circle cx="'+X(v)+'" cy="'+Y(re)+'" r="7" class="c-acc"/><text x="'+(X(v)+(v>4.5?-12:12))+'" y="'+(Y(re)+(re>=r?-10:18))+'" text-anchor="'+(v>4.5?"end":"start")+'" font-size="12" font-weight="600" class="t-mono t-acc">'+pct(re,1)+'</text>';
+  $("lvChart").innerHTML=s;
+}
+["lvR","lvI","lvV"].forEach(function(id){$(id).addEventListener("input",lvUpdate);});
+lvUpdate();
+
+/* ---------- Formel-Karteikarten ---------- */
+var V=function(x){return "<var>"+x+"</var>";};
+var cards=[
+ ["2.1","Bezugsverhältnis",V("BV")+" = "+V("a")+" : "+V("n")+" = altes GK : Erhöhungsbetrag","4 Mio. : 1 Mio. → 4 : 1"],
+ ["2.1","Mischkurs",V("K")+"<sub>m</sub> = "+F(V("a")+"·"+V("K")+"<sub>a</sub> + "+V("n")+"·"+V("K")+"<sub>n</sub>",V("a")+" + "+V("n")),"(4·120 + 90) / 5 = 114 €"],
+ ["2.1","Rechnerischer Wert des Bezugsrechts",V("B")+" = "+F(V("K")+"<sub>a</sub> − "+V("K")+"<sub>n</sub>",F(V("a"),V("n"))+" + 1")+" = "+V("K")+"<sub>a</sub> − "+V("K")+"<sub>m</sub>","(120 − 90) / (4 + 1) = 6 €"],
+ ["2.1","Bezugsrecht mit Dividendennachteil",V("B")+" = "+F(V("K")+"<sub>a</sub> − ("+V("K")+"<sub>n</sub> + "+V("DN")+")",F(V("a"),V("n"))+" + 1"),"DN = Dividendennachteil der jungen Aktie"],
+ ["2.1","Opération blanche",'neue Aktien = '+F(V("x")+" · "+V("B"),V("K")+"<sub>m</sub>")+" (abrunden)","100 · 6 / 114 = 5,26 → 5"],
+ ["2.1","Agio / Kapitalrücklage","Agio = (Ausgabekurs − Nennwert) · Anzahl neuer Aktien","(90 − 1) · 1 Mio. = 89 Mio. € in die Kapitalrücklage"],
+ ["2.2","Skonto-Effektivzins (Näherung)",V("i")+" ≈ "+F("Skontosatz · 360","Ziel − Skontofrist"),"2 · 360 / 20 = 36 %"],
+ ["2.2","Skonto-Effektivzins (genau)",V("i")+" = "+F(V("s"),"100 − "+V("s"))+" · "+F("360","Ziel − Skontofrist")+" · 100","2/98 · 360/20 = 36,73 %"],
+ ["2.2","Annuität",V("A")+" = "+V("K")+" · "+F(V("q")+"<sup>n</sup>("+V("q")+" − 1)",V("q")+"<sup>n</sup> − 1")+", "+V("q")+" = 1 + "+V("i"),"100.000 · 0,23097 = 23.097,48 €"],
+ ["2.2","Ratentilgung",V("T")+" = "+F(V("K"),V("n"))+", "+V("Z")+"<sub>t</sub> = Restschuld<sub>t−1</sub> · "+V("i"),"100.000 / 5 = 20.000 € Tilgung pro Jahr"],
+ ["2.2","Effektivzins mit Disagio (Näherung)",V("i")+"<sub>eff</sub> ≈ "+F(V("p")+" + Disagio / Laufzeit","Auszahlungskurs")+" · 100","(5 + 4/5) / 96 · 100 = 6,04 %"],
+ ["2.2","Zerobond-Kurs",V("C")+"<sub>0</sub> = "+F("Rückzahlung","(1 + "+V("i")+")<sup>n</sup>"),"100 / 1,04⁵ = 82,19 €"],
+ ["2.3","Leasing-Zurechnung","GMZ/ND &lt; 40 % → LN · 40–90 % → LG · &gt; 90 % → LN","4 / 5 = 80 % → Leasinggeber"],
+ ["2.3","Factoring-Kosten","Gebühren % · Forderung + "+V("i")+" · Vorschuss · "+F("Tage","360"),"2.000 + 80.000 · 0,09 · 60/360 = 3.200 €"],
+ ["3.2","Cashflow (indirekt)","JÜ + Abschreibungen − Zuschreibungen + Δ langfr. Rückstellungen","60.000 + 50.000 + 15.000 = 125.000 €"],
+ ["3.2","Cashflow (direkt)","zahlungswirksame Erträge − zahlungswirksame Aufwendungen","900.000 − 775.000 = 125.000 €"],
+ ["3.2","Dynamischer Verschuldungsgrad",F("FK − liquide Mittel","Cashflow")+" (in Jahren)","(650.000 − 80.000) / 125.000 = 4,56"],
+ ["3.3","Gewinn vor Steuern für Thesaurierung",V("G")+" = "+F("Thesaurierung","1 − "+V("s")),"70.000 / 0,7 = 100.000 €"],
+ ["3.3","Kapazitätserweiterungsfaktor",V("KEF")+" = "+F("2"+V("n"),V("n")+" + 1"),"n = 5 → 1,67"],
+ ["4.1","Kapitalbedarf Umlaufvermögen","Σ (tägliche Ausgaben · Bindungsdauer in Tagen)","2.000 · 45 + 1.500 · 50 + … = 262.500 €"],
+ ["4.1","Bindungsdauer Material","Lager Roh + Produktion + Lager FE + Kundenziel − Lieferantenziel","15 + 10 + 10 + 30 − 20 = 45 Tage"],
+ ["4.1","Liquidität 1. Grades",F("liquide Mittel","kurzfr. Verbindlichkeiten")+" · 100","80 / 300 = 26,7 %"],
+ ["4.1","Liquidität 2. Grades",F("liquide Mittel + kurzfr. Forderungen","kurzfr. Verbindlichkeiten")+" · 100","Richtwert ≥ 100 %"],
+ ["4.1","Liquidität 3. Grades",F("kurzfristiges UV","kurzfr. Verbindlichkeiten")+" · 100","Richtwert ≥ 200 % (oft auch 120–150 %)"],
+ ["4.1","Working Capital","Umlaufvermögen − kurzfristige Verbindlichkeiten","400.000 − 300.000 = 100.000 €"],
+ ["4.2","EK-Quote und Verschuldungsgrad","EK-Quote = "+F("EK","GK")+" · 100, Verschuldungsgrad = "+F("FK","EK")+" · 100","35 % bzw. 185,7 %"],
+ ["4.2","Deckungsgrad I (goldene Bilanzregel eng)",F("EK","AV")+" · 100 ≥ 100 %","350 / 600 = 58,3 %"],
+ ["4.2","Deckungsgrad II",F("EK + langfr. FK","AV")+" · 100 ≥ 100 %","700 / 600 = 116,7 %"],
+ ["4.2","Deckungsgrad III",F("EK + langfr. FK","AV + langfr. gebundenes UV")+" · 100","700 / 660 = 106,1 %"],
+ ["4.2","Gesamt- und Eigenkapitalrentabilität",V("r")+"<sub>GK</sub> = "+F("Gewinn + FK-Zinsen","GK")+", "+V("r")+"<sub>EK</sub> = "+F("Gewinn","EK"),"80.000 / 1 Mio. = 8 %"],
+ ["4.2","Leverage-Formel",V("r")+"<sub>EK</sub> = "+V("r")+"<sub>GK</sub> + ("+V("r")+"<sub>GK</sub> − "+V("i")+") · "+F("FK","EK"),"10 + (10 − 6) · 4 = 26 %"]
+];
+var fcFilter="alle",fcOrder=cards.map(function(_,i){return i;}),fcAllOpen=false;
+var chapters=["alle","2.1","2.2","2.3","3.2","3.3","4.1","4.2"];
+$("fcFilter").innerHTML=chapters.map(function(c){return '<button type="button" data-fc="'+c+'" aria-pressed="'+(c===fcFilter)+'">'+(c==="alle"?"Alle":c)+'</button>';}).join("");
+function fcRender(){
+  var list=fcOrder.filter(function(i){return fcFilter==="alle"||cards[i][0]===fcFilter;});
+  $("fcGrid").innerHTML=list.map(function(i){var c=cards[i];return '<button type="button" class="fc'+(fcAllOpen?" open":"")+'" aria-expanded="'+fcAllOpen+'"><span class="fc-k">Kap. '+c[0]+'</span><span class="fc-q">'+c[1]+'</span><span class="fc-a">'+c[2]+'</span><span class="fc-ex">Beispiel: '+c[3]+'</span><span class="fc-hint">Antippen zum Aufdecken</span></button>';}).join("");
+}
+$("fcFilter").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;fcFilter=b.dataset.fc;document.querySelectorAll("[data-fc]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});fcRender();});
+$("fcGrid").addEventListener("click",function(e){var b=e.target.closest(".fc");if(!b)return;b.classList.toggle("open");b.setAttribute("aria-expanded",b.classList.contains("open"));});
+$("fcShuffle").addEventListener("click",function(){for(var i=fcOrder.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=fcOrder[i];fcOrder[i]=fcOrder[j];fcOrder[j]=t;}fcAllOpen=false;$("fcToggle").textContent="Alle aufdecken";fcRender();});
+$("fcToggle").addEventListener("click",function(){fcAllOpen=!fcAllOpen;this.textContent=fcAllOpen?"Alle verdecken":"Alle aufdecken";fcRender();});
+fcRender();
+
+/* ---------- Klausurtrainer ---------- */
+var Q=[
+ {k:"2.2",t:"Skonto",q:"Ein Lieferant gewährt 3 % Skonto bei Zahlung innerhalb von 10 Tagen, Zahlungsziel 40 Tage. Wie hoch ist der effektive Jahreszins des Lieferantenkredits nach der Näherungsformel (360 Tage)?",a:36,tol:0.05,u:"%",s:["3 · 360 / (40 − 10) = 36 %","Genau: 3/97 · 360/30 · 100 = 37,11 %"]},
+ {k:"2.1",t:"Bezugsrecht",q:"Kurs der alten Aktie 80 €, Ausgabekurs der jungen Aktie 60 €, Bezugsverhältnis 3 : 1. Wie hoch ist der rechnerische Wert des Bezugsrechts?",a:5,tol:0.01,u:"€",s:["B = (80 − 60) / (3 + 1) = 20 / 4 = 5 €"]},
+ {k:"2.1",t:"Mischkurs",q:"Gleiche Daten wie oben (80 €, 60 €, 3 : 1). Wie hoch ist der Mischkurs nach der Kapitalerhöhung?",a:75,tol:0.01,u:"€",s:["Km = (3 · 80 + 1 · 60) / 4 = 300 / 4 = 75 €","Probe: 80 − 75 = 5 € = Bezugsrecht ✓"]},
+ {k:"2.1",t:"Opération blanche",q:"Du besitzt 60 alte Aktien (Daten wie oben: B = 5 €, Km = 75 €, Ausgabekurs 60 €, BV 3 : 1). Wie viele junge Aktien kannst du beziehen, ohne eigenes Geld einzusetzen?",a:4,tol:0,u:"Stück",s:["Neue Aktien = 60 · 5 / 75 = 4","Probe: 4 neue Aktien brauchen 12 Bezugsrechte und kosten 4 · 60 = 240 €. Die restlichen 48 Bezugsrechte bringen 48 · 5 = 240 € ✓"]},
+ {k:"2.2",t:"Annuität",q:"Darlehen 50.000 €, Zins 6 % p. a., Laufzeit 4 Jahre, Annuitätentilgung. Wie hoch ist die jährliche Annuität?",a:14429.57,tol:1,u:"€",s:["q = 1,06; q⁴ = 1,26248","ANF = 1,26248 · 0,06 / 0,26248 = 0,288591","A = 50.000 · 0,288591 = 14.429,57 €"]},
+ {k:"2.2",t:"Ratentilgung",q:"Darlehen 50.000 €, Zins 6 % p. a., 4 Jahre Ratentilgung. Wie hoch sind die Zinsen im 2. Jahr?",a:2250,tol:0.5,u:"€",s:["Tilgung pro Jahr: 50.000 / 4 = 12.500 €","Restschuld Anfang Jahr 2: 37.500 €","Zinsen: 37.500 · 0,06 = 2.250 €"]},
+ {k:"2.2",t:"Effektivzins",q:"Darlehen mit 4 % Nominalzins, Auszahlung 95 %, Laufzeit 5 Jahre, endfällig. Effektivzins nach Näherungsformel (2 Nachkommastellen)?",a:5.26,tol:0.02,u:"%",s:["Disagio 5 %, verteilt auf 5 Jahre = 1 % pro Jahr","(4 + 1) / 95 · 100 = 5,26 %"]},
+ {k:"2.2",t:"Zerobond",q:"Ein Zerobond wird in 5 Jahren zu 100 € zurückgezahlt. Marktzins 4 %. Welcher Kurs ist heute fair?",a:82.19,tol:0.05,u:"€",s:["C0 = 100 / 1,04⁵ = 100 / 1,21665 = 82,19 €"]},
+ {k:"2.3",t:"Leasing",type:"mc",q:"Betriebsgewöhnliche Nutzungsdauer 10 Jahre, Grundmietzeit 3 Jahre, Vollamortisation ohne Optionsrecht. Wer bilanziert das Objekt?",o:["Leasinggeber","Leasingnehmer","Beide anteilig"],c:[1],s:["3 / 10 = 30 % &lt; 40 % → Leasingnehmer. Der Vertrag ähnelt dann eher einem Ratenkauf."]},
+ {k:"2.3",t:"Factoring",q:"Forderungen 200.000 €, Bevorschussung 85 %, Factoringgebühr 1,0 % und Delkrederegebühr 0,5 % auf den Forderungsbetrag, Zins 8 % p. a. auf den Vorschuss für 45 Tage. Gesamtkosten?",a:4700,tol:1,u:"€",s:["Gebühren: 1,5 % · 200.000 = 3.000 €","Vorschuss: 85 % · 200.000 = 170.000 €","Zinsen: 170.000 · 0,08 · 45/360 = 1.700 €","Summe: 4.700 €"]},
+ {k:"3.2",t:"Cashflow",q:"Jahresüberschuss 120.000 €, Abschreibungen 80.000 €, Zuschreibungen 10.000 €, Erhöhung der Pensionsrückstellungen 20.000 €. Cashflow nach der indirekten Methode?",a:210000,tol:1,u:"€",s:["120.000 + 80.000 − 10.000 + 20.000 = 210.000 €"]},
+ {k:"3.3",t:"Selbstfinanzierung",q:"Ein Unternehmen will 84.000 € Gewinn einbehalten. Ertragsteuersatz 30 %. Wie hoch muss der Gewinn vor Steuern sein?",a:120000,tol:1,u:"€",s:["84.000 / (1 − 0,3) = 84.000 / 0,7 = 120.000 €"]},
+ {k:"3.3",t:"Lohmann-Ruchti",q:"Ein Betrieb hat 20 gleiche Maschinen mit 4 Jahren Nutzungsdauer und reinvestiert die Abschreibungen laufend. Auf wie viele Maschinen kann der Bestand theoretisch maximal wachsen?",a:32,tol:0.01,u:"Stück",s:["KEF = 2 · 4 / (4 + 1) = 1,6","20 · 1,6 = 32 Maschinen"]},
+ {k:"4.1",t:"Kapitalbedarf",q:"Rohstofflager 20 Tage, Produktion 5 Tage, Fertiglager 10 Tage, Kundenziel 30 Tage, Lieferantenziel 25 Tage. Tägliche Materialausgaben 3.000 €. Wie hoch ist der Kapitalbedarf für Material?",a:120000,tol:1,u:"€",s:["Bindungsdauer: 20 + 5 + 10 + 30 − 25 = 40 Tage","40 · 3.000 = 120.000 €"]},
+ {k:"4.1",t:"Liquidität",q:"Liquide Mittel 50.000 €, kurzfristige Forderungen 150.000 €, kurzfristige Verbindlichkeiten 250.000 €. Liquidität 2. Grades?",a:80,tol:0.05,u:"%",s:["(50.000 + 150.000) / 250.000 · 100 = 80 %","Unter 100 %, also kritisch nach der One-to-one-Rule"]},
+ {k:"4.2",t:"Deckungsgrad",q:"Eigenkapital 400.000 €, langfristiges Fremdkapital 300.000 €, Anlagevermögen 600.000 €. Deckungsgrad II (2 Nachkommastellen)?",a:116.67,tol:0.02,u:"%",s:["(400.000 + 300.000) / 600.000 · 100 = 116,67 %","≥ 100 % → goldene Bilanzregel im weiteren Sinn erfüllt"]},
+ {k:"4.2",t:"Leverage",q:"Gesamtkapitalrentabilität 12 %, FK-Zins 7 %, Eigenkapital 300.000 €, Fremdkapital 700.000 €. Eigenkapitalrentabilität (2 Nachkommastellen)?",a:23.67,tol:0.02,u:"%",s:["FK/EK = 700 / 300 = 2,333","12 + (12 − 7) · 2,333 = 12 + 11,67 = 23,67 %"]},
+ {k:"1",t:"Systematik",type:"mc",multi:true,q:"Welche Vorgänge gehören zur Innenfinanzierung? (mehrere richtig)",o:["Gewinnthesaurierung","Bildung von Pensionsrückstellungen","Kapitalerhöhung gegen Einlagen","Finanzierung aus Abschreibungsgegenwerten","Lieferantenkredit"],c:[0,1,3],s:["Innen: Thesaurierung (Selbstfinanzierung), Rückstellungen, Abschreibungen.","Kapitalerhöhung und Lieferantenkredit kommen von außen."]},
+ {k:"2.2",t:"Sicherheiten",type:"mc",multi:true,q:"Welche Kreditsicherheiten sind akzessorisch? (mehrere richtig)",o:["Bürgschaft","Hypothek","Grundschuld","Garantie","Pfandrecht"],c:[0,1,4],s:["Akzessorisch: Bürgschaft, Hypothek, Pfandrecht.","Grundschuld und Garantie bestehen unabhängig von der Forderung."]},
+ {k:"2.3",t:"Factoring",type:"mc",q:"Was kennzeichnet echtes Factoring?",o:["Der Factor übernimmt das Ausfallrisiko (Delkredere).","Der Kunde wird über die Abtretung informiert.","Der Factor zahlt sofort 100 % der Forderung aus."],c:[0],s:["Echt = Delkredere beim Factor. Offen/still beschreibt nur, ob der Kunde informiert wird."]},
+ {k:"4.2",t:"Leverage",type:"mc",q:"Der Leverage-Effekt steigert die Eigenkapitalrendite, wenn …",o:["die Gesamtkapitalrentabilität über dem FK-Zins liegt.","die Eigenkapitalrendite über dem FK-Zins liegt.","der FK-Zins über der Gesamtkapitalrentabilität liegt.","der Verschuldungsgrad über 1 liegt."],c:[0],s:["Nur r_GK &gt; i zählt. Dann steigt r_EK mit jedem zusätzlichen Euro FK."]},
+ {k:"2.1",t:"Kapitalerhöhung",type:"mc",multi:true,q:"Kapitalerhöhung aus Gesellschaftsmitteln: Was stimmt? (mehrere richtig)",o:["Dem Unternehmen fließen keine neuen Mittel zu.","Rücklagen werden in Grundkapital umgewandelt.","Altaktionäre zahlen ein Agio.","Sie dient vor allem der Bedienung von Wandelanleihen."],c:[0,1],s:["Nominelle Kapitalerhöhung: Passivtausch Rücklagen → Grundkapital, Gratisaktien.","Wandelanleihen laufen über die bedingte Kapitalerhöhung."]}
+];
+var trRes={};
+function parseNum(str){
+  var s=String(str).replace(/[\s€%]/g,"").replace(/stück/i,"");
+  if(s==="")return NaN;
+  if(s.indexOf(",")>=0){s=s.replace(/\./g,"").replace(",",".");}
+  else if(/^-?\d{1,3}(\.\d{3})+$/.test(s)){s=s.replace(/\./g,"");}
+  return parseFloat(s);
+}
+function trRender(){
+  $("trList").innerHTML=Q.map(function(q,i){
+    var body;
+    if(q.type==="mc"){
+      body='<div class="q-opts">'+q.o.map(function(o,j){return '<label><input type="'+(q.multi?"checkbox":"radio")+'" name="q'+i+'" id="q'+i+'o'+j+'" value="'+j+'"><span>'+o+'</span></label>';}).join("")+'</div><div><button type="button" class="btn" data-check="'+i+'">Prüfen</button></div>';
+    }else{
+      body='<div class="q-ans"><input type="text" inputmode="decimal" id="q'+i+'in" aria-label="Antwort Aufgabe '+(i+1)+'" placeholder="Ergebnis"><span class="q-unit">'+q.u+'</span><button type="button" class="btn" data-check="'+i+'">Prüfen</button></div>';
+    }
+    return '<div class="q" id="q'+i+'"><div class="q-head"><b>Aufgabe '+(i+1)+' · '+q.t+'</b><span class="tag neutral">Kap. '+q.k+'</span></div><p class="q-text">'+q.q+'</p>'+body+'<div class="q-fb" id="q'+i+'fb"></div><details class="sol"><summary>Lösungsweg anzeigen</summary><div>'+q.s.map(function(x){return "<p>"+x+"</p>";}).join("")+'</div></details></div>';
+  }).join("");
+}
+function trScore(){var n=Object.keys(trRes).filter(function(k){return trRes[k];}).length;$("trScore").textContent=n+" / "+Q.length+" richtig";}
+$("trList").addEventListener("click",function(e){
+  var b=e.target.closest("[data-check]");if(!b)return;
+  var i=+b.dataset.check,q=Q[i],fb=$("q"+i+"fb"),ok;
+  if(q.type==="mc"){
+    var sel=[];q.o.forEach(function(_,j){if($("q"+i+"o"+j).checked)sel.push(j);});
+    if(!sel.length){fb.className="q-fb no";fb.innerHTML="Wähle mindestens eine Antwort aus.";return;}
+    ok=sel.length===q.c.length&&sel.every(function(j){return q.c.indexOf(j)>=0;});
+    fb.className="q-fb "+(ok?"ok":"no");
+    fb.innerHTML=ok?'<b class="ok">Richtig.</b>':'<b class="no">Noch nicht.</b> Richtig wäre: '+q.c.map(function(j){return q.o[j];}).join(" · ");
+  }else{
+    var v=parseNum($("q"+i+"in").value);
+    if(!isFinite(v)){fb.className="q-fb no";fb.innerHTML="Gib eine Zahl ein, z. B. 36 oder 14429,57.";return;}
+    ok=Math.abs(v-q.a)<=Math.max(q.tol,1e-9);
+    fb.className="q-fb "+(ok?"ok":"no");
+    fb.innerHTML=ok?'<b class="ok">Richtig.</b> '+de(q.a,q.a%1?2:0)+" "+q.u:'<b class="no">Nicht ganz.</b> Deine Eingabe: '+de(v,2)+". Schau dir den Lösungsweg an.";
+  }
+  trRes[i]=ok;trScore();
+});
+$("trReset").addEventListener("click",function(){trRes={};trRender();trScore();});
+trRender();trScore();
+})();
+</script>
+
+</html>
